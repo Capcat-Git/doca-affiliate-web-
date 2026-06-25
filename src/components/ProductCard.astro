@@ -1,0 +1,164 @@
+---
+interface Props {
+  id: string;
+  slug: string;
+  name: string;
+  category: string;
+  categoryRaw?: string;
+  price: number;
+  wholesalePrice?: number;
+  minGroupSize?: number;
+  affiliateUrl: string;
+  imageUrl?: string;
+  quote?: string;
+}
+
+const { id, slug, name, category, categoryRaw = "", price, wholesalePrice, minGroupSize = 10, affiliateUrl, imageUrl = "/images/products/placeholder.webp", quote = "Sản phẩm dành riêng cho Sen và Boss." } = Astro.props;
+
+// Determine platform from affiliate url
+const platform = affiliateUrl.includes('fahasa') ? 'Fahasa' : 'Shopee';
+
+// Currency formatting
+const formatCurrency = (val: number) => {
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
+};
+
+const priceFormatted = formatCurrency(price);
+const wholesaleFormatted = wholesalePrice ? formatCurrency(wholesalePrice) : '';
+const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / price) * 100) : 30;
+---
+
+<div 
+  class="cozy-card product-card-v2" 
+  data-id={id}
+  data-name={name}
+  data-category={category}
+  data-category-raw={categoryRaw || category}
+  data-price={priceFormatted}
+  data-wholesale={wholesaleFormatted}
+  data-savings={savingsPercent}
+  data-affiliate-url={affiliateUrl}
+  data-image-url={imageUrl}
+  data-quote={quote}
+>
+  <div class="product-image-container">
+    <img src={imageUrl} alt={name} class="product-image" loading="lazy" />
+  </div>
+  
+  <div class="product-meta">
+    <h4 class="product-title">{name}</h4>
+    <span class="platform-badge" data-platform={platform.toLowerCase()}>{platform}</span>
+  </div>
+</div>
+
+<style>
+  .product-card-v2 {
+    display: flex;
+    flex-direction: column;
+    padding: 0.65rem; /* Cozy padding matching screenshot */
+    border-radius: 18px;
+    background-color: var(--cozy-bg-pure);
+    border: 1px solid var(--cozy-border-light);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
+    gap: 0.65rem;
+    height: 100%;
+  }
+
+  .product-card-v2:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(28, 28, 30, 0.05);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .product-image-container {
+    width: 100%;
+    aspect-ratio: 1.1; /* slightly wider/shorter than square, looks premium */
+    background-color: #F5F3EF;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .product-card-v2:hover .product-image {
+    transform: scale(1.05);
+  }
+
+  .product-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: 0.15rem 0.25rem 0.35rem 0.25rem;
+  }
+
+  .product-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--cozy-text-obsidian);
+    line-height: 1.3;
+  }
+
+  .platform-badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #E05F65;
+    background-color: #FDE8E9;
+    padding: 0.15rem 0.5rem;
+    border-radius: 8px;
+    letter-spacing: 0.2px;
+    display: inline-block;
+  }
+
+  .platform-badge[data-platform="fahasa"] {
+    color: #9C3338;
+    background-color: #F5E6E6;
+  }
+</style>
+
+<script>
+  // Script handles dispatching open bottom sheet event on click
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.product-card-v2');
+    
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.getAttribute('data-id') || '';
+        const name = card.getAttribute('data-name') || '';
+        const category = card.getAttribute('data-category') || '';
+        const priceText = card.getAttribute('data-price') || '';
+        const wholesaleText = card.getAttribute('data-wholesale') || '';
+        const savings = card.getAttribute('data-savings') || '30';
+        const affiliateUrl = card.getAttribute('data-affiliate-url') || '';
+        const imageUrl = card.getAttribute('data-image-url') || '';
+        const quote = card.getAttribute('data-quote') || '';
+        
+        // Dispatch custom global event
+        document.dispatchEvent(new CustomEvent('open-product-sheet', {
+          detail: {
+            id,
+            name,
+            category,
+            quote,
+            imageUrl,
+            priceText,
+            wholesaleText,
+            savings,
+            affiliateUrl
+          }
+        }));
+      });
+    });
+  });
+</script>

@@ -1,0 +1,327 @@
+---
+---
+
+<div id="polaroid-sheet-overlay" class="sheet-overlay">
+  <div id="polaroid-bottom-sheet" class="polaroid-bottom-sheet">
+    <div class="sheet-drag-handle"></div>
+    
+    <div class="sheet-content">
+      <!-- Cột trái: Ảnh Polaroid -->
+      <div class="content-left">
+        <div class="polaroid-frame">
+          <img id="sheet-product-image" src="/images/products/placeholder.webp" alt="Sản phẩm" />
+        </div>
+      </div>
+      
+      <!-- Cột phải: Thông tin -->
+      <div class="content-right">
+        <span class="sheet-badge">Gợi ý từ Boss</span>
+        <h3 id="sheet-product-title" class="title-large">Đèn Ngủ Gỗ Totoro</h3>
+        <p id="sheet-product-quote" class="whisper-mono">"Giữ một đốm sáng vàng..."</p>
+        <div id="sheet-price-platform" class="price-platform">~250.000đ · Shopee</div>
+      </div>
+    </div>
+
+    <!-- Hàng nút hành động -->
+    <div class="sheet-actions">
+      <button id="sheet-buy-now-btn" class="cozy-btn cozy-btn-primary cozy-btn-block action-btn-buy">
+        Mua trên Shopee 🐾
+      </button>
+      <button id="sheet-group-buy-btn" class="cozy-btn cozy-btn-secondary cozy-btn-block action-btn-group">
+        Gom mua chung giá sỉ · tiết kiệm 30% 🐾
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .sheet-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(28, 28, 30, 0);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    backdrop-filter: blur(0px);
+  }
+
+  .sheet-overlay.open {
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    pointer-events: auto;
+    backdrop-filter: blur(3px);
+  }
+
+  .polaroid-bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFFFFF;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(100%);
+    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1000;
+    padding: 2rem 1.25rem 1.5rem 1.25rem;
+    max-width: 480px; /* Compact mobile size */
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .sheet-overlay.open .polaroid-bottom-sheet {
+    transform: translateY(0);
+  }
+
+  .sheet-drag-handle {
+    width: 40px;
+    height: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .sheet-content {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 1.15rem;
+    align-items: start;
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .content-left {
+    display: flex;
+    justify-content: center;
+  }
+
+  .polaroid-frame {
+    background: #FFFFFF;
+    padding: 8px 8px 18px 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+    transform: rotate(-3deg);
+    border: 1px solid var(--cozy-border-light);
+    width: 100px;
+    border-radius: 4px;
+  }
+
+  .polaroid-frame img {
+    width: 82px;
+    height: 82px;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+
+  .content-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .sheet-badge {
+    align-self: flex-start;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #E05F65;
+    background-color: #FDE8E9;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    letter-spacing: 0.2px;
+  }
+
+  #sheet-product-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--cozy-text-obsidian);
+    line-height: 1.25;
+  }
+
+  .whisper-mono {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: #6E6E73;
+    line-height: 1.4;
+  }
+
+  .price-platform {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--cozy-text-obsidian);
+  }
+
+  .sheet-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .action-btn-buy {
+    background-color: #1C1C1E;
+    color: #FFFFFF;
+    border-radius: 14px;
+    height: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    width: 100%;
+    border: none;
+    box-shadow: 0 4px 12px rgba(28, 28, 30, 0.15);
+  }
+
+  .action-btn-buy:hover {
+    background-color: #2C2C2E;
+  }
+
+  .action-btn-group {
+    background-color: #F5F3EF;
+    color: var(--cozy-green-matcha);
+    border-radius: 14px;
+    height: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+  }
+
+  .action-btn-group:hover {
+    background-color: #EAE8E3;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('polaroid-sheet-overlay');
+    const sheet = document.getElementById('polaroid-bottom-sheet');
+    
+    const sheetImg = document.getElementById('sheet-product-image') as HTMLImageElement;
+    const sheetTitle = document.getElementById('sheet-product-title');
+    const sheetQuote = document.getElementById('sheet-product-quote');
+    const sheetPricePlatform = document.getElementById('sheet-price-platform');
+    const sheetBuyNowBtn = document.getElementById('sheet-buy-now-btn');
+    const sheetGroupBuyBtn = document.getElementById('sheet-group-buy-btn');
+    
+    let activeProduct: any = null;
+
+    // Lắng nghe sự kiện toàn cục mở sheet
+    document.addEventListener('open-product-sheet', ((e: CustomEvent) => {
+      const { id, name, category, quote, imageUrl, priceText, wholesaleText, savings, affiliateUrl } = e.detail;
+      
+      const platform = affiliateUrl.includes('fahasa') ? 'Fahasa' : 'Shopee';
+      activeProduct = { id, name, affiliateUrl, platform };
+      
+      // Gán dữ liệu lên Modal
+      if (sheetImg) sheetImg.src = imageUrl;
+      if (sheetTitle) sheetTitle.textContent = name;
+      if (sheetQuote) sheetQuote.textContent = quote.startsWith('"') ? quote : `"${quote}"`;
+      if (sheetPricePlatform) sheetPricePlatform.textContent = `~${priceText} · ${platform}`;
+      
+      // Cập nhật text nút bấm
+      if (sheetBuyNowBtn) sheetBuyNowBtn.textContent = `Mua trên ${platform} 🐾`;
+      if (sheetGroupBuyBtn) sheetGroupBuyBtn.textContent = `Gom mua chung giá sỉ · tiết kiệm ${savings}% 🐾`;
+      
+      // Mở Sheet
+      overlay?.classList.add('open');
+    }) as EventListener);
+
+    // Hàm đóng sheet
+    function closeSheet() {
+      overlay?.classList.remove('open');
+      activeProduct = null;
+    }
+
+    // Đăng ký sự kiện đóng
+    overlay?.addEventListener('click', (e) => {
+      // Đóng khi click ngoài sheet
+      if (e.target === overlay) {
+        closeSheet();
+      }
+    });
+
+    // Ngăn chặn sự kiện nổi bọt trên sheet
+    sheet?.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // Nút mua lẻ Shopee trên Sheet
+    sheetBuyNowBtn?.addEventListener('click', () => {
+      if (activeProduct) {
+        const { id, affiliateUrl } = activeProduct;
+        
+        // Gửi log click
+        const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
+        const supabaseKey = (window as any).PUBLIC_SUPABASE_ANON_KEY || '';
+        
+        if (supabaseUrl && supabaseKey) {
+          try {
+            fetch(`${supabaseUrl}/rest/v1/product_clicks`, {
+              method: 'POST',
+              headers: {
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${supabaseKey}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({
+                product_id: id,
+                click_type: 'affiliate'
+              })
+            });
+          } catch (e) {
+            console.error('Click logging failed', e);
+          }
+        }
+        
+        window.open(affiliateUrl, '_blank');
+      }
+    });
+
+    // Nút Mua Chung Fake Door trên Sheet
+    sheetGroupBuyBtn?.addEventListener('click', () => {
+      if (activeProduct) {
+        const { id } = activeProduct;
+        
+        // Gửi log click mua chung (Fake Door)
+        const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
+        const supabaseKey = (window as any).PUBLIC_SUPABASE_ANON_KEY || '';
+        
+        if (supabaseUrl && supabaseKey) {
+          try {
+            fetch(`${supabaseUrl}/rest/v1/product_clicks`, {
+              method: 'POST',
+              headers: {
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${supabaseKey}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({
+                product_id: id,
+                click_type: 'group_buy'
+              })
+            });
+          } catch (e) {
+            console.error('Click logging failed', e);
+          }
+        }
+        
+        // Hiện thông báo toast dễ thương chỉ định
+        if ((window as any).showToast) {
+          (window as any).showToast("Tụi con chưa thương lượng xong với cô chú bán hàng đâu ạ... Sen chờ tụi con tí nhé! 🐾");
+        }
+        
+        closeSheet();
+      }
+    });
+  });
+</script>

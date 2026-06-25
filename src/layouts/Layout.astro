@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { 
+	title = "DOCA - Sống Chậm Cùng Thú Cưng", 
+	description = "Nơi cùng chú thú cưng của bạn sống chậm mỗi ngày, chia sẻ yêu thương và nuôi dưỡng những ký ức chữa lành." 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- SEO Meta Tags -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:locale" content="vi_VN" />
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Space+Mono:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<slot />
+
+		<!-- Global Toast Container -->
+		<div id="cozy-toast-element" class="cozy-toast"></div>
+
+		<script>
+			// Global Toast Notification Helper
+			window.showToast = function(message) {
+				const toast = document.getElementById('cozy-toast-element');
+				if (toast) {
+					toast.textContent = message;
+					toast.classList.add('show');
+					setTimeout(() => {
+						toast.classList.remove('show');
+					}, 4000);
+				}
+			}
+		</script>
+	</body>
+</html>

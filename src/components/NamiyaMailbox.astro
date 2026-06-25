@@ -1,0 +1,267 @@
+---
+---
+
+<div class="cozy-card namiya-mailbox">
+  <div class="mailbox-header">
+    <span class="mailbox-icon">📮</span>
+    <h3 class="title-large mailbox-title">Hòm Thư Gỗ Namiya</h3>
+  </div>
+  
+  <p class="mailbox-desc">
+    Nếu bạn có những nỗi buồn chật chội hay những âu lo không thể gọi tên, hãy gửi thư cho Boss. Ông già Namiya và 3 chú mèo sẽ lắng nghe và gửi lời phản hồi xoa dịu qua email cho bạn.
+  </p>
+
+  <form id="namiya-confession-form" class="mailbox-form">
+    <div class="form-group">
+      <label for="confession-content" class="form-label">Lời tâm sự của bạn...</label>
+      <textarea 
+        id="confession-content" 
+        class="form-input form-textarea" 
+        placeholder="Hôm nay bạn có điều gì phiền muộn muốn kể với tụi con không?..." 
+        required
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="confession-email" class="form-label">Email của bạn (để nhận thư phản hồi)</label>
+      <input 
+        type="email" 
+        id="confession-email" 
+        class="form-input" 
+        placeholder="email_cua_ban@example.com" 
+        required
+      />
+    </div>
+
+    <button type="submit" class="cozy-btn cozy-btn-primary cozy-btn-block submit-btn">
+      Gửi Thư Vào Hòm Gỗ ✉️
+    </button>
+  </form>
+
+  <div id="mailbox-success-msg" class="mailbox-success hidden">
+    <span class="success-icon">🐾</span>
+    <h4>Thư đã lọt thỏm vào hòm gỗ!</h4>
+    <p>Cảm ơn bạn đã tin tưởng chia sẻ nỗi lòng. Boss và ông già Namiya sẽ gửi thư hồi đáp sớm qua hòm thư của bạn nhé.</p>
+    <button id="reset-mailbox-btn" class="cozy-btn cozy-btn-secondary btn-sm">
+      Gửi thêm lá thư khác
+    </button>
+  </div>
+</div>
+
+<style>
+  .namiya-mailbox {
+    background-color: #FAF6F0; /* Màu kem gỗ ngà ấm áp */
+    border: 2px solid #D7CCC8; /* Màu nâu gỗ nhạt */
+    box-shadow: 0 6px 18px rgba(93, 64, 55, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Tạo vệt gỗ tinh tế phía trên */
+  .namiya-mailbox::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background-color: #8D6E63; /* Màu gỗ đậm hơn */
+  }
+
+  .mailbox-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .mailbox-icon {
+    font-size: 1.75rem;
+  }
+
+  .mailbox-title {
+    margin: 0;
+  }
+
+  .mailbox-desc {
+    font-size: 0.9rem;
+    color: #5D4037; /* Chữ màu nâu gỗ sẫm */
+    line-height: 1.5;
+  }
+
+  .mailbox-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: opacity 0.3s ease;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #5D4037;
+  }
+
+  .form-input {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-button);
+    border: 1px solid #D7CCC8;
+    background-color: var(--cozy-bg-pure);
+    color: var(--cozy-text-obsidian);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .form-input:focus {
+    border-color: #8D6E63;
+    box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.15);
+  }
+
+  .form-textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .submit-btn {
+    margin-top: 0.25rem;
+    background-color: #5D4037; /* Nút màu gỗ đậm */
+    color: #FFF;
+  }
+
+  .submit-btn:hover {
+    background-color: #4E342E;
+  }
+
+  /* Thành công */
+  .mailbox-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+    padding: 1.5rem 0;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .mailbox-success.hidden {
+    display: none;
+  }
+
+  .success-icon {
+    font-size: 2.5rem;
+    animation: bounce 1s infinite alternate;
+  }
+
+  .mailbox-success h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #4E342E;
+  }
+
+  .mailbox-success p {
+    font-size: 0.9rem;
+    color: #5D4037;
+    max-width: 320px;
+    line-height: 1.5;
+  }
+
+  .btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-8px); }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('namiya-confession-form') as HTMLFormElement;
+    const contentInput = document.getElementById('confession-content') as HTMLTextAreaElement;
+    const emailInput = document.getElementById('confession-email') as HTMLInputElement;
+    const successMsg = document.getElementById('mailbox-success-msg');
+    const resetBtn = document.getElementById('reset-mailbox-btn');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const content = contentInput.value.trim();
+      const email = emailInput.value.trim();
+
+      if (!content || !email) return;
+
+      // Đọc khóa API
+      const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
+      const supabaseKey = (window as any).PUBLIC_SUPABASE_ANON_KEY || '';
+
+      if (supabaseUrl && supabaseKey) {
+        try {
+          // Disable submit button during fetch
+          const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
+          if (submitBtn) submitBtn.disabled = true;
+
+          const res = await fetch(`${supabaseUrl}/rest/v1/namiya_letters`, {
+            method: 'POST',
+            headers: {
+              'apikey': supabaseKey,
+              'Authorization': `Bearer ${supabaseKey}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+              content: content,
+              sender_email: email
+            })
+          });
+
+          if (res.ok) {
+            // Hiển thị màn hình thành công
+            form.style.display = 'none';
+            successMsg?.classList.remove('hidden');
+          } else {
+            alert('Có lỗi xảy ra khi gửi thư, Sen vui lòng thử lại nhé!');
+            if (submitBtn) submitBtn.disabled = false;
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Không thể kết nối máy chủ. Sen hãy kiểm tra mạng internet nhé!');
+          const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      } else {
+        // Fallback local simulation in case Supabase credentials are not configured yet
+        console.warn('Supabase credentials missing. Simulating letter insertion.');
+        form.style.display = 'none';
+        successMsg?.classList.remove('hidden');
+      }
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      // Reset form và hiển thị lại
+      form.reset();
+      form.style.display = 'flex';
+      successMsg?.classList.add('hidden');
+    });
+  });
+</script>

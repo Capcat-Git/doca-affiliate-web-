@@ -1,0 +1,198 @@
+:root {
+  /* --- NỀN VÀ KHUNG CHỮ (Core Neutral) --- */
+  --cozy-bg-pure: #FFFFFF;              /* Trắng tinh khiết */
+  --cozy-bg-oatmeal: #F8F9FA;           /* Nền phụ cám yến mạch */
+  --cozy-bg-beige: #F5F5F0;             /* Màu giấy thư tay ấm áp (Moments Card) */
+  --cozy-text-obsidian: #1C1C1E;        /* Chữ chính Deep Obsidian */
+  --cozy-text-charcoal: #121212;        /* Nút bấm Charcoal Black */
+  --cozy-border-light: #EAEAEA;         /* Đường viền mảnh */
+
+  /* --- MÀU NHẤN THƯƠNG HIỆU & CẢM XÚC --- */
+  --cozy-pink-sakura: #FCAFAF;          /* Hồng Anh Đào: Yêu thích, Cưng nựng */
+  --cozy-green-matcha: #8FA882;         /* Xanh Matcha (Zen): Chăm sóc, Lối sống */
+  --cozy-amber-light: #FFF9C4;          /* Vạt nắng vàng ấm ban đêm */
+
+  /* --- MÀU SEMANTIC MỀM DỊU (Soft Status) --- */
+  --cozy-success: #E8F5E9;              /* Pastel Sage Green */
+  --cozy-warning: #FFE0B2;              /* Soft Apricot Orange */
+  --cozy-error: #FFCDD2;                /* Dusty Cherry Pink */
+  --cozy-info: #E1F5FE;                 /* Pale Sky Blue */
+
+  /* --- HIỆU ỨNG ĐỔ BÓNG (Shadows) --- */
+  --cozy-shadow-default: 0 4px 12px rgba(28, 28, 30, 0.04);
+  --cozy-shadow-hover: 0 8px 20px rgba(28, 28, 30, 0.10);
+  
+  /* --- BO GÓC (Border Radius) --- */
+  --radius-card: 16px;                  /* Khung card bài viết, hòm thư */
+  --radius-button: 12px;                /* Nút bấm, thanh tìm kiếm */
+  --radius-tag: 8px;                    /* Nhãn phân loại bài viết */
+  --radius-avatar: 8px;                 /* Ảnh đại diện thú cưng */
+}
+
+/* --- RESET & CẤU HÌNH CƠ BẢN --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  background-color: var(--cozy-bg-oatmeal);
+  color: var(--cozy-text-obsidian);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- TYPOGRAPHY --- */
+h1, .display-large {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 2.25rem;           /* ~36px */
+  line-height: 1.25;
+  color: var(--cozy-text-obsidian);
+  margin-bottom: 1rem;
+}
+
+h2, .headline-large {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.75rem;          /* ~28px */
+  line-height: 1.3;
+  color: var(--cozy-text-obsidian);
+  margin-bottom: 0.75rem;
+}
+
+h3, .title-large {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.25rem;          /* ~20px */
+  line-height: 1.4;
+  color: var(--cozy-text-obsidian);
+  margin-bottom: 0.5rem;
+}
+
+.caption-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;         /* 12px */
+  color: #6E6E73;
+}
+
+.whisper-mono {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.9rem;          /* ~14px */
+  font-style: italic;
+  line-height: 1.6;
+  color: #6E6E73;
+}
+
+/* --- UTILITY CLASSES --- */
+.container {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.cozy-card {
+  background-color: var(--cozy-bg-pure);
+  border: 1px solid var(--cozy-border-light);
+  border-radius: var(--radius-card);
+  box-shadow: var(--cozy-shadow-default);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1.5rem;
+}
+
+.cozy-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--cozy-shadow-hover);
+}
+
+.cozy-dotted-link {
+  color: var(--cozy-text-obsidian);
+  text-decoration: none;
+  border-bottom: 1.5px dotted var(--cozy-green-matcha);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cozy-dotted-link:hover {
+  color: var(--cozy-green-matcha);
+  border-bottom-style: solid;
+}
+
+/* --- BUTTONS --- */
+.cozy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-button);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  outline: none;
+}
+
+.cozy-btn:active {
+  transform: scale(0.96);
+}
+
+.cozy-btn-primary {
+  background-color: var(--cozy-text-charcoal);
+  color: var(--cozy-bg-pure);
+}
+
+.cozy-btn-primary:hover {
+  opacity: 0.9;
+}
+
+.cozy-btn-secondary {
+  background-color: var(--cozy-bg-oatmeal);
+  color: var(--cozy-text-obsidian);
+  border: 1px solid var(--cozy-border-light);
+}
+
+.cozy-btn-secondary:hover {
+  background-color: #EAEAEA;
+}
+
+.cozy-btn-block {
+  display: flex;
+  width: 100%;
+}
+
+/* --- TOAST/NOTIFICATION POPUP --- */
+.cozy-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: var(--cozy-text-obsidian);
+  color: var(--cozy-bg-pure);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-button);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  z-index: 2000;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  font-weight: 500;
+  text-align: center;
+  max-width: 90vw;
+  width: 320px;
+  font-size: 0.9rem;
+}
+
+.cozy-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}

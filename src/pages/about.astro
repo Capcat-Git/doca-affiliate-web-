@@ -1,0 +1,338 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || '';
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+---
+
+<Layout title="Giới Thiệu Dự Án App DOCA | Sống Chậm Cùng Thú Cưng" description="Khám phá triết lý chữa lành (Iyashikei) của ứng dụng DOCA và đăng ký nhận slot trải nghiệm bản Beta sớm dành riêng cho Sen và Boss.">
+  <script is:inline define:vars={{ supabaseUrl, supabaseKey }}>
+    window.PUBLIC_SUPABASE_URL = supabaseUrl;
+    window.PUBLIC_SUPABASE_ANON_KEY = supabaseKey;
+  </script>
+
+  <main class="about-view">
+    <div class="container">
+      <a href="/" class="back-link">🐾 Trở về trang chủ</a>
+
+      <header class="about-header text-center">
+        <span class="about-icon">✨</span>
+        <h1 class="display-large">Dự án App DOCA</h1>
+        <p class="whisper-mono">"Chúng tôi không bán công cụ; chúng tôi bán sự giải trí, niềm vui và sự xoa dịu cảm xúc."</p>
+      </header>
+
+      <section class="about-manifesto cozy-card">
+        <h2 class="title-large">Sứ mệnh của DOCA</h2>
+        <p>
+          Ứng dụng di động <strong>DOCA</strong> ra đời không phải để làm một công cụ quản lý dữ liệu khô khan. Sứ mệnh tối cao của chúng tôi là <strong>chữa lành sự cô đơn của con người đô thị</strong>, biến chiếc điện thoại lạnh lẽo thành cầu nối cảm xúc sống động, nơi bạn có thể trò chuyện, trêu đùa và lưu giữ linh hồn kỹ thuật số của chính chú thú cưng của mình.
+        </p>
+        <p>
+          Lấy cảm hứng từ triết lý tối giản của MUJI và thẩm mỹ chữa lành Nhật Bản (Iyashikei), DOCA mang lại không gian yên tĩnh không quảng cáo, giúp bạn giải tỏa căng thẳng sau những ngày dài bận rộn.
+        </p>
+      </section>
+
+      <section class="features-preview">
+        <h2 class="title-large text-center section-title">Các Tính Năng Trọng Tâm (MVP)</h2>
+        
+        <div class="features-grid">
+          <div class="cozy-card feature-item">
+            <span class="feature-icon">🐾</span>
+            <h3>DOCA PetTwin</h3>
+            <p>Thiết lập linh hồn AI của Boss dựa trên tính cách đặc trưng (Ngáo ngơ, Chảnh chọe, Đanh đá, Nịnh nọt) dưới góc nhìn thứ nhất.</p>
+          </div>
+
+          <div class="cozy-card feature-item">
+            <span class="feature-icon">📦</span>
+            <h3>DOCA Capsule</h3>
+            <p>Rương ký ức lưu trữ những bức ảnh dìm hàng và nhật ký đồng hành, giúp Boss ảo ghi nhớ sâu sắc để trò chuyện cá nhân hóa.</p>
+          </div>
+
+          <div class="cozy-card feature-item">
+            <span class="feature-icon">💬</span>
+            <h3>Trò Chuyện Tri Kỷ</h3>
+            <p>Kênh chat thời gian thực với Boss AI. Ngôn từ biến thiên bất ngờ mang lại niềm vui tức thì cho bạn.</p>
+          </div>
+
+          <div class="cozy-card feature-item">
+            <span class="feature-icon">📮</span>
+            <h3>Tiệm Tạp Hóa Namiya</h3>
+            <p>Hòm thư gỗ ẩn danh đặt cạnh góc ấm áp giúp gửi thư giải tỏa nỗi lòng và nhận phản hồi từ ông già Namiya cùng 3 chú mèo.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Form đăng ký Waitlist -->
+      <section class="waitlist-card cozy-card text-center">
+        <span class="waitlist-icon font-large">💌</span>
+        <h2 class="title-large">Đăng ký nhận thư từ Boss (Waitlist)</h2>
+        <p class="waitlist-desc">
+          Hãy để lại email của bạn. Boss sẽ gửi tặng cuốn Ebook <strong>"Nhật Ký Sống Chậm Cùng Boss (Cẩm nang 7 ngày chánh niệm)"</strong> bản PDF và một vé mời trải nghiệm sớm bản Beta của App DOCA khi ra mắt.
+        </p>
+
+        <form id="about-waitlist-form" class="waitlist-form">
+          <input 
+            type="email" 
+            id="waitlist-email" 
+            class="form-input" 
+            placeholder="Nhập email của Sen tại đây..." 
+            required 
+          />
+          <button type="submit" class="cozy-btn cozy-btn-primary submit-btn">
+            Nhận Quà Từ Boss 🐾
+          </button>
+        </form>
+
+        <div id="waitlist-success" class="waitlist-success hidden">
+          <span class="success-paw">🐾</span>
+          <h4>Boss đã nhận được thư của Sen!</h4>
+          <p>Ebook quà tặng đang trên đường bay tới hòm thư của bạn. Sen nhớ kiểm tra cả hộp thư Spam/Quảng cáo nhé!</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .about-view {
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+    background-color: var(--cozy-bg-oatmeal);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--cozy-text-obsidian);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: transform 0.2s ease;
+  }
+
+  .back-link:hover {
+    transform: translateX(-4px);
+  }
+
+  .about-header {
+    margin-bottom: 3rem;
+  }
+
+  .about-icon {
+    font-size: 2.5rem;
+  }
+
+  .about-manifesto {
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-left: 4px solid var(--cozy-green-matcha);
+  }
+
+  .about-manifesto p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--cozy-text-obsidian);
+  }
+
+  .features-preview {
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    margin-bottom: 2rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 540px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .feature-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .feature-icon {
+    font-size: 1.75rem;
+  }
+
+  .feature-item h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .feature-item p {
+    font-size: 0.9rem;
+    color: #6E6E73;
+    line-height: 1.5;
+  }
+
+  /* Waitlist Card */
+  .waitlist-card {
+    background-color: #FFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--cozy-border-light);
+  }
+
+  .waitlist-icon {
+    font-size: 2rem;
+  }
+
+  .waitlist-desc {
+    font-size: 0.95rem;
+    color: #6E6E73;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  .waitlist-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 0.5rem;
+  }
+
+  @media (min-width: 480px) {
+    .waitlist-form {
+      flex-direction: row;
+    }
+    .waitlist-form .form-input {
+      flex-grow: 1;
+    }
+  }
+
+  .form-input {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-button);
+    border: 1px solid var(--cozy-border-light);
+    background-color: var(--cozy-bg-oatmeal);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .form-input:focus {
+    border-color: var(--cozy-green-matcha);
+  }
+
+  .submit-btn {
+    white-space: nowrap;
+  }
+
+  /* Waitlist Success */
+  .waitlist-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .waitlist-success.hidden {
+    display: none;
+  }
+
+  .success-paw {
+    font-size: 2rem;
+    animation: bounce 1s infinite alternate;
+  }
+
+  .waitlist-success h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--cozy-text-obsidian);
+  }
+
+  .waitlist-success p {
+    font-size: 0.9rem;
+    color: #6E6E73;
+    max-width: 320px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-6px); }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('about-waitlist-form') as HTMLFormElement;
+    const emailInput = document.getElementById('waitlist-email') as HTMLInputElement;
+    const successMsg = document.getElementById('waitlist-success');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+
+      if (!email) return;
+
+      const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
+      const supabaseKey = (window as any).PUBLIC_SUPABASE_ANON_KEY || '';
+
+      if (supabaseUrl && supabaseKey) {
+        try {
+          const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
+          if (submitBtn) submitBtn.disabled = true;
+
+          const res = await fetch(`${supabaseUrl}/rest/v1/waitlist`, {
+            method: 'POST',
+            headers: {
+              'apikey': supabaseKey,
+              'Authorization': `Bearer ${supabaseKey}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+              email: email,
+              source_channel: 'about_waitlist'
+            })
+          });
+
+          if (res.ok) {
+            form.style.display = 'none';
+            successMsg?.classList.remove('hidden');
+          } else {
+            alert('Có lỗi xảy ra khi đăng ký waitlist, Sen vui lòng thử lại nhé!');
+            if (submitBtn) submitBtn.disabled = false;
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Không thể kết nối máy chủ. Sen hãy kiểm tra mạng nhé!');
+          const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      } else {
+        console.warn('Supabase credentials missing. Simulating waitlist signup.');
+        form.style.display = 'none';
+        successMsg?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

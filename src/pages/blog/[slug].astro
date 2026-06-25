@@ -1,0 +1,331 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import NamiyaMailbox from '../../components/NamiyaMailbox.astro';
+import PolaroidSheet from '../../components/PolaroidSheet.astro';
+
+// 1. Định nghĩa getStaticPaths để sinh tĩnh tất cả các trang bài viết
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug }, 
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const { title, description, publishDate, coverImage, category, tags, relatedProducts = [] } = entry.data;
+
+// 2. Fetch dữ liệu sản phẩm từ Supabase tại thời điểm build (SSG)
+let products: any[] = [];
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || '';
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+
+if (supabaseUrl && supabaseKey && relatedProducts.length > 0) {
+  try {
+    const filterSlugs = relatedProducts.join(',');
+    const res = await fetch(`${supabaseUrl}/rest/v1/products?slug=in.(${filterSlugs})&select=*`, {
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`
+      }
+    });
+    if (res.ok) {
+      products = await res.json();
+    }
+  } catch (err) {
+    console.warn("Failed to fetch products from Supabase, using local fallback", err);
+  }
+}
+
+// Fallback tĩnh phòng trường hợp Supabase chưa kết cấu dữ liệu
+const STATIC_PRODUCTS_FALLBACK = [
+  {
+    id: 'a3c87fb2-c12e-4b68-98e9-4e78a6358c21',
+    slug: 'sach-tam-ly-meo',
+    name: 'Sách Hiểu Người Bạn Mèo',
+    category: 'sach',
+    price: 120000,
+    wholesale_price: 85000,
+    min_group_size: 15,
+    affiliate_url: 'https://shope.ee/fahasa-sach-tam-ly-meo-aff',
+    image_url: '/images/products/sach-meo-polaroid.webp',
+    quote: 'Hiểu sâu sắc những tiếng meo meo lạ lùng của thú cưng để xích lại gần nhau hơn...'
+  },
+  {
+    id: 'b7b25fc8-87e3-4c91-9e23-7fa98c3e4125',
+    slug: 'den-totoro-go',
+    name: 'Đèn Ngủ Gỗ Totoro Ấm Áp',
+    category: 'phu_kien',
+    price: 250000,
+    wholesale_price: 175000,
+    min_group_size: 10,
+    affiliate_url: 'https://shope.ee/shopee-den-totoro-aff',
+    image_url: '/images/products/den-totoro-polaroid.webp',
+    quote: 'Giữ một vạt sáng vàng dịu trong đêm tĩnh lặng để Boss yên tâm ngon giấc.'
+  },
+  {
+    id: 'c2f39c29-379e-4e31-8e99-4d929f123891',
+    slug: 'luoc-massage-tao-bot',
+    name: 'Lược Chải Lông Massage Tạo Bọt',
+    category: 'vat_pham',
+    price: 95000,
+    wholesale_price: 65000,
+    min_group_size: 20,
+    affiliate_url: 'https://shope.ee/shopee-luoc-massage-aff',
+    image_url: '/images/products/luoc-massage-polaroid.webp',
+    quote: 'Hãy chải chuốt nhẹ nhàng cho Boss mỗi tối như một hoạt động chánh niệm cùng nhau.'
+  }
+];
+
+if (products.length === 0 && relatedProducts.length > 0) {
+  products = STATIC_PRODUCTS_FALLBACK.filter(p => relatedProducts.includes(p.slug));
+}
+
+// Chuyển danh mục sang tiếng Việt để hiển thị
+const getCategoryLabel = (cat: string) => {
+  const labels: Record<string, string> = {
+    'sach': 'Sách Chữa Lành',
+    'phu_kien': 'Không Gian Chữa Lành',
+    'thuc_an': 'Dinh Dưỡng Của Boss',
+    'vat_pham': 'Chăm Sóc Boss'
+  };
+  return labels[cat] || cat;
+};
+---
+
+<Layout title={`${title} | Nhật Ký Lối Sống DOCA`} description={description}>
+  <!-- Truyền biến Supabase toàn cục cho client-side JS trong ProductCard & PolaroidSheet -->
+  <script is:inline define:vars={{ supabaseUrl, supabaseKey }}>
+    window.PUBLIC_SUPABASE_URL = supabaseUrl;
+    window.PUBLIC_SUPABASE_ANON_KEY = supabaseKey;
+  </script>
+
+  <main class="blog-detail-view">
+    <header class="blog-header">
+      <div class="container">
+        <a href="/" class="back-link">🐾 Trở về trang chủ</a>
+        
+        <div class="blog-meta-top">
+          <span class="category-badge">{getCategoryLabel(category)}</span>
+          <span class="publish-date">{publishDate}</span>
+        </div>
+        
+        <h1 class="blog-title">{title}</h1>
+        <p class="blog-desc">{description}</p>
+      </div>
+    </header>
+
+    <div class="blog-cover-container">
+      <div class="container">
+        <img src={coverImage} alt={title} class="blog-cover" />
+      </div>
+    </div>
+
+    <article class="blog-body">
+      <div class="container">
+        <div class="markdown-content">
+          <Content />
+        </div>
+      </div>
+    </article>
+
+    <!-- Kệ hiển thị sản phẩm liên quan gợi ý -->
+    {products.length > 0 && (
+      <section class="related-products-section">
+        <div class="container">
+          <h3 class="section-title">🎁 Quà tặng gợi ý từ Boss</h3>
+          <div class="products-grid">
+            {products.map(product => (
+              <ProductCard 
+                id={product.id}
+                slug={product.slug}
+                name={product.name}
+                category={getCategoryLabel(product.category)}
+                price={product.price}
+                wholesalePrice={product.wholesale_price}
+                minGroupSize={product.min_group_size}
+                affiliateUrl={product.affiliate_url}
+                imageUrl={product.image_url}
+                quote={product.quote}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Hòm thư gỗ Namiya ở cuối bài viết -->
+    <section class="mailbox-section">
+      <div class="container">
+        <NamiyaMailbox />
+      </div>
+    </section>
+  </main>
+
+  <!-- Polaroid Bottom Sheet mở toàn cục -->
+  <PolaroidSheet />
+</Layout>
+
+<style>
+  .blog-detail-view {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    background-color: var(--cozy-bg-oatmeal);
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--cozy-text-obsidian);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease;
+  }
+
+  .back-link:hover {
+    transform: translateX(-4px);
+  }
+
+  .blog-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .category-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--cozy-green-matcha);
+    border: 1px solid var(--cozy-green-matcha);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-tag);
+    text-transform: uppercase;
+  }
+
+  .publish-date {
+    font-size: 0.85rem;
+    color: #8E8E93;
+  }
+
+  .blog-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-desc {
+    font-size: 1.1rem;
+    color: #6E6E73;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .blog-cover-container {
+    margin-bottom: 2rem;
+  }
+
+  .blog-cover {
+    width: 100%;
+    max-height: 380px;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--cozy-border-light);
+    box-shadow: var(--cozy-shadow-default);
+  }
+
+  .blog-body {
+    margin-bottom: 3rem;
+  }
+
+  /* Định dạng typography bài viết Markdown */
+  .markdown-content :global(p) {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    color: var(--cozy-text-obsidian);
+    text-align: justify;
+  }
+
+  .markdown-content :global(h2) {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--cozy-text-obsidian);
+  }
+
+  .markdown-content :global(h3) {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .markdown-content :global(blockquote) {
+    border-left: 4px solid var(--cozy-green-matcha);
+    background-color: var(--cozy-bg-beige);
+    padding: 0.75rem 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+
+  .markdown-content :global(blockquote p) {
+    font-family: 'Space Mono', monospace;
+    font-style: italic;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+    color: #5D4037;
+  }
+
+  .markdown-content :global(ul) {
+    margin-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .markdown-content :global(li) {
+    font-size: 1.1rem;
+    color: var(--cozy-text-obsidian);
+  }
+
+  .markdown-content :global(strong) {
+    font-weight: 600;
+  }
+
+  /* Kệ sản phẩm gợi ý */
+  .related-products-section {
+    background-color: var(--cozy-bg-beige);
+    border-top: 1px solid var(--cozy-border-light);
+    border-bottom: 1px solid var(--cozy-border-light);
+    padding: 3rem 0;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 480px) {
+    .products-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .mailbox-section {
+    margin-top: 2rem;
+  }
+</style>

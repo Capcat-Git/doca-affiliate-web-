@@ -106,7 +106,7 @@ const getCategoryLabel = (cat: string) => {
   <main class="blog-detail-view">
     <header class="blog-header">
       <div class="container">
-        <a href="/" class="back-link">🐾 Trở về trang chủ</a>
+        <a href="/" class="back-link"><i class="ph-light ph-arrow-left"></i> Trở về trang chủ</a>
         
         <div class="blog-meta-top">
           <span class="category-badge">{getCategoryLabel(category)}</span>
@@ -136,7 +136,7 @@ const getCategoryLabel = (cat: string) => {
     {products.length > 0 && (
       <section class="related-products-section">
         <div class="container">
-          <h3 class="section-title">🎁 Quà tặng gợi ý từ Boss</h3>
+          <h3 class="section-title"><i class="ph-light ph-gift"></i> Quà tặng gợi ý từ Boss</h3>
           <div class="products-grid">
             {products.map(product => (
               <ProductCard 
@@ -177,7 +177,9 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .back-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     color: var(--cozy-text-obsidian);
     text-decoration: none;
     font-size: 0.9rem;
@@ -250,7 +252,7 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .markdown-content :global(h2) {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
     margin-top: 2rem;
@@ -259,7 +261,7 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .markdown-content :global(h3) {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.25rem;
     font-weight: 700;
     margin-top: 1.5rem;

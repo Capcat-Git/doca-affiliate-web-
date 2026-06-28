@@ -3,15 +3,20 @@
 
 <div class="cozy-card namiya-mailbox">
   <div class="mailbox-header">
-    <span class="mailbox-icon">📮</span>
-    <h3 class="title-large mailbox-title">Hòm Thư Gỗ Namiya</h3>
+    <div class="mailbox-header-illustration-wrapper">
+      <img src="/images/namiya-milkbox.png" alt="Hộp sữa gỗ Namiya" class="mailbox-header-illustration" />
+    </div>
+    <div class="mailbox-header-info">
+      <h3 class="title-large mailbox-title">Hộp Thư Nhỏ Namiya</h3>
+      <span class="mailbox-subtitle">Nơi tụi con lắng nghe âu lo, gửi trao xoa dịu 🐾</span>
+    </div>
   </div>
   
   <p class="mailbox-desc">
-    Nếu bạn có những nỗi buồn chật chội hay những âu lo không thể gọi tên, hãy gửi thư cho Boss. Ông già Namiya và 3 chú mèo sẽ lắng nghe và gửi lời phản hồi xoa dịu qua email cho bạn.
+    Lấy cảm hứng từ tiệm tạp hóa kỳ diệu Namiya, tụi con — ba chú mèo nhỏ ở đây — mở chiếc hòm gỗ này để nhận hết mọi âu lo của cô chú. Cô chú cứ trút bỏ muộn phiền vào đây nhé, tụi con sẽ giữ kín và hồi đáp xoa dịu qua hòm thư của cô chú trước khi nắng mai lên. 🐾
   </p>
 
-  <form id="namiya-confession-form" class="mailbox-form">
+  <form id="namiya-confession-form" class="mailbox-form" novalidate>
     <div class="form-group">
       <label for="confession-content" class="form-label">Lời tâm sự của bạn...</label>
       <textarea 
@@ -34,12 +39,18 @@
     </div>
 
     <button type="submit" class="cozy-btn cozy-btn-primary cozy-btn-block submit-btn">
-      Gửi Thư Vào Hòm Gỗ ✉️
+      Gửi Thư Vào Hòm Gỗ <i class="ph-light ph-paper-plane"></i>
     </button>
   </form>
 
+  <!-- Custom Friendly Error Notification -->
+  <div id="mailbox-error-msg" class="mailbox-error-msg hidden">
+    <i class="ph-light ph-warning-circle error-icon"></i>
+    <span id="mailbox-error-text">Hình như cô chú chưa ghi tâm tư vào bức thư kìa... Viết vài dòng gửi tụi con nhé! 🐾</span>
+  </div>
+
   <div id="mailbox-success-msg" class="mailbox-success hidden">
-    <span class="success-icon">🐾</span>
+    <span class="success-icon" style="color: var(--cozy-green-matcha);"><i class="ph-light ph-paw"></i></span>
     <h4>Thư đã lọt thỏm vào hòm gỗ!</h4>
     <p>Cảm ơn bạn đã tin tưởng chia sẻ nỗi lòng. Boss và ông già Namiya sẽ gửi thư hồi đáp sớm qua hòm thư của bạn nhé.</p>
     <button id="reset-mailbox-btn" class="cozy-btn cozy-btn-secondary btn-sm">
@@ -51,12 +62,13 @@
 <style>
   .namiya-mailbox {
     background-color: #FAF6F0; /* Màu kem gỗ ngà ấm áp */
-    border: 2px solid #D7CCC8; /* Màu nâu gỗ nhạt */
-    box-shadow: 0 6px 18px rgba(93, 64, 55, 0.05);
+    border: 2px solid var(--cozy-wood-sugi); /* Màu gỗ tuyết tùng ấm trung tính */
+    box-shadow: 0 6px 18px rgba(139, 94, 60, 0.05);
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
     position: relative;
+    z-index: 1; /* Sits on top of the section watermark */
     overflow: hidden;
   }
 
@@ -68,27 +80,67 @@
     left: 0;
     right: 0;
     height: 6px;
-    background-color: #8D6E63; /* Màu gỗ đậm hơn */
+    background-color: var(--cozy-wood-sugi); /* Màu gỗ tuyết tùng chủ đạo */
   }
 
   .mailbox-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1.25rem;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px dashed var(--cozy-border-light);
+    padding-bottom: 1.25rem;
   }
 
-  .mailbox-icon {
-    font-size: 1.75rem;
+  .mailbox-header-illustration-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #FFFFFF;
+    border: 2px solid var(--cozy-wood-sugi);
+    border-radius: 12px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(139, 94, 60, 0.06);
+    flex-shrink: 0;
+    transform: rotate(-3deg); /* Cute organic tilt */
+  }
+
+  .mailbox-header-illustration {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .mailbox-header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
   .mailbox-title {
+    font-size: 1.45rem;
+    font-weight: 750;
+    color: var(--cozy-wood-kogecha); /* Nâu đậm sẫm truyền thống */
     margin: 0;
+  }
+
+  .mailbox-subtitle {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cozy-green-matcha-forest); /* Xanh lá sẫm */
+    letter-spacing: 0.2px;
   }
 
   .mailbox-desc {
     font-size: 0.9rem;
-    color: #5D4037; /* Chữ màu nâu gỗ sẫm */
+    color: var(--cozy-text-obsidian); /* Chữ màu mực obsidian */
     line-height: 1.5;
+    position: relative;
+    z-index: 1;
   }
 
   .mailbox-form {
@@ -96,6 +148,8 @@
     flex-direction: column;
     gap: 1rem;
     transition: opacity 0.3s ease;
+    position: relative;
+    z-index: 1;
   }
 
   .form-group {
@@ -107,7 +161,7 @@
   .form-label {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #5D4037;
+    color: var(--cozy-text-obsidian);
   }
 
   .form-input {
@@ -116,7 +170,7 @@
     font-size: 0.95rem;
     padding: 0.75rem;
     border-radius: var(--radius-button);
-    border: 1px solid #D7CCC8;
+    border: 1px solid var(--cozy-border-light);
     background-color: var(--cozy-bg-pure);
     color: var(--cozy-text-obsidian);
     outline: none;
@@ -124,8 +178,8 @@
   }
 
   .form-input:focus {
-    border-color: #8D6E63;
-    box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.15);
+    border-color: var(--cozy-wood-sugi);
+    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.15);
   }
 
   .form-textarea {
@@ -136,12 +190,12 @@
 
   .submit-btn {
     margin-top: 0.25rem;
-    background-color: #5D4037; /* Nút màu gỗ đậm */
-    color: #FFF;
+    background-color: var(--cozy-wood-sugi); /* Nút màu gỗ tuyết tùng */
+    color: var(--cozy-bg-pure);
   }
 
   .submit-btn:hover {
-    background-color: #4E342E;
+    background-color: var(--cozy-wood-kogecha); /* Hover sang gỗ nâu cháy đậm */
   }
 
   /* Thành công */
@@ -153,6 +207,8 @@
     gap: 0.75rem;
     padding: 1.5rem 0;
     animation: fadeIn 0.5s ease;
+    position: relative;
+    z-index: 1;
   }
 
   .mailbox-success.hidden {
@@ -165,15 +221,15 @@
   }
 
   .mailbox-success h4 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.25rem;
     font-weight: 700;
-    color: #4E342E;
+    color: var(--cozy-wood-kogecha); /* Tiêu đề màu nâu cháy Kogecha */
   }
 
   .mailbox-success p {
     font-size: 0.9rem;
-    color: #5D4037;
+    color: var(--cozy-text-obsidian);
     max-width: 320px;
     line-height: 1.5;
   }
@@ -193,6 +249,34 @@
     from { transform: translateY(0); }
     to { transform: translateY(-8px); }
   }
+
+  .mailbox-error-msg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #FFF2E6; /* Cozy soft orange tint */
+    border: 1px solid rgba(230, 100, 0, 0.15);
+    color: #CC5200; /* Darker burnt orange for high contrast */
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(230, 100, 0, 0.04);
+    animation: fadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .mailbox-error-msg.hidden {
+    display: none;
+  }
+
+  .error-icon {
+    font-size: 1.15rem;
+    color: #CC5200;
+    flex-shrink: 0;
+  }
 </style>
 
 <script>
@@ -206,10 +290,38 @@
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       
+      const errorMsg = document.getElementById('mailbox-error-msg');
+      const errorText = document.getElementById('mailbox-error-text');
+      if (errorMsg) errorMsg.classList.add('hidden');
+
       const content = contentInput.value.trim();
       const email = emailInput.value.trim();
 
-      if (!content || !email) return;
+      if (!content) {
+        if (errorMsg && errorText) {
+          errorText.textContent = "Hình như cô chú chưa ghi tâm tư vào bức thư kìa... Viết vài dòng gửi tụi con nhé! 🐾";
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
+
+      if (!email) {
+        if (errorMsg && errorText) {
+          errorText.textContent = "Hình như cô chú chưa để lại địa chỉ email kìa... Nhập email để tụi con gửi thư hồi đáp nhé! 🐾";
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
+
+      // Simple email validation regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        if (errorMsg && errorText) {
+          errorText.textContent = "Hình như email của cô chú bị thiếu ký tự '@' hoặc sai định dạng rồi... Nhập lại giúp tụi con nha! 🐾";
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
 
       // Đọc khóa API
       const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
@@ -240,12 +352,18 @@
             form.style.display = 'none';
             successMsg?.classList.remove('hidden');
           } else {
-            alert('Có lỗi xảy ra khi gửi thư, Sen vui lòng thử lại nhé!');
+            if (errorMsg && errorText) {
+              errorText.textContent = "Có lỗi xảy ra khi gửi thư, cô chú vui lòng thử lại nhé! 🐾";
+              errorMsg.classList.remove('hidden');
+            }
             if (submitBtn) submitBtn.disabled = false;
           }
         } catch (err) {
           console.error(err);
-          alert('Không thể kết nối máy chủ. Sen hãy kiểm tra mạng internet nhé!');
+          if (errorMsg && errorText) {
+            errorText.textContent = "Không thể kết nối máy chủ. Cô chú hãy kiểm tra mạng internet nhé! 🐾";
+            errorMsg.classList.remove('hidden');
+          }
           const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
           if (submitBtn) submitBtn.disabled = false;
         }
@@ -258,6 +376,8 @@
     });
 
     resetBtn?.addEventListener('click', () => {
+      const errorMsg = document.getElementById('mailbox-error-msg');
+      if (errorMsg) errorMsg.classList.add('hidden');
       // Reset form và hiển thị lại
       form.reset();
       form.style.display = 'flex';

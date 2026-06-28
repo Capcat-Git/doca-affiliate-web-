@@ -13,7 +13,12 @@ interface Props {
   quote?: string;
 }
 
-const { id, slug, name, category, categoryRaw = "", price, wholesalePrice, minGroupSize = 10, affiliateUrl, imageUrl = "/images/products/placeholder.webp", quote = "Sản phẩm dành riêng cho Sen và Boss." } = Astro.props;
+const { id, slug, name, category, categoryRaw = "", price, wholesalePrice, minGroupSize = 10, affiliateUrl, imageUrl, quote = "Sản phẩm dành riêng cho Sen và Boss." } = Astro.props;
+
+const hasImage = !!imageUrl;
+
+// Use logical OR fallback because destructuring default doesn't apply to null values
+const displayImageUrl = imageUrl || "/images/brand/symbol-green.png";
 
 // Determine platform from affiliate url
 const platform = affiliateUrl.includes('fahasa') ? 'Fahasa' : 'Shopee';
@@ -38,11 +43,16 @@ const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / p
   data-wholesale={wholesaleFormatted}
   data-savings={savingsPercent}
   data-affiliate-url={affiliateUrl}
-  data-image-url={imageUrl}
+  data-image-url={displayImageUrl}
   data-quote={quote}
 >
   <div class="product-image-container">
-    <img src={imageUrl} alt={name} class="product-image" loading="lazy" />
+    <img 
+      src={displayImageUrl} 
+      alt={name} 
+      class={`product-image ${!hasImage ? 'placeholder-logo' : ''}`} 
+      loading="lazy" 
+    />
   </div>
   
   <div class="product-meta">
@@ -75,7 +85,7 @@ const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / p
   .product-image-container {
     width: 100%;
     aspect-ratio: 1.1; /* slightly wider/shorter than square, looks premium */
-    background-color: #F5F3EF;
+    background-color: var(--cozy-bg-beige);
     border-radius: 12px;
     overflow: hidden;
     position: relative;
@@ -124,6 +134,13 @@ const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / p
   .platform-badge[data-platform="fahasa"] {
     color: #9C3338;
     background-color: #F5E6E6;
+  }
+
+  .product-image.placeholder-logo {
+    object-fit: contain;
+    background-color: var(--cozy-bg-beige);
+    padding: 1.5rem;
+    filter: grayscale(1) opacity(0.35);
   }
 </style>
 

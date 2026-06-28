@@ -9,7 +9,7 @@
       <!-- Cột trái: Ảnh Polaroid -->
       <div class="content-left">
         <div class="polaroid-frame">
-          <img id="sheet-product-image" src="/images/products/placeholder.webp" alt="Sản phẩm" />
+          <img id="sheet-product-image" src="/images/brand/symbol-green.png" alt="Sản phẩm" />
         </div>
       </div>
       
@@ -17,18 +17,22 @@
       <div class="content-right">
         <span class="sheet-badge">Gợi ý từ Boss</span>
         <h3 id="sheet-product-title" class="title-large">Đèn Ngủ Gỗ Totoro</h3>
+        <div id="sheet-price-platform" class="price-platform">Shopee</div>
+      </div>
+
+      <!-- Quote trãi dài 100% ở dưới cả 2 cột -->
+      <div class="sheet-quote-fullwidth">
         <p id="sheet-product-quote" class="whisper-mono">"Giữ một đốm sáng vàng..."</p>
-        <div id="sheet-price-platform" class="price-platform">~250.000đ · Shopee</div>
       </div>
     </div>
 
     <!-- Hàng nút hành động -->
     <div class="sheet-actions">
       <button id="sheet-buy-now-btn" class="cozy-btn cozy-btn-primary cozy-btn-block action-btn-buy">
-        Mua trên Shopee 🐾
+        Mua trên Shopee <i class="ph-light ph-shopping-cart"></i>
       </button>
       <button id="sheet-group-buy-btn" class="cozy-btn cozy-btn-secondary cozy-btn-block action-btn-group">
-        Gom mua chung giá sỉ · tiết kiệm 30% 🐾
+        Gom mua chung giá sỉ · tiết kiệm 30% <i class="ph-light ph-users"></i>
       </button>
     </div>
   </div>
@@ -68,7 +72,7 @@
     transform: translateY(100%);
     transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: 1000;
-    padding: 2rem 1.25rem 1.5rem 1.25rem;
+    padding: 2.25rem 1.75rem 2rem 1.75rem; /* Expanded padding for a more spacious, premium look */
     max-width: 480px; /* Compact mobile size */
     margin: 0 auto;
     width: 100%;
@@ -91,39 +95,43 @@
 
   .sheet-content {
     display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 1.15rem;
-    align-items: start;
-    margin-bottom: 1.5rem;
-    margin-top: 0.5rem;
+    grid-template-columns: 3fr 7fr; /* Exact 3:7 layout ratio */
+    gap: 1.5rem; /* Wider spacing */
+    align-items: center; /* Centered vertically for a cleaner alignment */
+    margin-bottom: 2rem;
+    margin-top: 0.75rem;
   }
 
   .content-left {
     display: flex;
     justify-content: center;
+    width: 100%;
   }
 
   .polaroid-frame {
     background: #FFFFFF;
-    padding: 8px 8px 18px 8px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+    padding: 4px 4px 10px 4px; /* Ultra-thin border to maximize photo area */
+    box-shadow: 0 8px 24px rgba(139, 94, 60, 0.07);
     transform: rotate(-3deg);
     border: 1px solid var(--cozy-border-light);
-    width: 100px;
+    width: 100%; /* Expands to fill the 3fr column */
+    max-width: 125px; /* Ensures visual balance on tablet screens */
     border-radius: 4px;
   }
 
   .polaroid-frame img {
-    width: 82px;
-    height: 82px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 2px;
+    border: 1px solid rgba(139, 94, 60, 0.12); /* Subtle warm border to outline the photo against the white frame */
   }
 
   .content-right {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.5rem; /* More spacious */
   }
 
   .sheet-badge {
@@ -139,7 +147,7 @@
   }
 
   #sheet-product-title {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 1.25rem;
     color: var(--cozy-text-obsidian);
@@ -148,23 +156,33 @@
 
   .whisper-mono {
     font-family: 'Space Mono', monospace;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     font-style: italic;
-    color: #6E6E73;
-    line-height: 1.4;
+    color: #555558; /* Slightly darker and more readable for quote text */
+    line-height: 1.5;
+    margin: 0;
+    text-align: center; /* Center-align the wide quote for a clean book-like feel */
+  }
+
+  .sheet-quote-fullwidth {
+    grid-column: 1 / -1; /* Spans 100% width across both columns */
+    border-top: 1px dashed var(--cozy-border-light); /* Delicate separator */
+    padding-top: 1rem;
+    margin-top: 0.25rem;
+    width: 100%;
   }
 
   .price-platform {
     font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--cozy-text-obsidian);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #6E6E73; /* Softer gray styling */
   }
 
   .sheet-actions {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.9rem; /* More spacious button layout */
   }
 
   .action-btn-buy {
@@ -197,6 +215,13 @@
   .action-btn-group:hover {
     background-color: #EAE8E3;
   }
+
+  .polaroid-frame img.placeholder-logo {
+    object-fit: contain;
+    background-color: var(--cozy-bg-beige);
+    padding: 16px;
+    filter: grayscale(1) opacity(0.35);
+  }
 </style>
 
 <script>
@@ -221,14 +246,21 @@
       activeProduct = { id, name, affiliateUrl, platform };
       
       // Gán dữ liệu lên Modal
-      if (sheetImg) sheetImg.src = imageUrl;
+      if (sheetImg) {
+        sheetImg.src = imageUrl || "/images/brand/symbol-green.png";
+        if (!imageUrl) {
+          sheetImg.classList.add('placeholder-logo');
+        } else {
+          sheetImg.classList.remove('placeholder-logo');
+        }
+      }
       if (sheetTitle) sheetTitle.textContent = name;
       if (sheetQuote) sheetQuote.textContent = quote.startsWith('"') ? quote : `"${quote}"`;
-      if (sheetPricePlatform) sheetPricePlatform.textContent = `~${priceText} · ${platform}`;
+      if (sheetPricePlatform) sheetPricePlatform.textContent = `Nơi mua gợi ý: ${platform}`;
       
       // Cập nhật text nút bấm
-      if (sheetBuyNowBtn) sheetBuyNowBtn.textContent = `Mua trên ${platform} 🐾`;
-      if (sheetGroupBuyBtn) sheetGroupBuyBtn.textContent = `Gom mua chung giá sỉ · tiết kiệm ${savings}% 🐾`;
+      if (sheetBuyNowBtn) sheetBuyNowBtn.innerHTML = `Mua trên ${platform} <i class="ph-light ph-shopping-cart"></i>`;
+      if (sheetGroupBuyBtn) sheetGroupBuyBtn.innerHTML = `Gom mua chung giá sỉ · tiết kiệm ${savings}% <i class="ph-light ph-users"></i>`;
       
       // Mở Sheet
       overlay?.classList.add('open');

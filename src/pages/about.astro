@@ -13,10 +13,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
   <main class="about-view">
     <div class="container">
-      <a href="/" class="back-link">🐾 Trở về trang chủ</a>
+      <a href="/" class="back-link"><i class="ph-light ph-arrow-left"></i> Trở về trang chủ</a>
 
       <header class="about-header text-center">
-        <span class="about-icon">✨</span>
+        <span class="about-icon" style="color: var(--cozy-pink-sakura);"><i class="ph-light ph-sparkles"></i></span>
         <h1 class="display-large">Dự án App DOCA</h1>
         <p class="whisper-mono">"Chúng tôi không bán công cụ; chúng tôi bán sự giải trí, niềm vui và sự xoa dịu cảm xúc."</p>
       </header>
@@ -36,25 +36,25 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         
         <div class="features-grid">
           <div class="cozy-card feature-item">
-            <span class="feature-icon">🐾</span>
+            <span class="feature-icon"><i class="ph-light ph-paw"></i></span>
             <h3>DOCA PetTwin</h3>
             <p>Thiết lập linh hồn AI của Boss dựa trên tính cách đặc trưng (Ngáo ngơ, Chảnh chọe, Đanh đá, Nịnh nọt) dưới góc nhìn thứ nhất.</p>
           </div>
 
           <div class="cozy-card feature-item">
-            <span class="feature-icon">📦</span>
+            <span class="feature-icon"><i class="ph-light ph-package"></i></span>
             <h3>DOCA Capsule</h3>
             <p>Rương ký ức lưu trữ những bức ảnh dìm hàng và nhật ký đồng hành, giúp Boss ảo ghi nhớ sâu sắc để trò chuyện cá nhân hóa.</p>
           </div>
 
           <div class="cozy-card feature-item">
-            <span class="feature-icon">💬</span>
+            <span class="feature-icon"><i class="ph-light ph-chat-circle"></i></span>
             <h3>Trò Chuyện Tri Kỷ</h3>
             <p>Kênh chat thời gian thực với Boss AI. Ngôn từ biến thiên bất ngờ mang lại niềm vui tức thì cho bạn.</p>
           </div>
 
           <div class="cozy-card feature-item">
-            <span class="feature-icon">📮</span>
+            <span class="feature-icon"><i class="ph-light ph-mailbox"></i></span>
             <h3>Tiệm Tạp Hóa Namiya</h3>
             <p>Hòm thư gỗ ẩn danh đặt cạnh góc ấm áp giúp gửi thư giải tỏa nỗi lòng và nhận phản hồi từ ông già Namiya cùng 3 chú mèo.</p>
           </div>
@@ -63,13 +63,13 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
       <!-- Form đăng ký Waitlist -->
       <section class="waitlist-card cozy-card text-center">
-        <span class="waitlist-icon font-large">💌</span>
+        <span class="waitlist-icon"><i class="ph-light ph-envelope-simple"></i></span>
         <h2 class="title-large">Đăng ký nhận thư từ Boss (Waitlist)</h2>
         <p class="waitlist-desc">
           Hãy để lại email của bạn. Boss sẽ gửi tặng cuốn Ebook <strong>"Nhật Ký Sống Chậm Cùng Boss (Cẩm nang 7 ngày chánh niệm)"</strong> bản PDF và một vé mời trải nghiệm sớm bản Beta của App DOCA khi ra mắt.
         </p>
 
-        <form id="about-waitlist-form" class="waitlist-form">
+        <form id="about-waitlist-form" class="waitlist-form" novalidate>
           <input 
             type="email" 
             id="waitlist-email" 
@@ -78,12 +78,18 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             required 
           />
           <button type="submit" class="cozy-btn cozy-btn-primary submit-btn">
-            Nhận Quà Từ Boss 🐾
+            Nhận Quà Từ Boss <i class="ph-light ph-gift"></i>
           </button>
         </form>
 
+        <!-- Custom Friendly Error Notification -->
+        <div id="about-error-msg" class="about-error-msg hidden">
+          <i class="ph-light ph-warning-circle error-icon"></i>
+          <span id="about-error-text">Hình như email của Sen bị thiếu ký tự '@' hoặc sai định dạng rồi... Nhập lại giúp tụi con nha! 🐾</span>
+        </div>
+
         <div id="waitlist-success" class="waitlist-success hidden">
-          <span class="success-paw">🐾</span>
+          <span class="success-paw" style="color: var(--cozy-green-matcha);"><i class="ph-light ph-paw"></i></span>
           <h4>Boss đã nhận được thư của Sen!</h4>
           <p>Ebook quà tặng đang trên đường bay tới hòm thư của bạn. Sen nhớ kiểm tra cả hộp thư Spam/Quảng cáo nhé!</p>
         </div>
@@ -104,7 +110,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   }
 
   .back-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     color: var(--cozy-text-obsidian);
     text-decoration: none;
     font-size: 0.9rem;
@@ -167,6 +175,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
   .feature-icon {
     font-size: 1.75rem;
+    color: var(--cozy-green-matcha);
+    display: inline-block;
   }
 
   .feature-item h3 {
@@ -182,7 +192,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
   /* Waitlist Card */
   .waitlist-card {
-    background-color: #FFF;
+    background-color: var(--cozy-bg-pure);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -193,6 +203,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
   .waitlist-icon {
     font-size: 2rem;
+    color: var(--cozy-pink-sakura);
+    display: inline-block;
   }
 
   .waitlist-desc {
@@ -259,9 +271,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   }
 
   .waitlist-success h4 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.25rem;
     color: var(--cozy-text-obsidian);
+    font-weight: 700;
   }
 
   .waitlist-success p {
@@ -279,6 +292,35 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     from { transform: translateY(0); }
     to { transform: translateY(-6px); }
   }
+
+  .about-error-msg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #FFF2E6; /* Cozy soft orange tint */
+    border: 1px solid rgba(230, 100, 0, 0.15);
+    color: #CC5200; /* Darker burnt orange for high contrast */
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    margin: 0.75rem auto 0 auto;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 4px 12px rgba(230, 100, 0, 0.04);
+    animation: fadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .about-error-msg.hidden {
+    display: none;
+  }
+
+  .error-icon {
+    font-size: 1.15rem;
+    color: #CC5200;
+    flex-shrink: 0;
+  }
 </style>
 
 <script>
@@ -289,9 +331,30 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      const errorMsg = document.getElementById('about-error-msg');
+      const errorText = document.getElementById('about-error-text');
+      if (errorMsg) errorMsg.classList.add('hidden');
+
       const email = emailInput.value.trim();
 
-      if (!email) return;
+      if (!email) {
+        if (errorMsg && errorText) {
+          errorText.textContent = "Hình như Sen chưa điền email kìa... Nhập email để tụi con gửi quà nhé! 🐾";
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
+
+      // Simple email validation regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        if (errorMsg && errorText) {
+          errorText.textContent = "Hình như email của Sen bị thiếu ký tự '@' hoặc sai định dạng rồi... Nhập lại giúp tụi con nha! 🐾";
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
 
       const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
       const supabaseKey = (window as any).PUBLIC_SUPABASE_ANON_KEY || '';
@@ -319,12 +382,18 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             form.style.display = 'none';
             successMsg?.classList.remove('hidden');
           } else {
-            alert('Có lỗi xảy ra khi đăng ký waitlist, Sen vui lòng thử lại nhé!');
+            if (errorMsg && errorText) {
+              errorText.textContent = "Có lỗi xảy ra khi đăng ký waitlist, Sen vui lòng thử lại nhé! 🐾";
+              errorMsg.classList.remove('hidden');
+            }
             if (submitBtn) submitBtn.disabled = false;
           }
         } catch (err) {
           console.error(err);
-          alert('Không thể kết nối máy chủ. Sen hãy kiểm tra mạng nhé!');
+          if (errorMsg && errorText) {
+            errorText.textContent = "Không thể kết nối máy chủ. Sen hãy kiểm tra mạng nhé! 🐾";
+            errorMsg.classList.remove('hidden');
+          }
           const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
           if (submitBtn) submitBtn.disabled = false;
         }

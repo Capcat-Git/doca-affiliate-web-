@@ -113,15 +113,7 @@ const getCategoryLabel = (cat: string) => {
     <nav class="navbar">
       <div class="container nav-container">
         <a href="/" class="logo-wrapper">
-          <div class="logo-box">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 5C11.5 5 10 7.5 10 9C10 10.5 11.5 11 12 11C12.5 11 14 10.5 14 9C14 7.5 12.5 5 12 5Z" fill="#FFFFFF"/>
-              <circle cx="7" cy="11" r="2.5" fill="#FFFFFF"/>
-              <circle cx="17" cy="11" r="2.5" fill="#FFFFFF"/>
-              <path d="M7 16C7 16 8.5 19 12 19C15.5 19 17 16 17 16C17 16 15 15 12 15C9 15 7 16 7 16Z" fill="#FFFFFF"/>
-            </svg>
-          </div>
-          <span class="logo-text">doca</span>
+          <img src="/images/brand/logo-light.png" alt="doca.pet Logo" class="brand-logo-img" />
         </a>
         <div class="nav-right">
           <a href="/about" class="nav-link-text">Về App</a>
@@ -135,27 +127,63 @@ const getCategoryLabel = (cat: string) => {
 
     <!-- Hero Section -->
     <header class="hero-section text-center">
-      <div class="container">
         <span class="hero-tag">Góc Nhỏ Doca</span>
         <h1 class="hero-title">Góc Nhỏ Bình Yên</h1>
         <p class="hero-subtitle">Nơi cùng thú cưng sống chậm lại một nhịp, mỗi ngày.</p>
         
         <!-- Form Waitlist Mini -->
-        <form id="hero-waitlist-form" class="hero-waitlist-form">
+        <form id="hero-waitlist-form" class="hero-waitlist-form" novalidate>
           <input 
             type="email" 
             id="hero-email" 
-            class="form-input" 
+            class="form-input hero-input" 
             placeholder="Nhập email của Sen..." 
             required 
           />
+          <div class="peeking-cat-container">
+            <svg viewBox="0 0 200 100" class="peeking-cat-svg">
+              <!-- Head & Ears (Wider and rounder cheeks) -->
+              <path d="M 40 95 
+                       C 24 90, 22 60, 32 48 
+                       C 35 42, 38 30, 42 20 
+                       C 46 12, 62 48, 100 48 
+                       C 138 48, 154 12, 158 20 
+                       C 162 30, 165 42, 168 48 
+                       C 178 60, 176 90, 160 95 
+                       Z" fill="#15170F" />
+              <!-- Eyes -->
+              <circle cx="70" cy="62" r="17" fill="#FFFFFF" />
+              <circle cx="130" cy="62" r="17" fill="#FFFFFF" />
+              <!-- Pupils -->
+              <rect x="68" y="52" width="4" height="20" rx="2" fill="#15170F" />
+              <rect x="128" y="52" width="4" height="20" rx="2" fill="#15170F" />
+              <!-- Nose -->
+              <path d="M 97 71 Q 100 69, 103 71 Q 100 75, 97 71 Z" fill="#FAF6F0" />
+              <!-- Whiskers (Adjusted start points for rounder cheeks) -->
+              <line x1="30" y1="60" x2="10" y2="57" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+              <line x1="28" y1="68" x2="8" y2="68" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+              <line x1="30" y1="76" x2="10" y2="79" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+              <line x1="170" y1="60" x2="190" y2="57" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+              <line x1="172" y1="68" x2="192" y2="68" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+              <line x1="170" y1="76" x2="190" y2="79" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+              <!-- Paws -->
+              <path d="M 12 95 C 6 85, 22 75, 32 86 C 36 90, 22 98, 12 95 Z" fill="#15170F" />
+              <path d="M 188 95 C 194 85, 178 75, 168 86 C 164 90, 178 98, 188 95 Z" fill="#15170F" />
+            </svg>
+          </div>
           <button type="submit" class="submit-btn">
-            Theo dõi Boss 🐾
+            Theo dõi Boss <i class="ph-light ph-paw"></i>
           </button>
         </form>
 
+        <!-- Custom Friendly Error Notification -->
+        <div id="hero-error-msg" class="hero-error-msg hidden">
+          <i class="ph-light ph-warning-circle error-icon"></i>
+          <span id="hero-error-text">Hình như email của Sen bị thiếu ký tự '@' hoặc sai định dạng rồi... Nhập lại giúp tụi con nha! 🐾</span>
+        </div>
+
         <div id="hero-success-msg" class="hero-success hidden">
-          <span class="success-paw">🐾</span>
+          <span class="success-paw" style="color: var(--cozy-green-matcha);"><i class="ph-light ph-paw"></i></span>
           <p>Boss đã nhận thư! Cẩm nang sống chậm sẽ sớm bay đến email của bạn.</p>
         </div>
       </div>
@@ -165,20 +193,32 @@ const getCategoryLabel = (cat: string) => {
     <section class="shelf-section">
       <div class="container">
         <div class="shelf-header">
-          <div class="shelf-title-row">
-            <h2 class="section-title-cozy">Kệ Đồ Chữa Lành</h2>
-            <span class="tuyển-chọn">tuyển chọn</span>
+          <div class="shelf-header-illustration-wrapper">
+            <img src="/images/pet-food-bags.png" alt="Kệ đồ chữa lành" class="shelf-header-illustration" />
           </div>
-          <p class="section-desc-cozy">Bốn góc nhỏ tụi mình gom góp cho Sen & Boss.</p>
+          <div class="shelf-header-info">
+            <h3 class="title-large shelf-title">Kệ Đồ Chữa Lành</h3>
+            <span class="shelf-subtitle">Thức quả lành tính, đong đầy yêu thương cho Boss & Sen 🐾</span>
+          </div>
         </div>
 
         <!-- Các tab phân loại (Catalogue Tabs) -->
         <div class="category-tabs-container">
-          <button class="tab-btn active" data-category="all">Tất cả</button>
-          <button class="tab-btn" data-category="thuc_an">Thức Ăn Mèo</button>
-          <button class="tab-btn" data-category="vat_pham">Vật Phẩm Chăm Sóc</button>
-          <button class="tab-btn" data-category="sach">Sách Chữa Lành</button>
-          <button class="tab-btn" data-category="phu_kien">Phụ Kiện Nhà Ở</button>
+          <button class="tab-btn active" data-category="all">
+            <i class="ph-light ph-circles-four tab-icon-ph"></i> Tất cả
+          </button>
+          <button class="tab-btn" data-category="thuc_an">
+            <img src="/images/pate-cans.png" class="tab-icon" alt="" /> Thức Ăn Mèo
+          </button>
+          <button class="tab-btn" data-category="vat_pham">
+            <img src="/images/pate-dog.png" class="tab-icon" alt="" /> Vật Phẩm Chăm Sóc
+          </button>
+          <button class="tab-btn" data-category="sach">
+            <img src="/images/clay-book.png" class="tab-icon" alt="" /> Sách Chữa Lành
+          </button>
+          <button class="tab-btn" data-category="phu_kien">
+            <img src="/images/pet-bowls.png" class="tab-icon" alt="" /> Phụ Kiện Nhà Ở
+          </button>
         </div>
         
         <div class="products-grid">
@@ -201,21 +241,52 @@ const getCategoryLabel = (cat: string) => {
 
         <!-- Phân trang sản phẩm (Pagination) -->
         <div id="products-pagination" class="products-pagination"></div>
+
+        <!-- Description moved to the bottom of the section -->
+        <p class="shelf-desc-bottom">
+          Pate béo ngậy, hạt thơm ngon và vô vàn chiếc "ôm ấm áp" vỗ về sức khỏe Boss, xoa dịu tâm hồn Sen. Mời cô chú thong thả ghé lựa, tụi con cam kết hạt chuẩn cơm lành, Boss ăn là thích mê! 🐾
+        </p>
       </div>
     </section>
 
     <!-- Namiya Mailbox Widget -->
     <section class="mailbox-section">
-      <div class="container">
+      <div class="container mailbox-section-container">
         <NamiyaMailbox />
+        
+        <!-- Gossamer thread of time (Connecting worry and reply) -->
+        <div class="mailbox-section-line"></div>
+
+        <!-- Decorative Japanese Showa Postmark on Section Background (Top-Right) -->
+        <div class="mailbox-section-postmark">
+          <div class="postmark-circle">
+            <span class="postmark-symbol">〒</span>
+            <span class="postmark-date">1980.09</span>
+          </div>
+        </div>
+
+        <!-- Decorative Japanese Showa Milk Box on Section Background (Bottom-Left) -->
+        <div class="mailbox-section-milkbox">
+          <div class="milkbox-badge" title="Milk Box (Grandpa Namiya's reply container)">
+            <i class="ph-light ph-drop"></i>
+            <span class="milk-text">MILK BOX</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Blog Posts (Nhật ký lối sống) -->
     <section class="blog-section">
       <div class="container">
-        <h2 class="section-title">🐾 Nhật Ký Lối Sống</h2>
-        <p class="section-desc text-center">Những mẩu chuyện nhỏ giúp xoa dịu tâm hồn và thấu hiểu chú thú cưng của bạn.</p>
+        <div class="blog-header">
+          <div class="blog-header-illustration-wrapper">
+            <img src="/images/clay-notebook.png" alt="Nhật ký lối sống" class="blog-header-illustration" />
+          </div>
+          <div class="blog-header-info">
+            <h3 class="title-large blog-title">Nhật Ký Lối Sống</h3>
+            <span class="blog-subtitle">Nơi gom góp những mẩu chuyện nhỏ vỗ về tâm hồn Sen & Boss 🐾</span>
+          </div>
+        </div>
         
         <div class="blog-list">
           {sortedPosts.map(post => (
@@ -229,11 +300,14 @@ const getCategoryLabel = (cat: string) => {
               <p class="blog-item-desc">{post.data.description}</p>
               <div class="blog-meta">
                 <span class="blog-date">{post.data.publishDate}</span>
-                <a href={`/blog/${post.slug}`} class="cozy-dotted-link read-more">Đọc bài viết 🐾</a>
+                <a href={`/blog/${post.slug}`} class="cozy-dotted-link read-more">Đọc bài viết <i class="ph-light ph-arrow-right"></i></a>
               </div>
             </article>
           ))}
         </div>
+        <p class="blog-desc-bottom">
+          Những mẩu chuyện nhỏ giúp xoa dịu tâm hồn, thấu hiểu chú thú cưng và cùng cô chú đắp xây một cuộc sống thật bình yên. 🐾
+        </p>
       </div>
     </section>
   </main>
@@ -253,13 +327,14 @@ const getCategoryLabel = (cat: string) => {
 
   /* Navbar */
   .navbar {
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(251, 250, 246, 0.85);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--cozy-border-light);
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: 0.65rem 0;
+    padding: 0.5rem 0;
+    box-shadow: 0 1px 3px rgba(21, 23, 15, 0.04);
   }
 
   .nav-container {
@@ -274,6 +349,12 @@ const getCategoryLabel = (cat: string) => {
     text-decoration: none;
   }
 
+  .brand-logo-img {
+    height: 24px;
+    width: auto;
+    display: block;
+  }
+
   .logo-box {
     background-color: #1C1C1E;
     width: 28px;
@@ -286,7 +367,7 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .logo-text {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 1.35rem;
     color: #1C1C1E;
@@ -335,7 +416,7 @@ const getCategoryLabel = (cat: string) => {
   /* Hero Section */
   .hero-section {
     padding: 3.5rem 0 2.5rem 0;
-    background: linear-gradient(180deg, #FAF8F5 0%, #F5F3EF 100%);
+    background: linear-gradient(180deg, var(--cozy-bg-pure) 0%, var(--cozy-bg-beige) 100%);
   }
 
   .hero-tag {
@@ -350,9 +431,9 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .hero-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2.35rem;
+    font-family: 'Inter', sans-serif;
     font-weight: 700;
+    font-size: 2.35rem;
     color: #1C1C1E;
     margin-bottom: 0.75rem;
   }
@@ -377,6 +458,62 @@ const getCategoryLabel = (cat: string) => {
     max-width: 380px;
     margin: 0 auto;
     box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    position: relative; /* Enabled for absolute peeking cat position */
+  }
+
+  .peeking-cat-container {
+    position: absolute;
+    bottom: calc(100% - 2px); /* Align paw baseline to sit exactly on the input top border */
+    left: 32px; /* Position above the "email" input text on the left side */
+    width: 70px;
+    height: 35px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .peeking-cat-svg {
+    width: 100%;
+    height: 100%;
+    transform: translateY(16px); /* Hide body, show ears slightly higher */
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .hero-input:focus ~ .peeking-cat-container .peeking-cat-svg {
+    transform: translateY(0); /* Peek up fully on focus */
+  }
+
+  .hero-input:not(:placeholder-shown) ~ .peeking-cat-container .peeking-cat-svg {
+    transform: translateY(0); /* Stay up if input has content */
+  }
+
+  .hero-error-msg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #FFF2E6; /* Cozy soft orange tint */
+    border: 1px solid rgba(230, 100, 0, 0.15);
+    color: #CC5200; /* Darker burnt orange for high contrast */
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    margin: 0.75rem auto 0 auto;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 4px 12px rgba(230, 100, 0, 0.04);
+    animation: fadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .hero-error-msg.hidden {
+    display: none;
+  }
+
+  .error-icon {
+    font-size: 1.15rem;
+    color: #CC5200;
+    flex-shrink: 0;
   }
 
   .form-input {
@@ -395,8 +532,8 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .submit-btn {
-    background-color: #1C1C1E;
-    color: #FFFFFF;
+    background-color: var(--cozy-text-obsidian);
+    color: var(--cozy-bg-pure);
     border-radius: 24px;
     padding: 0.6rem 1.25rem;
     font-size: 0.85rem;
@@ -441,13 +578,251 @@ const getCategoryLabel = (cat: string) => {
   }
 
   /* Section Styles */
-  .shelf-section, .mailbox-section, .blog-section {
-    padding: 2rem 0;
+  .shelf-section, .blog-section {
+    background-color: var(--cozy-bg-beige);
+    border-top: 1px solid var(--cozy-border-light);
+    border-bottom: 1px solid var(--cozy-border-light);
+    padding: 3.5rem 0;
+  }
+
+  .mailbox-section {
+    padding: 3.5rem 0;
+    overflow: hidden; /* Prevent horizontal scrollbars if stamp peeks out */
+    position: relative;
+  }
+
+  .mailbox-section-container {
+    position: relative;
+  }
+
+  .mailbox-section-line {
+    position: absolute;
+    top: 40%;
+    left: -5%;
+    right: -5%;
+    height: 1px;
+    border-top: 1.5px dashed rgba(139, 94, 60, 0.12);
+    transform: rotate(-10deg);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .mailbox-section-postmark {
+    position: absolute;
+    top: -20px;
+    right: -25px;
+    opacity: 0.16;
+    transform: rotate(15deg);
+    pointer-events: none;
+    z-index: 0;
+    line-height: 1;
+  }
+
+  .postmark-circle {
+    width: 120px;
+    height: 120px;
+    border: 1.5px dashed var(--cozy-wood-sugi);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .postmark-circle::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 1.5px solid var(--cozy-wood-sugi);
+    border-radius: 50%;
+  }
+
+  .postmark-symbol {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--cozy-wood-sugi);
+    line-height: 1;
+  }
+
+  .postmark-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--cozy-wood-sugi);
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+
+  .mailbox-section-milkbox {
+    position: absolute;
+    bottom: -20px;
+    left: -25px;
+    opacity: 0.18;
+    transform: rotate(-12deg);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .milkbox-badge {
+    border: 1.5px solid var(--cozy-wood-sugi);
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background-color: var(--cozy-bg-pure);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+  }
+
+  .milkbox-badge i {
+    font-size: 1.5rem;
+    color: var(--cozy-wood-sugi);
+  }
+
+  .milk-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: var(--cozy-wood-sugi);
+    letter-spacing: 1px;
   }
 
   .shelf-header {
-    margin-bottom: 1.15rem;
-    padding: 0 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px dashed var(--cozy-border-light);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .shelf-header-illustration-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #FFFFFF;
+    border: 2px solid var(--cozy-wood-sugi);
+    border-radius: 12px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(139, 94, 60, 0.06);
+    flex-shrink: 0;
+    transform: rotate(-3deg); /* Cute organic tilt matching Mailbox header */
+  }
+
+  .shelf-header-illustration {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .shelf-header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .shelf-title {
+    font-size: 1.45rem;
+    font-weight: 750;
+    color: var(--cozy-wood-kogecha); /* Warm dark wood */
+    margin: 0;
+  }
+
+  .shelf-subtitle {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cozy-green-matcha-forest);
+    letter-spacing: 0.2px;
+  }
+
+  .shelf-desc-bottom {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: #555558;
+    text-align: center; /* Center-aligned closing footnote */
+    line-height: 1.55;
+    margin-top: 2rem; /* Spacing below pagination */
+    border-top: 1px dashed var(--cozy-border-light); /* Sand divider line */
+    padding-top: 1.25rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .blog-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px dashed var(--cozy-border-light);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .blog-header-illustration-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #FFFFFF;
+    border: 2px solid var(--cozy-wood-sugi);
+    border-radius: 12px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(139, 94, 60, 0.06);
+    flex-shrink: 0;
+    transform: rotate(3deg); /* Tilting opposite way from shelf header for rhythm */
+  }
+
+  .blog-header-illustration {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .blog-header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .blog-title {
+    font-size: 1.45rem;
+    font-weight: 750;
+    color: var(--cozy-wood-kogecha);
+    margin: 0;
+  }
+
+  .blog-subtitle {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cozy-green-matcha-forest);
+    letter-spacing: 0.2px;
+  }
+
+  .blog-desc-bottom {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: #555558;
+    text-align: center; /* Center-aligned footnote */
+    line-height: 1.55;
+    margin-top: 2.25rem;
+    border-top: 1px dashed var(--cozy-border-light);
+    padding-top: 1.25rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .shelf-title-row {
@@ -459,7 +834,7 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .section-title-cozy {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.45rem;
     font-weight: 700;
     color: var(--cozy-text-obsidian);
@@ -475,9 +850,10 @@ const getCategoryLabel = (cat: string) => {
 
   .section-desc-cozy {
     font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    color: #6E6E73;
+    font-size: 0.88rem; /* Slightly larger and more readable */
+    color: #555558; /* Softer obsidian tint */
     text-align: left;
+    line-height: 1.55;
   }
 
   /* Grid Sản Phẩm */
@@ -521,25 +897,59 @@ const getCategoryLabel = (cat: string) => {
     font-family: 'Inter', sans-serif;
     font-size: 0.82rem;
     font-weight: 600;
-    color: #6E6E73;
-    background-color: #F5F3EF;
-    border: 1px solid rgba(0, 0, 0, 0.01);
+    color: #5D5E56; /* Darker warm gray for high readability (contrast 6.4:1) */
+    background-color: var(--cozy-bg-pure); /* Cloud background */
+    border: 1px solid var(--cozy-border-light); /* Sand border */
     padding: 0.45rem 0.95rem;
     border-radius: 20px;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+    
+    /* Enabled inline-flex for visual icon + text alignment */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  
+  .tab-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(139, 94, 60, 0.1));
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .tab-btn:hover .tab-icon {
+    transform: scale(1.15) rotate(4deg);
+  }
+
+  .tab-icon-ph {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .tab-btn:hover .tab-icon-ph {
+    transform: scale(1.15);
   }
   
   .tab-btn:hover {
-    background-color: #EAE8E3;
+    background-color: var(--cozy-bg-oatmeal); /* Sand oatmeal hover */
+    border-color: var(--cozy-border-light);
     color: var(--cozy-text-obsidian);
   }
   
   .tab-btn.active {
-    background-color: var(--cozy-green-matcha);
-    color: #FFFFFF;
-    box-shadow: 0 4px 10px rgba(143, 168, 130, 0.2);
+    background-color: var(--cozy-green-matcha-forest); /* Dark Forest Green for safe contrast (4.6:1) */
+    border-color: var(--cozy-green-matcha-forest);
+    color: var(--cozy-bg-pure); /* Cloud text */
+    box-shadow: 0 4px 10px rgba(74, 138, 46, 0.25);
+  }
+
+  .tab-btn.active .tab-icon {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
   }
 
   .products-pagination {
@@ -551,38 +961,39 @@ const getCategoryLabel = (cat: string) => {
     margin-bottom: 1rem;
   }
 
-  .page-btn {
+  :global(.page-btn) {
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 50%;
     border: 1px solid var(--cozy-border-light);
-    background-color: #FFFFFF;
+    background-color: var(--cozy-bg-pure);
     color: var(--cozy-text-obsidian);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .page-btn:hover:not(:disabled) {
-    background-color: #F5F3EF;
-    border-color: rgba(0, 0, 0, 0.08);
+  :global(.page-btn:hover:not(:disabled)) {
+    background-color: var(--cozy-bg-oatmeal);
+    border-color: var(--cozy-border-light);
+    transform: scale(1.05);
   }
 
-  .page-btn:disabled {
-    opacity: 0.4;
+  :global(.page-btn:disabled) {
+    opacity: 0.3;
     cursor: not-allowed;
   }
 
-  .page-btn.active {
+  :global(.page-btn.active) {
     background-color: var(--cozy-green-matcha);
-    color: #FFFFFF;
+    color: var(--cozy-bg-pure);
     border-color: var(--cozy-green-matcha);
-    box-shadow: 0 4px 10px rgba(143, 168, 130, 0.2);
+    box-shadow: 0 3px 8px rgba(163, 184, 146, 0.3);
   }
 
   /* Blog List */
@@ -674,9 +1085,30 @@ const getCategoryLabel = (cat: string) => {
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      const errorMsg = document.getElementById('hero-error-msg');
+      const errorText = document.getElementById('hero-error-text');
+      if (errorMsg) errorMsg.classList.add('hidden');
+
       const email = emailInput.value.trim();
 
-      if (!email) return;
+      if (!email) {
+        if (errorMsg && errorText) {
+          errorText.textContent = "Hình như Sen chưa điền email kìa... Nhập email để tụi con gửi thư nhé! 🐾";
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
+
+      // Simple email validation regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        if (errorMsg && errorText) {
+          errorText.textContent = "Hình như email của Sen bị thiếu ký tự '@' hoặc sai định dạng rồi... Nhập lại giúp tụi con nha! 🐾";
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
 
       const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
       const supabaseKey = (window as any).PUBLIC_SUPABASE_ANON_KEY || '';
@@ -704,12 +1136,18 @@ const getCategoryLabel = (cat: string) => {
             form.style.display = 'none';
             successMsg?.classList.remove('hidden');
           } else {
-            alert('Có lỗi xảy ra khi đăng ký, Sen vui lòng thử lại nhé!');
+            if (errorMsg && errorText) {
+              errorText.textContent = "Có lỗi xảy ra khi đăng ký waitlist, Sen vui lòng thử lại nhé! 🐾";
+              errorMsg.classList.remove('hidden');
+            }
             if (submitBtn) submitBtn.disabled = false;
           }
         } catch (err) {
           console.error(err);
-          alert('Không thể kết nối máy chủ. Sen hãy kiểm tra mạng nhé!');
+          if (errorMsg && errorText) {
+            errorText.textContent = "Không thể kết nối máy chủ. Sen hãy kiểm tra mạng nhé! 🐾";
+            errorMsg.classList.remove('hidden');
+          }
           const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
           if (submitBtn) submitBtn.disabled = false;
         }
@@ -780,7 +1218,7 @@ const getCategoryLabel = (cat: string) => {
       let html = '';
       
       // Prev
-      html += `<button class="page-btn prev-btn" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">◀</button>`;
+      html += `<button class="page-btn prev-btn" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}"><i class="ph-light ph-caret-left"></i></button>`;
       
       // Page numbers
       for (let i = 1; i <= totalPages; i++) {
@@ -788,7 +1226,7 @@ const getCategoryLabel = (cat: string) => {
       }
       
       // Next
-      html += `<button class="page-btn next-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">▶</button>`;
+      html += `<button class="page-btn next-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}"><i class="ph-light ph-caret-right"></i></button>`;
       
       paginationContainer.innerHTML = html;
       

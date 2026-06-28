@@ -1,16 +1,30 @@
 :root {
   /* --- NỀN VÀ KHUNG CHỮ (Core Neutral) --- */
-  --cozy-bg-pure: #FFFFFF;              /* Trắng tinh khiết */
-  --cozy-bg-oatmeal: #F8F9FA;           /* Nền phụ cám yến mạch */
-  --cozy-bg-beige: #F5F5F0;             /* Màu giấy thư tay ấm áp (Moments Card) */
-  --cozy-text-obsidian: #1C1C1E;        /* Chữ chính Deep Obsidian */
-  --cozy-text-charcoal: #121212;        /* Nút bấm Charcoal Black */
-  --cozy-border-light: #EAEAEA;         /* Đường viền mảnh */
+  --cozy-bg-pure: #FBFAF6;              /* Màu mây trắng sữa (Cloud) thương hiệu mới */
+  --cozy-bg-oatmeal: #E8E3D6;           /* Màu cát ấm (Sand) thương hiệu mới */
+  --cozy-bg-beige: #F4F1E9;             /* Màu giấy ấm áp (Paper) thương hiệu mới */
+  --cozy-text-obsidian: #15170F;        /* Màu chữ mực Charcoal ấm áp thương hiệu mới */
+  --cozy-text-charcoal: #15170F;        /* Nút bấm màu mực Charcoal thương hiệu mới */
+  --cozy-border-light: #D4CDBF;         /* Đường viền mảnh màu cát ấm Muji */
 
-  /* --- MÀU NHẤN THƯƠNG HIỆU & CẢM XÚC --- */
-  --cozy-pink-sakura: #FCAFAF;          /* Hồng Anh Đào: Yêu thích, Cưng nựng */
-  --cozy-green-matcha: #8FA882;         /* Xanh Matcha (Zen): Chăm sóc, Lối sống */
+  /* --- MÀU NHẤN THƯƠNG HIỆU & CẢM XÚC (Matcha & Sakura V2) --- */
+  /* Matcha Green (3 phiên bản) */
+  --cozy-green-matcha: #8FBF4F;         /* Matcha Warm - Xanh vừa ấm áp chủ đạo */
+  --cozy-green-matcha-forest: #4A8A2E;  /* Matcha Forest - Xanh đậm làm nền banner */
+  --cozy-green-matcha-dark: #1F3E12;    /* Matcha Dark - Xanh sẫm tối phong cách premium */
+  --cozy-bg-cream-warm: #F5EDD5;        /* Nền kem Matcha ấm áp */
+
+  /* Sakura Pink (3 phiên bản) */
+  --cozy-pink-sakura: #F4ABBE;          /* Sakura Pastel - Hồng cánh đào ngọt ngào chủ đạo */
+  --cozy-pink-sakura-bright: #E07090;   /* Sakura Bright - Hồng rực tương phản mạnh */
+  --cozy-pink-sakura-mauve: #C470A0;    /* Sakura Mauve - Tím hồng sang trọng, bí ẩn */
+  
   --cozy-amber-light: #FFF9C4;          /* Vạt nắng vàng ấm ban đêm */
+
+  /* Wood Accents (3 màu gỗ Nhật Bản truyền thống) */
+  --cozy-wood-sugi: #8B5E3C;            /* Sugi (Tuyết tùng) - Gỗ ấm áp, trung tính */
+  --cozy-wood-kogecha: #4A2418;         /* Kogecha (Nâu cháy) - Nâu đậm, nền tối truyền thống */
+  --cozy-wood-kohaku: #B8860A;          /* Kohaku (Hổ phách) - Vàng sơn mài/tre già */
 
   /* --- MÀU SEMANTIC MỀM DỊU (Soft Status) --- */
   --cozy-success: #E8F5E9;              /* Pastel Sage Green */
@@ -19,8 +33,8 @@
   --cozy-info: #E1F5FE;                 /* Pale Sky Blue */
 
   /* --- HIỆU ỨNG ĐỔ BÓNG (Shadows) --- */
-  --cozy-shadow-default: 0 4px 12px rgba(28, 28, 30, 0.04);
-  --cozy-shadow-hover: 0 8px 20px rgba(28, 28, 30, 0.10);
+  --cozy-shadow-default: 0 4px 12px rgba(21, 23, 15, 0.02); /* Đổ bóng cực loãng Muji */
+  --cozy-shadow-hover: 0 6px 16px rgba(21, 23, 15, 0.05);
   
   /* --- BO GÓC (Border Radius) --- */
   --radius-card: 16px;                  /* Khung card bài viết, hòm thư */
@@ -49,7 +63,7 @@ body {
 
 /* --- TYPOGRAPHY --- */
 h1, .display-large {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 2.25rem;           /* ~36px */
   line-height: 1.25;
@@ -58,7 +72,7 @@ h1, .display-large {
 }
 
 h2, .headline-large {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 1.75rem;          /* ~28px */
   line-height: 1.3;
@@ -67,7 +81,7 @@ h2, .headline-large {
 }
 
 h3, .title-large {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 1.25rem;          /* ~20px */
   line-height: 1.4;
@@ -195,4 +209,54 @@ h3, .title-large {
 .cozy-toast.show {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
+}
+
+/* --- FOOTER / BOTTOM BAR --- */
+.cozy-footer {
+  border-top: 1px solid var(--cozy-border-light);
+  padding: 2rem 0;
+  background-color: var(--cozy-bg-oatmeal);
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copyright {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #8E8E93;
+  font-weight: 500;
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--cozy-text-obsidian);
+  background-color: var(--cozy-text-obsidian);
+  color: var(--cozy-bg-pure);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-link:hover {
+  color: var(--cozy-bg-pure);
+  background-color: var(--cozy-green-matcha);
+  border-color: var(--cozy-green-matcha);
+  transform: translateY(-2px);
 }

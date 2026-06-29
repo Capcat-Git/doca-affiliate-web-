@@ -102,6 +102,9 @@ const getCategoryLabel = (cat: string) => {
 ---
 
 <Layout title="DOCA.pet - Sống Chậm Cùng Thú Cưng | App Chữa Lành Cho Sen & Boss" description="Trang chủ dự án DOCA.pet. Nơi lưu giữ ký ức Capsule, kết nối linh hồn AI PetTwin của Boss, và trút bầu tâm sự ẩn danh tại Hòm thư Namiya không quảng cáo.">
+  <!-- Load Lottie Player library from CDN -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" is:inline></script>
+
   <!-- Gán biến Supabase toàn cục cho client-side Javascript -->
   <script is:inline define:vars={{ supabaseUrl, supabaseKey }}>
     window.PUBLIC_SUPABASE_URL = supabaseUrl;
@@ -204,11 +207,23 @@ const getCategoryLabel = (cat: string) => {
               </button>
             </div>
 
-            <!-- Right: Play/Pause button -->
-            <button class="player-control-btn" aria-label="Play/Pause">
-              <i class="ph-fill ph-play play-icon"></i>
-              <i class="ph-fill ph-pause pause-icon hidden"></i>
-            </button>
+            <!-- Right: Play/Pause button with Lottie lazy cat overlay -->
+            <div class="player-control-wrapper">
+              <div class="lottie-cat-container">
+                <lottie-player
+                  src="/animations/cat.json"
+                  background="transparent"
+                  speed="0.8"
+                  loop
+                  autoplay
+                  class="cozy-lottie-cat"
+                ></lottie-player>
+              </div>
+              <button class="player-control-btn" aria-label="Play/Pause">
+                <i class="ph-fill ph-play play-icon"></i>
+                <i class="ph-fill ph-pause pause-icon hidden"></i>
+              </button>
+            </div>
 
             <!-- Hidden audio element dynamically loaded for real-time FM sync -->
             <audio id="cozy-audio-player" preload="auto"></audio>
@@ -902,6 +917,37 @@ const getCategoryLabel = (cat: string) => {
   :global(.playlist-spotify-link-footer:hover) {
     color: var(--cozy-green-matcha-dark);
     text-decoration: underline;
+  }
+
+  .player-control-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .lottie-cat-container {
+    position: absolute;
+    top: -30px; /* Sits on top of the player card */
+    right: -10px; /* Slightly offset to the right near the play button */
+    width: 60px;
+    height: 36px;
+    pointer-events: none; /* User clicks pass through to play button */
+    z-index: 10;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .player-control-wrapper:hover .lottie-cat-container {
+    transform: scale(1.15) translateY(-2px);
+  }
+
+  .lottie-cat-container lottie-player {
+    width: 100%;
+    height: 100%;
+    /* Convert Lottie colors into solid brand obsidian (#15170F) silhouette */
+    filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(885%) hue-rotate(34deg) brightness(96%) contrast(93%);
+    transform: scaleX(-1); /* Face left towards the player wave */
   }
 
   .player-control-btn {

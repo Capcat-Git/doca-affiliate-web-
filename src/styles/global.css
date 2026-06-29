@@ -104,12 +104,19 @@ h3, .title-large {
   color: #6E6E73;
 }
 
-/* --- UTILITY CLASSES --- */
 .container {
   width: 100%;
-  max-width: 680px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.25rem;
+}
+
+/* Narrow container for reading views (About page, Blog Article Details) to maintain readability */
+.about-view .container,
+.blog-detail-view header .container,
+.blog-detail-view .blog-cover-container .container,
+.blog-detail-view article .container {
+  max-width: 720px;
 }
 
 .cozy-card {

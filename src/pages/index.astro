@@ -742,8 +742,10 @@ const getCategoryLabel = (cat: string) => {
     transform: rotate(180deg);
   }
 
+
+
   /* Playlist Dropdown Styles */
-  .cozy-playlist-dropdown {
+  :global(.cozy-playlist-dropdown) {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.9);
     border: 1px solid var(--cozy-border-light);
@@ -763,14 +765,14 @@ const getCategoryLabel = (cat: string) => {
     flex-direction: column;
   }
 
-  .cozy-player-wrapper.expanded .cozy-playlist-dropdown {
+  .cozy-player-wrapper.expanded :global(.cozy-playlist-dropdown) {
     max-height: 380px; /* Expand height */
     opacity: 1;
     pointer-events: auto;
     padding: 14px 12px 12px 12px;
   }
 
-  .playlist-tracks-list {
+  :global(.playlist-tracks-list) {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -783,18 +785,18 @@ const getCategoryLabel = (cat: string) => {
   }
 
   /* Custom scrollbar for playlist dropdown */
-  .playlist-tracks-list::-webkit-scrollbar {
+  :global(.playlist-tracks-list::-webkit-scrollbar) {
     width: 4px;
   }
-  .playlist-tracks-list::-webkit-scrollbar-track {
+  :global(.playlist-tracks-list::-webkit-scrollbar-track) {
     background: transparent;
   }
-  .playlist-tracks-list::-webkit-scrollbar-thumb {
+  :global(.playlist-tracks-list::-webkit-scrollbar-thumb) {
     background: var(--cozy-border-light);
     border-radius: 2px;
   }
 
-  .track-item {
+  :global(.track-item) {
     display: flex;
     align-items: center;
     padding: 7px 10px;
@@ -803,17 +805,22 @@ const getCategoryLabel = (cat: string) => {
     transition: all 0.2s ease;
     gap: 8px;
     user-select: none;
+    /* Reset inherited center styles */
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .track-num {
+  :global(.track-num) {
     font-family: 'Space Mono', monospace;
     font-size: 0.65rem;
     color: #8E8E93;
     width: 14px;
     flex-shrink: 0;
+    text-align: left;
   }
 
-  .track-name-text {
+  :global(.track-name-text) {
     font-family: 'Inter', sans-serif;
     font-size: 0.76rem;
     font-weight: 500;
@@ -826,30 +833,31 @@ const getCategoryLabel = (cat: string) => {
     transition: color 0.2s ease;
   }
 
-  .track-duration {
+  :global(.track-duration) {
     font-family: 'Space Mono', monospace;
     font-size: 0.68rem;
     color: #8E8E93;
     flex-shrink: 0;
+    text-align: right;
   }
 
   /* Active track highlight */
-  .track-item.active-track-item {
+  :global(.track-item.active-track-item) {
     background-color: rgba(142, 172, 137, 0.12);
   }
 
-  .track-item.active-track-item .track-name-text {
+  :global(.track-item.active-track-item .track-name-text) {
     color: var(--cozy-green-matcha-forest);
     font-weight: 600;
   }
 
-  .track-item.active-track-item .track-num {
+  :global(.track-item.active-track-item .track-num) {
     color: var(--cozy-green-matcha-forest);
     font-weight: 600;
   }
 
   /* Mini soundwave for active track item */
-  .mini-wave {
+  :global(.mini-wave) {
     display: none;
     align-items: flex-end;
     gap: 1.5px;
@@ -858,11 +866,11 @@ const getCategoryLabel = (cat: string) => {
     flex-shrink: 0;
   }
 
-  .track-item.active-track-item.playing-state .mini-wave {
+  :global(.track-item.active-track-item.playing-state .mini-wave) {
     display: inline-flex;
   }
 
-  .mini-bar {
+  :global(.mini-bar) {
     width: 1.5px;
     height: 2px;
     background-color: var(--cozy-green-matcha-forest);
@@ -870,12 +878,12 @@ const getCategoryLabel = (cat: string) => {
     animation: bounce-bar 0.7s ease-in-out infinite alternate;
   }
 
-  .mini-wave .mini-bar:nth-child(1) { animation-delay: 0.1s; animation-duration: 0.6s; }
-  .mini-wave .mini-bar:nth-child(2) { animation-delay: 0.3s; animation-duration: 0.8s; }
-  .mini-wave .mini-bar:nth-child(3) { animation-delay: 0.2s; animation-duration: 0.5s; }
+  :global(.mini-wave .mini-bar:nth-child(1)) { animation-delay: 0.1s; animation-duration: 0.6s; }
+  :global(.mini-wave .mini-bar:nth-child(2)) { animation-delay: 0.3s; animation-duration: 0.8s; }
+  :global(.mini-wave .mini-bar:nth-child(3)) { animation-delay: 0.2s; animation-duration: 0.5s; }
 
   /* Spotify footer link */
-  .playlist-spotify-link-footer {
+  :global(.playlist-spotify-link-footer) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -891,7 +899,7 @@ const getCategoryLabel = (cat: string) => {
     transition: color 0.2s ease;
   }
 
-  .playlist-spotify-link-footer:hover {
+  :global(.playlist-spotify-link-footer:hover) {
     color: var(--cozy-green-matcha-dark);
     text-decoration: underline;
   }
@@ -1694,6 +1702,78 @@ const getCategoryLabel = (cat: string) => {
       // Re-sync and play next
       playSyncedRadio();
     });
+
+    // Spotify fake door link
+    const spotifyFooterLink = document.querySelector('.playlist-spotify-link-footer');
+    spotifyFooterLink?.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      // Show cozy message
+      showCozyToast("Cảm ơn bạn đã quan tâm! Đài Spotify của Doca đang được gửi duyệt và sẽ sớm ra mắt nhé! 🐾");
+      
+      // Track custom event in localStorage for later GA4 sync or debugging
+      const fakeDoorClicks = parseInt(localStorage.getItem('fakedoor_spotify_clicks') || '0', 10);
+      localStorage.setItem('fakedoor_spotify_clicks', (fakeDoorClicks + 1).toString());
+      
+      // If GA4 is active, send event
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'click_fake_spotify_link', {
+          event_category: 'engagement',
+          event_label: 'Spotify Playlist Fake Door'
+        });
+      }
+    });
+
+    function showCozyToast(message: string) {
+      // Remove any existing toast first
+      const existingToast = document.querySelector('.cozy-toast');
+      existingToast?.remove();
+
+      const toast = document.createElement('div');
+      toast.className = 'cozy-toast';
+      toast.innerHTML = `<i class="ph-fill ph-info"></i> ${message}`;
+      
+      // Toast styles matching Muji aesthetic
+      Object.assign(toast.style, {
+        position: 'fixed',
+        bottom: '30px',
+        left: '50%',
+        transform: 'translate(-50%, 40px)',
+        backgroundColor: '#FAF6F0',
+        border: '1px solid #8EAC89',
+        borderRadius: '20px',
+        padding: '12px 24px',
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '0.78rem',
+        fontWeight: '500',
+        color: '#15170F',
+        boxShadow: '0 8px 30px rgba(21, 23, 15, 0.12)',
+        zIndex: '9999',
+        opacity: '0',
+        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        whiteSpace: 'nowrap'
+      });
+      
+      document.body.appendChild(toast);
+      
+      // Animate in
+      setTimeout(() => {
+        toast.style.transform = 'translate(-50%, 0)';
+        toast.style.opacity = '1';
+      }, 50);
+      
+      // Animate out and remove
+      setTimeout(() => {
+        toast.style.transform = 'translate(-50%, 20px)';
+        toast.style.opacity = '0';
+        setTimeout(() => {
+          toast.remove();
+        }, 400);
+      }, 3500);
+    }
 
     // --- 2. CATALOGUE FILTER & PAGINATION ---
     const tabBtns = document.querySelectorAll('.category-tabs-container .tab-btn');

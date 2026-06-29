@@ -898,14 +898,10 @@ const getCategoryLabel = (cat: string) => {
     align-items: center;
     padding: 7px 10px;
     border-radius: 12px;
-    cursor: pointer;
+    cursor: default;
     transition: all 0.2s ease;
     gap: 8px;
     user-select: none;
-  }
-
-  .track-item:hover {
-    background-color: rgba(142, 172, 137, 0.08); /* Light matcha tint */
   }
 
   .track-num {
@@ -1677,18 +1673,15 @@ const getCategoryLabel = (cat: string) => {
     let prevActiveTrackIndex = -1;
     let prevPlayingState = false;
 
-    function playSyncedRadio(customStartOffset: number | null = null) {
+    function playSyncedRadio() {
       if (!audio) return;
       const { track, globalOffset, index } = getSyncedTrack();
       
-      const targetOffset = customStartOffset !== null ? customStartOffset : globalOffset;
-      
       audio.src = audioSrc;
-      audio.currentTime = targetOffset;
+      audio.currentTime = globalOffset;
       
       audio.play().then(() => {
-        const activeIndex = customStartOffset !== null ? fmPlaylist.findIndex(t => t.start === customStartOffset) : index;
-        updatePlayerUI(true, fmPlaylist[activeIndex].title, activeIndex);
+        updatePlayerUI(true, track.title, index);
         
         // Reset state tracker variables
         prevActiveTrackIndex = -1;
@@ -1700,8 +1693,8 @@ const getCategoryLabel = (cat: string) => {
             const currentOffset = Math.floor(currentGlobalTime) % totalPlaylistDuration;
             
             // Recalculate active track info
-            let activeTrack = fmPlaylist[activeIndex];
-            let activeTrackIndex = activeIndex;
+            let activeTrack = track;
+            let activeTrackIndex = index;
             
             for (let i = 0; i < fmPlaylist.length; i++) {
               const t = fmPlaylist[i];
@@ -1756,16 +1749,6 @@ const getCategoryLabel = (cat: string) => {
     audio?.addEventListener('ended', () => {
       // Re-sync and play next
       playSyncedRadio();
-    });
-
-    // Handle clicking playlist track items
-    trackItems.forEach((item) => {
-      item.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const clickedIndex = parseInt(item.getAttribute('data-index') || '0', 10);
-        const selectedTrack = fmPlaylist[clickedIndex];
-        playSyncedRadio(selectedTrack.start);
-      });
     });
 
     // --- 2. CATALOGUE FILTER & PAGINATION ---

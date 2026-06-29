@@ -216,107 +216,8 @@ const getCategoryLabel = (cat: string) => {
 
           <!-- Playlist Dropdown Container -->
           <div class="cozy-playlist-dropdown">
-            <ul class="playlist-tracks-list">
-              <li class="track-item" data-index="0">
-                <span class="track-num">01</span>
-                <span class="track-name-text">Afternoon Glow ☕</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">03:07</span>
-              </li>
-              <li class="track-item" data-index="1">
-                <span class="track-num">02</span>
-                <span class="track-name-text">Coffee and Whiskers 🐾</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">03:20</span>
-              </li>
-              <li class="track-item" data-index="2">
-                <span class="track-num">03</span>
-                <span class="track-name-text">Porcelain and Purrs 🐈</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">03:19</span>
-              </li>
-              <li class="track-item" data-index="3">
-                <span class="track-num">04</span>
-                <span class="track-name-text">Golden Hour in a Quiet Café 🌅</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">04:07</span>
-              </li>
-              <li class="track-item" data-index="4">
-                <span class="track-num">05</span>
-                <span class="track-name-text">A Sip Before Sunset 🍹</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">04:35</span>
-              </li>
-              <li class="track-item" data-index="5">
-                <span class="track-num">06</span>
-                <span class="track-name-text">When the First Stars Appear ✨</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">04:08</span>
-              </li>
-              <li class="track-item" data-index="6">
-                <span class="track-num">07</span>
-                <span class="track-name-text">Midnight Coffee Serenade 🌙</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">04:24</span>
-              </li>
-              <li class="track-item" data-index="7">
-                <span class="track-num">08</span>
-                <span class="track-name-text">Echoes in the After Hours 🎻</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">04:29</span>
-              </li>
-              <li class="track-item" data-index="8">
-                <span class="track-num">09</span>
-                <span class="track-name-text">Before the Morning Finds Us 🌅</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">04:39</span>
-              </li>
-              <li class="track-item" data-index="9">
-                <span class="track-num">10</span>
-                <span class="track-name-text">Sunlit Cups and Swinging Steps 🎷</span>
-                <div class="mini-wave">
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                  <span class="mini-bar"></span>
-                </div>
-                <span class="track-duration">04:12</span>
-              </li>
+            <ul class="playlist-tracks-list" id="playlist-tracks-ul">
+              <!-- Rendered dynamically by client-side JS -->
             </ul>
             <a href="https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS" target="_blank" rel="noopener noreferrer" class="playlist-spotify-link-footer">
               Thêm đài này vào Spotify <i class="ph-fill ph-spotify-logo"></i>
@@ -1576,10 +1477,8 @@ const getCategoryLabel = (cat: string) => {
     const playIcon = document.querySelector('.play-icon');
     const pauseIcon = document.querySelector('.pause-icon');
     const playlistToggleBtn = document.querySelector('.player-playlist-toggle-btn');
-    const trackItems = document.querySelectorAll('.track-item');
 
-    // FM Playlist (Cozy 1940s Cafe Jazz Loop)
-    const fmPlaylist = [
+    const playlistA = [
       { title: "Afternoon Glow ☕", start: 0, duration: 187 },
       { title: "Coffee and Whiskers 🐾", start: 187, duration: 200 },
       { title: "Porcelain and Purrs 🐈", start: 387, duration: 199 },
@@ -1591,9 +1490,54 @@ const getCategoryLabel = (cat: string) => {
       { title: "Before the Morning Finds Us 🌅", start: 1889, duration: 279 },
       { title: "Sunlit Cups and Swinging Steps 🎷", start: 2168, duration: 252 }
     ];
+    const durationA = 2420;
+    const srcA = "/audio/cozy-living-jazz.m4a";
 
-    const totalPlaylistDuration = 2420; // 40 minutes 20 seconds
-    const audioSrc = "/audio/cozy-living-jazz.m4a";
+    const playlistB = [
+      { title: "Before the Morning Knows ☕", start: 0, duration: 319 },
+      { title: "Quiet Coffee, Gentle Light 🐾", start: 319, duration: 224 },
+      { title: "A Quiet Corner of the Day 🐈", start: 543, duration: 265 },
+      { title: "Where the Day Gently Slows 🌅", start: 808, duration: 272 },
+      { title: "A Cup and a Quiet Thought 🍹", start: 1080, duration: 207 },
+      { title: "Soft Afternoon in Amber Light ✨", start: 1287, duration: 168 },
+      { title: "Midnight in a Quiet Room 🌙", start: 1455, duration: 349 },
+      { title: "As If You Were Here 🎻", start: 1804, duration: 325 },
+      { title: "Between the Night and Day 🌅", start: 2129, duration: 330 },
+      { title: "A Gentle Morning Begins 🎷", start: 2459, duration: 349 }
+    ];
+    const durationB = 2808;
+    const srcB = "/audio/quiet-cafe-jazz.m4a";
+
+    // Alternate playlist based on day of month (Even days = Playlist A, Odd days = Playlist B)
+    const isEvenDay = new Date().getDate() % 2 === 0;
+    const fmPlaylist = isEvenDay ? playlistA : playlistB;
+    const totalPlaylistDuration = isEvenDay ? durationA : durationB;
+    const audioSrc = isEvenDay ? srcA : srcB;
+
+    // Dynamically render playlist items
+    const playlistUl = document.getElementById('playlist-tracks-ul');
+    if (playlistUl) {
+      playlistUl.innerHTML = fmPlaylist.map((track, idx) => {
+        const minutes = Math.floor(track.duration / 60);
+        const seconds = track.duration % 60;
+        const durationStr = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        const numStr = (idx + 1) < 10 ? `0${idx + 1}` : `${idx + 1}`;
+        return `
+          <li class="track-item" data-index="${idx}">
+            <span class="track-num">${numStr}</span>
+            <span class="track-name-text">${track.title}</span>
+            <div class="mini-wave">
+              <span class="mini-bar"></span>
+              <span class="mini-bar"></span>
+              <span class="mini-bar"></span>
+            </div>
+            <span class="track-duration">${durationStr}</span>
+          </li>
+        `;
+      }).join('');
+    }
+
+    const trackItems = document.querySelectorAll('.track-item');
 
     // Toggle Playlist Expand/Collapse
     playlistToggleBtn?.addEventListener('click', (e) => {

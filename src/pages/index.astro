@@ -1708,8 +1708,8 @@ const getCategoryLabel = (cat: string) => {
     spotifyFooterLink?.addEventListener('click', (e) => {
       e.preventDefault();
       
-      // Show cozy message
-      showCozyToast("Cảm ơn bạn đã quan tâm! Đài Spotify của Doca đang được gửi duyệt và sẽ sớm ra mắt nhé! 🐾");
+      // Show cozy message in Boss perspective
+      showCozyToast("Đài Spotify của tụi mình đang nằm ngoan chờ duyệt nè Sen ơi... Cùng Boss nghe đài FM gỗ này thêm chút nữa nha? 🐾");
       
       // Track custom event in localStorage for later GA4 sync or debugging
       const fakeDoorClicks = parseInt(localStorage.getItem('fakedoor_spotify_clicks') || '0', 10);
@@ -1731,30 +1731,37 @@ const getCategoryLabel = (cat: string) => {
 
       const toast = document.createElement('div');
       toast.className = 'cozy-toast';
-      toast.innerHTML = `<i class="ph-fill ph-info"></i> ${message}`;
+      // Emphasize the Phosphor light weight paw icon
+      toast.innerHTML = `<i class="ph-light ph-paw" style="font-size: 1.1rem; color: #8EAC89; flex-shrink: 0;"></i> <span>${message}</span>`;
       
-      // Toast styles matching Muji aesthetic
+      // Toast styles matching Muji aesthetic & responsiveness
       Object.assign(toast.style, {
         position: 'fixed',
-        bottom: '30px',
+        bottom: '40px',
         left: '50%',
-        transform: 'translate(-50%, 40px)',
+        transform: 'translate(-50%, 30px)',
         backgroundColor: '#FAF6F0',
-        border: '1px solid #8EAC89',
-        borderRadius: '20px',
-        padding: '12px 24px',
+        border: '1px solid rgba(142, 172, 137, 0.35)',
+        borderRadius: '16px',
+        padding: '10px 18px',
         fontFamily: "'Inter', sans-serif",
-        fontSize: '0.78rem',
+        fontSize: '0.76rem',
         fontWeight: '500',
         color: '#15170F',
-        boxShadow: '0 8px 30px rgba(21, 23, 15, 0.12)',
+        boxShadow: '0 8px 24px rgba(21, 23, 15, 0.08)',
         zIndex: '9999',
         opacity: '0',
-        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1)',
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
-        whiteSpace: 'nowrap'
+        justifyContent: 'center',
+        gap: '10px',
+        width: 'auto',
+        maxWidth: '340px',
+        whiteSpace: 'normal',
+        textAlign: 'center',
+        lineHeight: '1.4',
+        boxSizing: 'border-box'
       });
       
       document.body.appendChild(toast);
@@ -1767,12 +1774,12 @@ const getCategoryLabel = (cat: string) => {
       
       // Animate out and remove
       setTimeout(() => {
-        toast.style.transform = 'translate(-50%, 20px)';
+        toast.style.transform = 'translate(-50%, 15px)';
         toast.style.opacity = '0';
         setTimeout(() => {
           toast.remove();
         }, 400);
-      }, 3500);
+      }, 4000); // 4 seconds visibility to give time to read
     }
 
     // --- 2. CATALOGUE FILTER & PAGINATION ---

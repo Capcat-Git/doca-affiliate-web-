@@ -1293,41 +1293,43 @@ const getCategoryLabel = (cat: string) => {
     const playIcon = document.querySelector('.play-icon');
     const pauseIcon = document.querySelector('.pause-icon');
 
-    // FM Playlist (1940s Vintage Cafe Jazz BGM)
+    // FM Playlist (Cozy 1940s Cafe Jazz Loop)
     const fmPlaylist = [
-      {
-        title: "Moonlight Serenade (1939) 🎷",
-        src: "https://archive.org/download/glenn-miller-moonlight-serenade-1/MOONLIGHT%20SERENADE.mp3",
-        duration: 204,
-        spotifyUrl: "https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS"
-      },
-      {
-        title: "In the Mood (1939) 🎺",
-        src: "https://archive.org/download/glenn-miller-in-the-mood-hq/Glenn%20Miller%20-%20In%20The%20Mood%20%5BHQ%5D.mp3",
-        duration: 216,
-        spotifyUrl: "https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS"
-      }
+      { title: "Afternoon Glow ☕", start: 0, duration: 187 },
+      { title: "Coffee and Whiskers 🐾", start: 187, duration: 200 },
+      { title: "Porcelain and Purrs 🐈", start: 387, duration: 199 },
+      { title: "Golden Hour in a Quiet Café 🌅", start: 586, duration: 247 },
+      { title: "A Sip Before Sunset 🍹", start: 833, duration: 275 },
+      { title: "When the First Stars Appear ✨", start: 1108, duration: 248 },
+      { title: "Midnight Coffee Serenade 🌙", start: 1356, duration: 264 },
+      { title: "Echoes in the After Hours 🎻", start: 1620, duration: 269 },
+      { title: "Before the Morning Finds Us 🌅", start: 1889, duration: 279 },
+      { title: "Sunlit Cups and Swinging Steps 🎷", start: 2168, duration: 252 }
     ];
 
-    const totalPlaylistDuration = fmPlaylist.reduce((acc, track) => acc + track.duration, 0);
+    const totalPlaylistDuration = 2420; // 40 minutes 20 seconds
+    const audioSrc = "/audio/cozy-living-jazz.m4a";
 
     function getSyncedTrack() {
       const nowInSeconds = Math.floor(Date.now() / 1000);
-      let offset = nowInSeconds % totalPlaylistDuration;
+      const playlistOffset = nowInSeconds % totalPlaylistDuration;
       
       for (let i = 0; i < fmPlaylist.length; i++) {
         const track = fmPlaylist[i];
-        if (offset < track.duration) {
+        const end = track.start + track.duration;
+        if (playlistOffset >= track.start && playlistOffset < end) {
+          const trackOffset = playlistOffset - track.start;
           return {
             track: track,
-            startOffset: offset
+            globalOffset: playlistOffset,
+            trackOffset: trackOffset
           };
         }
-        offset -= track.duration;
       }
       return {
         track: fmPlaylist[0],
-        startOffset: 0
+        globalOffset: 0,
+        trackOffset: 0
       };
     }
 
@@ -1350,29 +1352,45 @@ const getCategoryLabel = (cat: string) => {
 
     function playSyncedRadio() {
       if (!audio) return;
-      const { track, startOffset } = getSyncedTrack();
+      const { track, globalOffset } = getSyncedTrack();
       
-      audio.src = track.src;
-      audio.currentTime = startOffset;
+      audio.src = audioSrc;
+      audio.currentTime = globalOffset;
       
       audio.play().then(() => {
         updatePlayerUI(true, track.title);
         // Track the current playback seconds
         const updateStatus = () => {
           if (!audio.paused) {
-            const currentSeconds = Math.floor(audio.currentTime);
-            const minutes = Math.floor(currentSeconds / 60);
-            const seconds = currentSeconds % 60;
+            const currentGlobalTime = audio.currentTime;
+            const currentOffset = Math.floor(currentGlobalTime) % totalPlaylistDuration;
+            
+            // Recalculate track info based on current second
+            let activeTrack = track;
+            for (let i = 0; i < fmPlaylist.length; i++) {
+              const t = fmPlaylist[i];
+              const end = t.start + t.duration;
+              if (currentOffset >= t.start && currentOffset < end) {
+                activeTrack = t;
+                break;
+              }
+            }
+            
+            if (playerTitle) playerTitle.textContent = `📻 FM: ${activeTrack.title}`;
+            
+            const elapsedInTrack = currentOffset - activeTrack.start;
+            const minutes = Math.floor(elapsedInTrack / 60);
+            const seconds = elapsedInTrack % 60;
             const timeStr = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
             
-            const totalMins = Math.floor(track.duration / 60);
-            const totalSecs = track.duration % 60;
+            const totalMins = Math.floor(activeTrack.duration / 60);
+            const totalSecs = activeTrack.duration % 60;
             const totalStr = `${totalMins}:${totalSecs < 10 ? '0' : ''}${totalSecs}`;
             
             if (playerStatus) playerStatus.textContent = `Đang phát (${timeStr} / ${totalStr})`;
             
             if (spotifyLink) {
-              spotifyLink.setAttribute('href', track.spotifyUrl);
+              spotifyLink.setAttribute('href', "https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS");
             }
             
             requestAnimationFrame(updateStatus);
@@ -1396,7 +1414,7 @@ const getCategoryLabel = (cat: string) => {
     });
 
     audio?.addEventListener('ended', () => {
-      // Automatically sync and transition to the next track in the playlist loop
+      // Re-sync and play next
       playSyncedRadio();
     });
 

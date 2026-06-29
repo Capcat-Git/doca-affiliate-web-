@@ -440,12 +440,11 @@ const getCategoryLabel = (cat: string) => {
   .mini-player-pill {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 6px;
     background-color: #FAF6F0;
     border: 1px solid var(--cozy-border-light);
     border-radius: 11px; /* Half of 22px height */
-    width: 58px;
+    width: auto; /* Wrapped fluid width */
     height: 22px;
     padding: 2px 2px 2px 8px; /* Top, bottom, and right padding are exactly 2px */
     box-sizing: border-box;

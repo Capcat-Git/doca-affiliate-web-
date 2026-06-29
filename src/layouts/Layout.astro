@@ -10,6 +10,8 @@ const {
 	title = "DOCA - Sống Chậm Cùng Thú Cưng", 
 	description = "Nơi cùng chú thú cưng của bạn sống chậm mỗi ngày, chia sẻ yêu thương và nuôi dưỡng những ký ức chữa lành." 
 } = Astro.props;
+
+const googleAnalyticsId = import.meta.env.PUBLIC_GA_ID;
 ---
 
 <!doctype html>
@@ -48,6 +50,19 @@ const {
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/thin/style.css" />
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
+
+		<!-- Google Analytics 4 (GA4) -->
+		{googleAnalyticsId && (
+			<>
+				<script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
+				<script is:inline define:vars={{ googleAnalyticsId }}>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					gtag('config', googleAnalyticsId);
+				</script>
+			</>
+		)}
 	</head>
 	<body>
 		<slot />
@@ -74,16 +89,32 @@ const {
 		</footer>
 
 		<!-- Global Toast Container -->
-		<div id="cozy-toast-element" class="cozy-toast"></div>
+		<div id="cozy-toast-element" class="cozy-toast">
+			<i class="ph-light ph-paw" style="font-size: 1.1rem; color: #8EAC89; flex-shrink: 0;"></i>
+			<span id="cozy-toast-text"></span>
+		</div>
 
 		<script>
+			declare global {
+				interface Window {
+					showToast: (message: string) => void;
+					cozyToastTimeout?: any;
+				}
+			}
+
 			// Global Toast Notification Helper
-			window.showToast = function(message) {
+			window.showToast = function(message: string) {
 				const toast = document.getElementById('cozy-toast-element');
-				if (toast) {
-					toast.textContent = message;
+				const toastText = document.getElementById('cozy-toast-text');
+				if (toast && toastText) {
+					toastText.textContent = message;
 					toast.classList.add('show');
-					setTimeout(() => {
+					
+					if (window.cozyToastTimeout) {
+						clearTimeout(window.cozyToastTimeout);
+					}
+					
+					window.cozyToastTimeout = setTimeout(() => {
 						toast.classList.remove('show');
 					}, 4000);
 				}

@@ -318,7 +318,7 @@
     // Nút mua lẻ Shopee trên Sheet
     sheetBuyNowBtn?.addEventListener('click', () => {
       if (activeProduct) {
-        const { id, affiliateUrl } = activeProduct;
+        const { id, name, affiliateUrl, platform } = activeProduct;
         
         // Gửi log click
         const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
@@ -343,6 +343,16 @@
             console.error('Click logging failed', e);
           }
         }
+
+        // Track GA4 event
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'click_affiliate_product', {
+            product_id: id,
+            product_name: name,
+            affiliate_url: affiliateUrl,
+            platform: platform
+          });
+        }
         
         window.open(affiliateUrl, '_blank');
       }
@@ -351,7 +361,7 @@
     // Nút Mua Chung Fake Door trên Sheet
     sheetGroupBuyBtn?.addEventListener('click', () => {
       if (activeProduct) {
-        const { id } = activeProduct;
+        const { id, name } = activeProduct;
         
         // Gửi log click mua chung (Fake Door)
         const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
@@ -375,6 +385,14 @@
           } catch (e) {
             console.error('Click logging failed', e);
           }
+        }
+
+        // Track GA4 event for group buy fake door
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'click_fake_group_buy_link', {
+            product_id: id,
+            product_name: name
+          });
         }
         
         // Hiện thông báo toast dễ thương chỉ định

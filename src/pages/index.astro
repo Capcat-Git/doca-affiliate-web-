@@ -1069,29 +1069,33 @@ const getCategoryLabel = (cat: string) => {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 1px solid var(--cozy-border-light);
-    background-color: var(--cozy-bg-pure);
-    color: var(--cozy-text-obsidian);
+    border: 1px solid rgba(74, 138, 46, 0.15); /* Delicate matching green outline */
+    background-color: #E2ECD2; /* Soft milky matcha-latte green background */
+    color: var(--cozy-green-matcha-dark); /* Rich dark matcha green */
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   :global(.page-btn:hover:not(:disabled)) {
-    background-color: var(--cozy-bg-oatmeal);
-    border-color: var(--cozy-border-light);
-    transform: scale(1.05);
+    background-color: var(--cozy-green-matcha); /* Hover transition to warm solid matcha green */
+    color: var(--cozy-bg-pure);
+    border-color: var(--cozy-green-matcha);
+    transform: scale(1.08);
   }
 
   :global(.page-btn:disabled) {
-    opacity: 0.3;
+    opacity: 0.35;
     cursor: not-allowed;
+    background-color: #F0F4E8; /* Very light washed out matcha */
+    color: #9CADA2;
+    border-color: rgba(0, 0, 0, 0.02);
   }
 
   :global(.page-btn.active) {
-    background-color: var(--cozy-green-matcha);
+    background-color: var(--cozy-green-matcha-forest); /* Active solid forest green for high contrast */
     color: var(--cozy-bg-pure);
-    border-color: var(--cozy-green-matcha);
-    box-shadow: 0 3px 8px rgba(163, 184, 146, 0.3);
+    border-color: var(--cozy-green-matcha-forest);
+    box-shadow: 0 4px 10px rgba(74, 138, 46, 0.25);
   }
 
   /* Blog List */

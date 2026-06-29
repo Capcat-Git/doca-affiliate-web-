@@ -187,7 +187,7 @@ const getCategoryLabel = (cat: string) => {
 
           <!-- Middle: Metadata info -->
           <div class="player-info">
-            <span class="player-title">Bản Nhạc Lofi Của Boss 🐾</span>
+            <span class="player-title">Doca FM Trực Tuyến 📻</span>
             <div class="player-status-row">
               <span class="player-status">Đang tạm dừng...</span>
               <div class="sound-wave">
@@ -198,6 +198,9 @@ const getCategoryLabel = (cat: string) => {
                 <span class="bar"></span>
               </div>
             </div>
+            <a href="https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS" target="_blank" rel="noopener noreferrer" class="player-spotify-link hidden">
+              Nghe playlist trên Spotify <i class="ph-light ph-spotify-logo"></i>
+            </a>
           </div>
 
           <!-- Right: Play/Pause button -->
@@ -206,8 +209,8 @@ const getCategoryLabel = (cat: string) => {
             <i class="ph-fill ph-pause pause-icon hidden"></i>
           </button>
 
-          <!-- Hidden audio element playing a high-quality free cozy lofi track -->
-          <audio id="cozy-audio-player" src="https://assets.codepen.io/4358584/Anitek_-_01_-_Kisses.mp3" preload="auto"></audio>
+          <!-- Hidden audio element dynamically loaded for real-time FM sync -->
+          <audio id="cozy-audio-player" preload="auto"></audio>
         </div>
       </div>
     </header>
@@ -684,6 +687,29 @@ const getCategoryLabel = (cat: string) => {
   @keyframes bounce-bar {
     0% { height: 2px; }
     100% { height: 10px; }
+  }
+
+  .player-spotify-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--cozy-green-matcha-forest);
+    text-decoration: none;
+    margin-top: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    transition: color 0.2s ease;
+    text-align: left;
+  }
+
+  .player-spotify-link:hover {
+    color: var(--cozy-green-matcha-dark);
+    text-decoration: underline;
+  }
+
+  .player-spotify-link.hidden {
+    display: none !important;
   }
 
   .player-control-btn {
@@ -1257,54 +1283,121 @@ const getCategoryLabel = (cat: string) => {
       }
     });
 
-    // --- 1. COZY MUSIC PLAYER HANDLER ---
+    // --- 1. COZY MUSIC PLAYER HANDLER (DOCA FM RADIO SYNCED) ---
     const audio = document.getElementById('cozy-audio-player') as HTMLAudioElement;
     const playBtn = document.querySelector('.player-control-btn');
     const playerContainer = document.querySelector('.cozy-music-player');
+    const playerTitle = document.querySelector('.player-title');
     const playerStatus = document.querySelector('.player-status');
+    const spotifyLink = document.querySelector('.player-spotify-link');
     const playIcon = document.querySelector('.play-icon');
     const pauseIcon = document.querySelector('.pause-icon');
 
-    let stopTimeout: any = null;
+    // FM Playlist
+    const fmPlaylist = [
+      {
+        title: "Trà Chiều Cùng Boss 🍵",
+        src: "https://assets.codepen.io/4358584/Anitek_-_01_-_Kisses.mp3",
+        duration: 165,
+        spotifyUrl: "https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS"
+      },
+      {
+        title: "Mưa Bay Hiên Nhà 🌧️",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        duration: 372,
+        spotifyUrl: "https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS"
+      }
+    ];
+
+    const totalPlaylistDuration = fmPlaylist.reduce((acc, track) => acc + track.duration, 0);
+
+    function getSyncedTrack() {
+      const nowInSeconds = Math.floor(Date.now() / 1000);
+      let offset = nowInSeconds % totalPlaylistDuration;
+      
+      for (let i = 0; i < fmPlaylist.length; i++) {
+        const track = fmPlaylist[i];
+        if (offset < track.duration) {
+          return {
+            track: track,
+            startOffset: offset
+          };
+        }
+        offset -= track.duration;
+      }
+      return {
+        track: fmPlaylist[0],
+        startOffset: 0
+      };
+    }
+
+    function updatePlayerUI(isPlaying: boolean, trackTitle: string = "Doca FM Trực Tuyến 📻") {
+      if (isPlaying) {
+        playerContainer?.classList.add('playing');
+        playIcon?.classList.add('hidden');
+        pauseIcon?.classList.remove('hidden');
+        spotifyLink?.classList.remove('hidden');
+        if (playerTitle) playerTitle.textContent = `📻 FM: ${trackTitle}`;
+      } else {
+        playerContainer?.classList.remove('playing');
+        playIcon?.classList.remove('hidden');
+        pauseIcon?.classList.add('hidden');
+        spotifyLink?.classList.add('hidden');
+        if (playerTitle) playerTitle.textContent = "Doca FM Trực Tuyến 📻";
+        if (playerStatus) playerStatus.textContent = "Đang tạm dừng...";
+      }
+    }
+
+    function playSyncedRadio() {
+      if (!audio) return;
+      const { track, startOffset } = getSyncedTrack();
+      
+      audio.src = track.src;
+      audio.currentTime = startOffset;
+      
+      audio.play().then(() => {
+        updatePlayerUI(true, track.title);
+        // Track the current playback seconds
+        const updateStatus = () => {
+          if (!audio.paused) {
+            const currentSeconds = Math.floor(audio.currentTime);
+            const minutes = Math.floor(currentSeconds / 60);
+            const seconds = currentSeconds % 60;
+            const timeStr = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            const totalMins = Math.floor(track.duration / 60);
+            const totalSecs = track.duration % 60;
+            const totalStr = `${totalMins}:${totalSecs < 10 ? '0' : ''}${totalSecs}`;
+            
+            if (playerStatus) playerStatus.textContent = `Đang phát (${timeStr} / ${totalStr})`;
+            
+            if (spotifyLink) {
+              spotifyLink.setAttribute('href', track.spotifyUrl);
+            }
+            
+            requestAnimationFrame(updateStatus);
+          }
+        };
+        requestAnimationFrame(updateStatus);
+      }).catch(err => {
+        console.warn("Audio play failed, user gesture required:", err);
+        updatePlayerUI(false);
+      });
+    }
 
     playBtn?.addEventListener('click', () => {
       if (!audio) return;
       if (audio.paused) {
-        audio.play().then(() => {
-          playerContainer?.classList.add('playing');
-          if (playerStatus) playerStatus.textContent = 'Đang phát (30s)...';
-          playIcon?.classList.add('hidden');
-          pauseIcon?.classList.remove('hidden');
-
-          // Set timeout to pause after 30 seconds
-          if (stopTimeout) clearTimeout(stopTimeout);
-          stopTimeout = setTimeout(() => {
-            audio.pause();
-            audio.currentTime = 0; // Rewind
-            playerContainer?.classList.remove('playing');
-            if (playerStatus) playerStatus.textContent = 'Đang tạm dừng...';
-            playIcon?.classList.remove('hidden');
-            pauseIcon?.classList.add('hidden');
-          }, 30000);
-        }).catch(err => {
-          console.warn("Audio play failed: check browser gesture policy", err);
-        });
+        playSyncedRadio();
       } else {
         audio.pause();
-        playerContainer?.classList.remove('playing');
-        if (playerStatus) playerStatus.textContent = 'Đang tạm dừng...';
-        playIcon?.classList.remove('hidden');
-        pauseIcon?.classList.add('hidden');
-        if (stopTimeout) clearTimeout(stopTimeout);
+        updatePlayerUI(false);
       }
     });
 
     audio?.addEventListener('ended', () => {
-      playerContainer?.classList.remove('playing');
-      if (playerStatus) playerStatus.textContent = 'Đang tạm dừng...';
-      playIcon?.classList.remove('hidden');
-      pauseIcon?.classList.add('hidden');
-      if (stopTimeout) clearTimeout(stopTimeout);
+      // Automatically sync and transition to the next track in the playlist loop
+      playSyncedRadio();
     });
 
     // --- 2. CATALOGUE FILTER & PAGINATION ---

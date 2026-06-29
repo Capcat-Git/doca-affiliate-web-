@@ -57,7 +57,14 @@ const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / p
   
   <div class="product-meta">
     <h4 class="product-title">{name}</h4>
-    <span class="platform-badge" data-platform={platform.toLowerCase()}>{platform}</span>
+    <span class="platform-badge" data-platform={platform.toLowerCase()}>
+      {platform === 'Shopee' ? (
+        <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor" style="display: inline-block; vertical-align: -0.5px; margin-right: 3px;">
+          <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3a1 1 0 1 0-2 0c0 2.76 2.24 5 5 5s5-2.24 5-5a1 1 0 1 0-2 0c0 1.66-1.34 3-3 3z"/>
+        </svg>
+      ) : null}
+      {platform}
+    </span>
   </div>
 </div>
 
@@ -128,7 +135,13 @@ const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / p
     padding: 0.15rem 0.5rem;
     border-radius: 8px;
     letter-spacing: 0.2px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .platform-badge[data-platform="shopee"] {
+    color: #FFFFFF;
+    background-color: #EE4D2D; /* Official Shopee Orange */
   }
 
   .platform-badge[data-platform="fahasa"] {

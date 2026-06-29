@@ -444,10 +444,10 @@ const getCategoryLabel = (cat: string) => {
     gap: 8px;
     background-color: #FAF6F0;
     border: 1px solid var(--cozy-border-light);
-    border-radius: 12px; /* Small pill */
+    border-radius: 13px; /* Perfect pill for 26px height */
     width: 62px;
-    height: 24px;
-    padding: 3px 4px 3px 8px;
+    height: 26px;
+    padding: 4px 4px 4px 9px; /* Top, bottom, and right padding are exactly 4px */
     box-sizing: border-box;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     opacity: 0;
@@ -476,9 +476,9 @@ const getCategoryLabel = (cat: string) => {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background-color: #FFFFFF;
-    border: 1px solid var(--cozy-border-light);
-    color: var(--cozy-text-obsidian);
+    background-color: var(--cozy-text-obsidian); /* Default: Black background */
+    color: #FFFFFF; /* Default: White icon */
+    border: none;
     font-size: 0.55rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: all 0.25s ease;
@@ -486,9 +486,8 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .mini-player-pill:hover .mini-player-btn-circle {
-    background-color: var(--cozy-text-obsidian);
+    background-color: var(--cozy-green-matcha-forest); /* Hover: turns brand Matcha Forest Green */
     color: #FFFFFF;
-    border-color: var(--cozy-text-obsidian);
   }
 
   .mini-wave-container {

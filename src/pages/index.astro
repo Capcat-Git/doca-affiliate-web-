@@ -116,11 +116,24 @@ const getCategoryLabel = (cat: string) => {
           <img src="/images/brand/logo-light.png" alt="doca.pet Logo" class="brand-logo-img" />
         </a>
         <div class="nav-right">
-          <a href="/about" class="nav-link-text">Về App</a>
-          <button class="menu-toggle" aria-label="Menu">
+          <!-- Desktop navigation links -->
+          <div class="nav-links-desktop">
+            <a href="/about" class="nav-link-text">About Us</a>
+            <a href="#blog-section" class="nav-link-text">Blog</a>
+          </div>
+          <!-- Hamburger toggle -->
+          <button id="menu-toggle-btn" class="menu-toggle" aria-label="Menu" aria-expanded="false">
+            <span></span>
             <span></span>
             <span></span>
           </button>
+        </div>
+      </div>
+      <!-- Mobile navigation menu -->
+      <div id="mobile-menu" class="mobile-menu">
+        <div class="container mobile-menu-container">
+          <a href="/about" class="mobile-menu-link"><i class="ph-light ph-info"></i> About Us</a>
+          <a href="#blog-section" class="mobile-menu-link"><i class="ph-light ph-book-open"></i> Blog</a>
         </div>
       </div>
     </nav>
@@ -276,7 +289,7 @@ const getCategoryLabel = (cat: string) => {
     </section>
 
     <!-- Blog Posts (Nhật ký lối sống) -->
-    <section class="blog-section">
+    <section id="blog-section" class="blog-section">
       <div class="container">
         <div class="blog-header">
           <div class="blog-header-illustration-wrapper">
@@ -377,40 +390,125 @@ const getCategoryLabel = (cat: string) => {
   .nav-right {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
+    gap: 1.25rem;
   }
 
   .nav-link-text {
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #1C1C1E;
+    color: var(--cozy-text-obsidian);
     text-decoration: none;
-    transition: opacity 0.2s ease;
+    transition: color 0.2s ease;
   }
 
   .nav-link-text:hover {
-    opacity: 0.8;
+    color: var(--cozy-green-matcha-forest);
   }
 
   .menu-toggle {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 18px;
-    height: 8px;
+    width: 22px;
+    height: 16px;
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
+    z-index: 110;
+    transition: transform 0.3s ease;
   }
 
   .menu-toggle span {
     display: block;
     width: 100%;
     height: 2px;
-    background-color: #1C1C1E;
+    background-color: var(--cozy-text-obsidian);
     border-radius: 1px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  }
+
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Desktop links */
+  .nav-links-desktop {
+    display: none; /* Hidden on mobile */
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .nav-links-desktop {
+      display: flex;
+    }
+    .menu-toggle {
+      display: none; /* Hidden on desktop */
+    }
+  }
+
+  /* Mobile menu dropdown */
+  .mobile-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: rgba(251, 250, 246, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1.5px solid var(--cozy-border-light);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    opacity: 0;
+    z-index: 95;
+    box-shadow: 0 10px 20px rgba(21, 23, 15, 0.05);
+  }
+
+  .mobile-menu.active {
+    max-height: 250px;
+    opacity: 1;
+  }
+
+  .mobile-menu-container {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mobile-menu-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cozy-text-obsidian);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .mobile-menu-link:hover {
+    background-color: var(--cozy-bg-oatmeal);
+    color: var(--cozy-green-matcha-forest);
+  }
+
+  .mobile-menu-link i {
+    font-size: 1.2rem;
+    color: var(--cozy-wood-sugi);
   }
 
   /* Hero Section */
@@ -1078,6 +1176,35 @@ const getCategoryLabel = (cat: string) => {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // --- HAMBURGER MENU TOGGLE ---
+    const menuToggleBtn = document.getElementById('menu-toggle-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+    menuToggleBtn?.addEventListener('click', () => {
+      const isExpanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
+      menuToggleBtn.setAttribute('aria-expanded', (!isExpanded).toString());
+      menuToggleBtn.classList.toggle('active');
+      mobileMenu?.classList.toggle('active');
+    });
+
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggleBtn?.setAttribute('aria-expanded', 'false');
+        menuToggleBtn?.classList.remove('active');
+        mobileMenu?.classList.remove('active');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!menuToggleBtn?.contains(target) && !mobileMenu?.contains(target)) {
+        menuToggleBtn?.setAttribute('aria-expanded', 'false');
+        menuToggleBtn?.classList.remove('active');
+        mobileMenu?.classList.remove('active');
+      }
+    });
+
     // --- 1. HERO WAITLIST HANDLER ---
     const form = document.getElementById('hero-waitlist-form') as HTMLFormElement;
     const emailInput = document.getElementById('hero-email') as HTMLInputElement;

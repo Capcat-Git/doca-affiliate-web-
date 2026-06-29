@@ -121,6 +121,16 @@ const getCategoryLabel = (cat: string) => {
             <a href="/about" class="nav-link-text">About Us</a>
             <a href="#blog-section" class="nav-link-text">Blog</a>
           </div>
+
+          <!-- Mini Player Capsule (Scrolled header control) -->
+          <div id="mini-player-pill" class="mini-player-pill">
+            <span id="mini-player-title" class="mini-player-title">FM: Đang tạm dừng...</span>
+            <button id="mini-player-play-btn" class="mini-player-play-btn" aria-label="Play/Pause FM">
+              <i class="ph-fill ph-play mini-play-icon"></i>
+              <i class="ph-fill ph-pause mini-pause-icon hidden"></i>
+            </button>
+          </div>
+
           <!-- Hamburger toggle -->
           <button id="menu-toggle-btn" class="menu-toggle" aria-label="Menu" aria-expanded="false">
             <span></span>
@@ -418,6 +428,87 @@ const getCategoryLabel = (cat: string) => {
     display: flex;
     align-items: center;
     gap: 1.25rem;
+  }
+
+  /* Mini Player Pill Capsule */
+  .mini-player-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #FAF6F0;
+    border: 1px solid var(--cozy-border-light);
+    border-radius: 20px;
+    padding: 3px 3px 3px 10px;
+    height: 30px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor: pointer;
+  }
+
+  .mini-player-pill.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mini-player-pill:hover {
+    transform: scale(1.04);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  }
+
+  .mini-player-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--cozy-text-obsidian);
+    max-width: 95px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: none;
+  }
+
+  .mini-player-play-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: var(--cozy-text-obsidian);
+    color: var(--cozy-bg-pure);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(21, 23, 15, 0.1);
+  }
+
+  .mini-player-play-btn:hover {
+    transform: scale(1.08);
+    background-color: var(--cozy-green-matcha-forest);
+  }
+
+  .mini-player-play-btn .mini-play-icon,
+  .mini-player-play-btn .mini-pause-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 480px) {
+    .mini-player-title {
+      max-width: 65px;
+    }
+    .mini-player-pill {
+      gap: 5px;
+      padding: 3px 3px 3px 8px;
+    }
   }
 
   .nav-link-text {
@@ -1495,6 +1586,13 @@ const getCategoryLabel = (cat: string) => {
     const pauseIcon = document.querySelector('.pause-icon');
     const playlistToggleBtn = document.querySelector('.player-playlist-toggle-btn');
 
+    // Mini player header elements
+    const miniPlayerPill = document.getElementById('mini-player-pill');
+    const miniPlayerPlayBtn = document.getElementById('mini-player-play-btn');
+    const miniPlayerTitle = document.getElementById('mini-player-title');
+    const miniPlayIcon = document.querySelector('.mini-play-icon');
+    const miniPauseIcon = document.querySelector('.mini-pause-icon');
+
     const playlistA = [
       { title: "Afternoon Glow ☕", start: 0, duration: 187 },
       { title: "Coffee and Whiskers 🐾", start: 187, duration: 200 },
@@ -1626,6 +1724,13 @@ const getCategoryLabel = (cat: string) => {
         playIcon?.classList.add('hidden');
         pauseIcon?.classList.remove('hidden');
         if (playerTitle) playerTitle.textContent = `📻 FM: ${trackTitle}`;
+        
+        // Mini player updates
+        miniPlayerPill?.classList.add('playing');
+        miniPlayIcon?.classList.add('hidden');
+        miniPauseIcon?.classList.remove('hidden');
+        if (miniPlayerTitle) miniPlayerTitle.textContent = `FM: ${trackTitle}`;
+        
         syncPlaylistUI(activeTrackIndex, true);
       } else {
         playerContainer?.classList.remove('playing');
@@ -1633,6 +1738,12 @@ const getCategoryLabel = (cat: string) => {
         pauseIcon?.classList.add('hidden');
         if (playerTitle) playerTitle.textContent = "Doca FM Trực Tuyến 📻";
         if (playerStatus) playerStatus.textContent = "Đang tạm dừng...";
+        
+        // Mini player updates
+        miniPlayerPill?.classList.remove('playing');
+        miniPlayIcon?.classList.remove('hidden');
+        miniPauseIcon?.classList.add('hidden');
+        if (miniPlayerTitle) miniPlayerTitle.textContent = "FM: Đang tạm dừng...";
         
         // Remove anim wave from active track
         const activeItem = document.querySelector('.track-item.active-track-item');
@@ -1777,6 +1888,42 @@ const getCategoryLabel = (cat: string) => {
         });
       }
     });
+
+    // Mini player play/pause click handler
+    miniPlayerPlayBtn?.addEventListener('click', (e) => {
+      e.stopPropagation(); // Avoid triggering miniPlayerPill click
+      if (!audio) return;
+      if (audio.paused) {
+        playSyncedRadio();
+      } else {
+        audio.pause();
+        updatePlayerUI(false);
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'pause_fm_radio', { source: 'mini_player' });
+        }
+      }
+    });
+
+    // Mini player pill body click handler (plays if paused)
+    miniPlayerPill?.addEventListener('click', () => {
+      if (!audio) return;
+      if (audio.paused) {
+        playSyncedRadio();
+      }
+    });
+
+    // Scroll listener to show/hide the mini player pill on header
+    if (miniPlayerPill && playerContainer) {
+      window.addEventListener('scroll', () => {
+        const rect = playerContainer.getBoundingClientRect();
+        // Visible if the main player container bottom goes past the top edge of screen
+        if (rect.bottom < 0) {
+          miniPlayerPill.classList.add('visible');
+        } else {
+          miniPlayerPill.classList.remove('visible');
+        }
+      }, { passive: true });
+    }
 
     // --- 2. CATALOGUE FILTER & PAGINATION ---
     const tabBtns = document.querySelectorAll('.category-tabs-container .tab-btn');

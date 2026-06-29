@@ -585,6 +585,11 @@ const getCategoryLabel = (cat: string) => {
     box-shadow: 0 4px 12px rgba(0,0,0,0.02);
     position: relative;
     gap: 0.75rem;
+    cursor: pointer; /* Click widget to play when paused */
+  }
+
+  .cozy-music-player.playing {
+    cursor: default; /* Reset cursor when playing */
   }
 
   .peeking-cat-container {
@@ -1722,6 +1727,27 @@ const getCategoryLabel = (cat: string) => {
           (window as any).gtag('event', 'pause_fm_radio');
         }
       }
+    });
+
+    playerContainer?.addEventListener('click', (e) => {
+      if (!audio) return;
+      
+      // If already playing, do nothing
+      if (!audio.paused) return;
+      
+      const target = e.target as HTMLElement;
+      
+      // Exclude playlist dropdown toggle button
+      if (target.closest('.player-playlist-toggle-btn')) {
+        return;
+      }
+      
+      // Exclude play button itself to avoid double play execution
+      if (target.closest('.player-control-btn')) {
+        return;
+      }
+      
+      playSyncedRadio();
     });
 
     audio?.addEventListener('ended', () => {

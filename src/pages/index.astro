@@ -144,73 +144,184 @@ const getCategoryLabel = (cat: string) => {
         <h1 class="hero-title">Góc Nhỏ Bình Yên</h1>
         <p class="hero-subtitle">Nơi cùng thú cưng sống chậm lại một nhịp, mỗi ngày.</p>
         
-        <!-- Cozy Music Player Widget (Plays 30s cozy lofi snippets) -->
-        <div class="cozy-music-player">
-          <div class="peeking-cat-container">
-            <svg viewBox="0 0 200 100" class="peeking-cat-svg">
-              <!-- Head & Ears (Wider and rounder cheeks) -->
-              <path d="M 40 95 
-                       C 24 90, 22 60, 32 48 
-                       C 35 42, 38 30, 42 20 
-                       C 46 12, 62 48, 100 48 
-                       C 138 48, 154 12, 158 20 
-                       C 162 30, 165 42, 168 48 
-                       C 178 60, 176 90, 160 95 
-                       Z" fill="#15170F" />
-              <!-- Eyes -->
-              <circle cx="70" cy="62" r="17" fill="#FFFFFF" />
-              <circle cx="130" cy="62" r="17" fill="#FFFFFF" />
-              <!-- Pupils -->
-              <rect x="68" y="52" width="4" height="20" rx="2" fill="#15170F" />
-              <rect x="128" y="52" width="4" height="20" rx="2" fill="#15170F" />
-              <!-- Nose -->
-              <path d="M 97 71 Q 100 69, 103 71 Q 100 75, 97 71 Z" fill="#FAF6F0" />
-              <!-- Whiskers -->
-              <line x1="30" y1="60" x2="10" y2="57" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="28" y1="68" x2="8" y2="68" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="30" y1="76" x2="10" y2="79" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="170" y1="60" x2="190" y2="57" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="172" y1="68" x2="192" y2="68" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="170" y1="76" x2="190" y2="79" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
-              <!-- Paws -->
-              <path d="M 12 95 C 6 85, 22 75, 32 86 C 36 90, 22 98, 12 95 Z" fill="#15170F" />
-              <path d="M 188 95 C 194 85, 178 75, 168 86 C 164 90, 178 98, 188 95 Z" fill="#15170F" />
-            </svg>
-          </div>
-
-          <!-- Left: Vinyl Record rotating icon -->
-          <div class="player-disc-wrapper">
-            <div class="player-disc">
-              <i class="ph-fill ph-disc"></i>
+        <!-- Cozy Player Wrapper containing widget and playlist dropdown -->
+        <div class="cozy-player-wrapper">
+          <div class="cozy-music-player">
+            <div class="peeking-cat-container">
+              <svg viewBox="0 0 200 100" class="peeking-cat-svg">
+                <!-- Head & Ears (Wider and rounder cheeks) -->
+                <path d="M 40 95 
+                         C 24 90, 22 60, 32 48 
+                         C 35 42, 38 30, 42 20 
+                         C 46 12, 62 48, 100 48 
+                         C 138 48, 154 12, 158 20 
+                         C 162 30, 165 42, 168 48 
+                         C 178 60, 176 90, 160 95 
+                         Z" fill="#15170F" />
+                <!-- Eyes -->
+                <circle cx="70" cy="62" r="17" fill="#FFFFFF" />
+                <circle cx="130" cy="62" r="17" fill="#FFFFFF" />
+                <!-- Pupils -->
+                <rect x="68" y="52" width="4" height="20" rx="2" fill="#15170F" />
+                <rect x="128" y="52" width="4" height="20" rx="2" fill="#15170F" />
+                <!-- Nose -->
+                <path d="M 97 71 Q 100 69, 103 71 Q 100 75, 97 71 Z" fill="#FAF6F0" />
+                <!-- Whiskers -->
+                <line x1="30" y1="60" x2="10" y2="57" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+                <line x1="28" y1="68" x2="8" y2="68" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+                <line x1="30" y1="76" x2="10" y2="79" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+                <line x1="170" y1="60" x2="190" y2="57" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+                <line x1="172" y1="68" x2="192" y2="68" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+                <line x1="170" y1="76" x2="190" y2="79" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
+                <!-- Paws -->
+                <path d="M 12 95 C 6 85, 22 75, 32 86 C 36 90, 22 98, 12 95 Z" fill="#15170F" />
+                <path d="M 188 95 C 194 85, 178 75, 168 86 C 164 90, 178 98, 188 95 Z" fill="#15170F" />
+              </svg>
             </div>
-          </div>
 
-          <!-- Middle: Metadata info -->
-          <div class="player-info">
-            <span class="player-title">Doca FM Trực Tuyến 📻</span>
-            <div class="player-status-row">
-              <span class="player-status">Đang tạm dừng...</span>
-              <div class="sound-wave">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <!-- Left: Vinyl Record rotating icon -->
+            <div class="player-disc-wrapper">
+              <div class="player-disc">
+                <i class="ph-fill ph-disc"></i>
               </div>
             </div>
-            <a href="https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS" target="_blank" rel="noopener noreferrer" class="player-spotify-link hidden">
-              Nghe playlist trên Spotify <i class="ph-light ph-spotify-logo"></i>
-            </a>
+
+            <!-- Middle: Metadata info -->
+            <div class="player-info">
+              <span class="player-title">Doca FM Trực Tuyến 📻</span>
+              <div class="player-status-row">
+                <span class="player-status">Đang tạm dừng...</span>
+                <div class="sound-wave">
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+                </div>
+              </div>
+              <button class="player-playlist-toggle-btn" aria-label="Toggle Playlist">
+                Nghe playlist hôm nay <i class="ph-light ph-caret-down toggle-arrow"></i>
+              </button>
+            </div>
+
+            <!-- Right: Play/Pause button -->
+            <button class="player-control-btn" aria-label="Play/Pause">
+              <i class="ph-fill ph-play play-icon"></i>
+              <i class="ph-fill ph-pause pause-icon hidden"></i>
+            </button>
+
+            <!-- Hidden audio element dynamically loaded for real-time FM sync -->
+            <audio id="cozy-audio-player" preload="auto"></audio>
           </div>
 
-          <!-- Right: Play/Pause button -->
-          <button class="player-control-btn" aria-label="Play/Pause">
-            <i class="ph-fill ph-play play-icon"></i>
-            <i class="ph-fill ph-pause pause-icon hidden"></i>
-          </button>
-
-          <!-- Hidden audio element dynamically loaded for real-time FM sync -->
-          <audio id="cozy-audio-player" preload="auto"></audio>
+          <!-- Playlist Dropdown Container -->
+          <div class="cozy-playlist-dropdown">
+            <ul class="playlist-tracks-list">
+              <li class="track-item" data-index="0">
+                <span class="track-num">01</span>
+                <span class="track-name-text">Afternoon Glow ☕</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">03:07</span>
+              </li>
+              <li class="track-item" data-index="1">
+                <span class="track-num">02</span>
+                <span class="track-name-text">Coffee and Whiskers 🐾</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">03:20</span>
+              </li>
+              <li class="track-item" data-index="2">
+                <span class="track-num">03</span>
+                <span class="track-name-text">Porcelain and Purrs 🐈</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">03:19</span>
+              </li>
+              <li class="track-item" data-index="3">
+                <span class="track-num">04</span>
+                <span class="track-name-text">Golden Hour in a Quiet Café 🌅</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">04:07</span>
+              </li>
+              <li class="track-item" data-index="4">
+                <span class="track-num">05</span>
+                <span class="track-name-text">A Sip Before Sunset 🍹</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">04:35</span>
+              </li>
+              <li class="track-item" data-index="5">
+                <span class="track-num">06</span>
+                <span class="track-name-text">When the First Stars Appear ✨</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">04:08</span>
+              </li>
+              <li class="track-item" data-index="6">
+                <span class="track-num">07</span>
+                <span class="track-name-text">Midnight Coffee Serenade 🌙</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">04:24</span>
+              </li>
+              <li class="track-item" data-index="7">
+                <span class="track-num">08</span>
+                <span class="track-name-text">Echoes in the After Hours 🎻</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">04:29</span>
+              </li>
+              <li class="track-item" data-index="8">
+                <span class="track-num">09</span>
+                <span class="track-name-text">Before the Morning Finds Us 🌅</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">04:39</span>
+              </li>
+              <li class="track-item" data-index="9">
+                <span class="track-num">10</span>
+                <span class="track-name-text">Sunlit Cups and Swinging Steps 🎷</span>
+                <div class="mini-wave">
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                  <span class="mini-bar"></span>
+                </div>
+                <span class="track-duration">04:12</span>
+              </li>
+            </ul>
+            <a href="https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS" target="_blank" rel="noopener noreferrer" class="playlist-spotify-link-footer">
+              Thêm đài này vào Spotify <i class="ph-fill ph-spotify-logo"></i>
+            </a>
+          </div>
         </div>
       </div>
     </header>
@@ -689,27 +800,203 @@ const getCategoryLabel = (cat: string) => {
     100% { height: 10px; }
   }
 
-  .player-spotify-link {
+  .cozy-player-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .player-playlist-toggle-btn {
     font-family: 'Inter', sans-serif;
-    font-size: 0.65rem;
+    font-size: 0.72rem;
     font-weight: 500;
     color: var(--cozy-green-matcha-forest);
-    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
     margin-top: 1px;
     display: inline-flex;
     align-items: center;
-    gap: 2px;
+    gap: 3px;
     transition: color 0.2s ease;
     text-align: left;
+    outline: none;
   }
 
-  .player-spotify-link:hover {
+  .player-playlist-toggle-btn:hover {
+    color: var(--cozy-green-matcha-dark);
+  }
+
+  .player-playlist-toggle-btn .toggle-arrow {
+    font-size: 0.65rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .cozy-player-wrapper.expanded .toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Playlist Dropdown Styles */
+  .cozy-playlist-dropdown {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--cozy-border-light);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(21, 23, 15, 0.05);
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 5;
+    padding: 0 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cozy-player-wrapper.expanded .cozy-playlist-dropdown {
+    max-height: 380px; /* Expand height */
+    opacity: 1;
+    pointer-events: auto;
+    padding: 14px 12px 12px 12px;
+  }
+
+  .playlist-tracks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+    max-height: 280px;
+    padding-right: 4px;
+  }
+
+  /* Custom scrollbar for playlist dropdown */
+  .playlist-tracks-list::-webkit-scrollbar {
+    width: 4px;
+  }
+  .playlist-tracks-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .playlist-tracks-list::-webkit-scrollbar-thumb {
+    background: var(--cozy-border-light);
+    border-radius: 2px;
+  }
+
+  .track-item {
+    display: flex;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 8px;
+    user-select: none;
+  }
+
+  .track-item:hover {
+    background-color: rgba(142, 172, 137, 0.08); /* Light matcha tint */
+  }
+
+  .track-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: #8E8E93;
+    width: 14px;
+    flex-shrink: 0;
+  }
+
+  .track-name-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: var(--cozy-text-obsidian);
+    flex-grow: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease;
+  }
+
+  .track-duration {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: #8E8E93;
+    flex-shrink: 0;
+  }
+
+  /* Active track highlight */
+  .track-item.active-track-item {
+    background-color: rgba(142, 172, 137, 0.12);
+  }
+
+  .track-item.active-track-item .track-name-text {
+    color: var(--cozy-green-matcha-forest);
+    font-weight: 600;
+  }
+
+  .track-item.active-track-item .track-num {
+    color: var(--cozy-green-matcha-forest);
+    font-weight: 600;
+  }
+
+  /* Mini soundwave for active track item */
+  .mini-wave {
+    display: none;
+    align-items: flex-end;
+    gap: 1.5px;
+    height: 7px;
+    width: 10px;
+    flex-shrink: 0;
+  }
+
+  .track-item.active-track-item.playing-state .mini-wave {
+    display: inline-flex;
+  }
+
+  .mini-bar {
+    width: 1.5px;
+    height: 2px;
+    background-color: var(--cozy-green-matcha-forest);
+    border-radius: 0.5px;
+    animation: bounce-bar 0.7s ease-in-out infinite alternate;
+  }
+
+  .mini-wave .mini-bar:nth-child(1) { animation-delay: 0.1s; animation-duration: 0.6s; }
+  .mini-wave .mini-bar:nth-child(2) { animation-delay: 0.3s; animation-duration: 0.8s; }
+  .mini-wave .mini-bar:nth-child(3) { animation-delay: 0.2s; animation-duration: 0.5s; }
+
+  /* Spotify footer link */
+  .playlist-spotify-link-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--cozy-border-light);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--cozy-green-matcha-forest);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .playlist-spotify-link-footer:hover {
     color: var(--cozy-green-matcha-dark);
     text-decoration: underline;
-  }
-
-  .player-spotify-link.hidden {
-    display: none !important;
   }
 
   .player-control-btn {
@@ -1286,12 +1573,14 @@ const getCategoryLabel = (cat: string) => {
     // --- 1. COZY MUSIC PLAYER HANDLER (DOCA FM RADIO SYNCED) ---
     const audio = document.getElementById('cozy-audio-player') as HTMLAudioElement;
     const playBtn = document.querySelector('.player-control-btn');
+    const playerWrapper = document.querySelector('.cozy-player-wrapper');
     const playerContainer = document.querySelector('.cozy-music-player');
     const playerTitle = document.querySelector('.player-title');
     const playerStatus = document.querySelector('.player-status');
-    const spotifyLink = document.querySelector('.player-spotify-link');
     const playIcon = document.querySelector('.play-icon');
     const pauseIcon = document.querySelector('.pause-icon');
+    const playlistToggleBtn = document.querySelector('.player-playlist-toggle-btn');
+    const trackItems = document.querySelectorAll('.track-item');
 
     // FM Playlist (Cozy 1940s Cafe Jazz Loop)
     const fmPlaylist = [
@@ -1310,6 +1599,20 @@ const getCategoryLabel = (cat: string) => {
     const totalPlaylistDuration = 2420; // 40 minutes 20 seconds
     const audioSrc = "/audio/cozy-living-jazz.m4a";
 
+    // Toggle Playlist Expand/Collapse
+    playlistToggleBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      playerWrapper?.classList.toggle('expanded');
+    });
+
+    // Close playlist if clicked outside
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!playerWrapper?.contains(target)) {
+        playerWrapper?.classList.remove('expanded');
+      }
+    });
+
     function getSyncedTrack() {
       const nowInSeconds = Math.floor(Date.now() / 1000);
       const playlistOffset = nowInSeconds % totalPlaylistDuration;
@@ -1322,61 +1625,102 @@ const getCategoryLabel = (cat: string) => {
           return {
             track: track,
             globalOffset: playlistOffset,
-            trackOffset: trackOffset
+            trackOffset: trackOffset,
+            index: i
           };
         }
       }
       return {
         track: fmPlaylist[0],
         globalOffset: 0,
-        trackOffset: 0
+        trackOffset: 0,
+        index: 0
       };
     }
 
-    function updatePlayerUI(isPlaying: boolean, trackTitle: string = "Doca FM Trực Tuyến 📻") {
+    function syncPlaylistUI(activeTrackIndex: number, isPlaying: boolean) {
+      trackItems.forEach((item, idx) => {
+        if (idx === activeTrackIndex) {
+          item.classList.add('active-track-item');
+          if (isPlaying) {
+            item.classList.add('playing-state');
+          } else {
+            item.classList.remove('playing-state');
+          }
+        } else {
+          item.classList.remove('active-track-item');
+          item.classList.remove('playing-state');
+        }
+      });
+    }
+
+    function updatePlayerUI(isPlaying: boolean, trackTitle: string = "Doca FM Trực Tuyến 📻", activeTrackIndex: number = 0) {
       if (isPlaying) {
         playerContainer?.classList.add('playing');
         playIcon?.classList.add('hidden');
         pauseIcon?.classList.remove('hidden');
-        spotifyLink?.classList.remove('hidden');
         if (playerTitle) playerTitle.textContent = `📻 FM: ${trackTitle}`;
+        syncPlaylistUI(activeTrackIndex, true);
       } else {
         playerContainer?.classList.remove('playing');
         playIcon?.classList.remove('hidden');
         pauseIcon?.classList.add('hidden');
-        spotifyLink?.classList.add('hidden');
         if (playerTitle) playerTitle.textContent = "Doca FM Trực Tuyến 📻";
         if (playerStatus) playerStatus.textContent = "Đang tạm dừng...";
+        
+        // Remove anim wave from active track
+        const activeItem = document.querySelector('.track-item.active-track-item');
+        activeItem?.classList.remove('playing-state');
       }
     }
 
-    function playSyncedRadio() {
+    let prevActiveTrackIndex = -1;
+    let prevPlayingState = false;
+
+    function playSyncedRadio(customStartOffset: number | null = null) {
       if (!audio) return;
-      const { track, globalOffset } = getSyncedTrack();
+      const { track, globalOffset, index } = getSyncedTrack();
+      
+      const targetOffset = customStartOffset !== null ? customStartOffset : globalOffset;
       
       audio.src = audioSrc;
-      audio.currentTime = globalOffset;
+      audio.currentTime = targetOffset;
       
       audio.play().then(() => {
-        updatePlayerUI(true, track.title);
-        // Track the current playback seconds
+        const activeIndex = customStartOffset !== null ? fmPlaylist.findIndex(t => t.start === customStartOffset) : index;
+        updatePlayerUI(true, fmPlaylist[activeIndex].title, activeIndex);
+        
+        // Reset state tracker variables
+        prevActiveTrackIndex = -1;
+        prevPlayingState = false;
+
         const updateStatus = () => {
           if (!audio.paused) {
             const currentGlobalTime = audio.currentTime;
             const currentOffset = Math.floor(currentGlobalTime) % totalPlaylistDuration;
             
-            // Recalculate track info based on current second
-            let activeTrack = track;
+            // Recalculate active track info
+            let activeTrack = fmPlaylist[activeIndex];
+            let activeTrackIndex = activeIndex;
+            
             for (let i = 0; i < fmPlaylist.length; i++) {
               const t = fmPlaylist[i];
               const end = t.start + t.duration;
               if (currentOffset >= t.start && currentOffset < end) {
                 activeTrack = t;
+                activeTrackIndex = i;
                 break;
               }
             }
             
             if (playerTitle) playerTitle.textContent = `📻 FM: ${activeTrack.title}`;
+            
+            // Sync playlist visualizer selectively
+            if (activeTrackIndex !== prevActiveTrackIndex || !audio.paused !== prevPlayingState) {
+              syncPlaylistUI(activeTrackIndex, !audio.paused);
+              prevActiveTrackIndex = activeTrackIndex;
+              prevPlayingState = !audio.paused;
+            }
             
             const elapsedInTrack = currentOffset - activeTrack.start;
             const minutes = Math.floor(elapsedInTrack / 60);
@@ -1388,10 +1732,6 @@ const getCategoryLabel = (cat: string) => {
             const totalStr = `${totalMins}:${totalSecs < 10 ? '0' : ''}${totalSecs}`;
             
             if (playerStatus) playerStatus.textContent = `Đang phát (${timeStr} / ${totalStr})`;
-            
-            if (spotifyLink) {
-              spotifyLink.setAttribute('href', "https://open.spotify.com/playlist/37i9dQZF1DX8Uebhn2wRmS");
-            }
             
             requestAnimationFrame(updateStatus);
           }
@@ -1416,6 +1756,16 @@ const getCategoryLabel = (cat: string) => {
     audio?.addEventListener('ended', () => {
       // Re-sync and play next
       playSyncedRadio();
+    });
+
+    // Handle clicking playlist track items
+    trackItems.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const clickedIndex = parseInt(item.getAttribute('data-index') || '0', 10);
+        const selectedTrack = fmPlaylist[clickedIndex];
+        playSyncedRadio(selectedTrack.start);
+      });
     });
 
     // --- 2. CATALOGUE FILTER & PAGINATION ---

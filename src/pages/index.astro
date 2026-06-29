@@ -206,7 +206,8 @@ const getCategoryLabel = (cat: string) => {
 
             <!-- Lying cat sitting on the top border near the play button -->
             <div class="lying-cat-container">
-              <img src="/images/layout/lying-cat.png" alt="Lying Cat" class="lying-cat-img" />
+              <img src="/images/layout/lying-cat-body.png" alt="Lying Cat Body" class="lying-cat-body" />
+              <img src="/images/layout/lying-cat-tail.png" alt="Lying Cat Tail" class="lying-cat-tail" />
             </div>
 
             <!-- Right: Play/Pause button -->
@@ -913,22 +914,81 @@ const getCategoryLabel = (cat: string) => {
     position: absolute;
     bottom: calc(100% - 1.5px); /* Sits exactly on top of the player card border */
     right: 28px; /* Positioned near the play button on the right side */
-    width: 68px; /* Perfectly scaled width matching visual aesthetics */
-    height: auto;
-    pointer-events: none; /* Mouse clicks pass through to underneath controls */
+    width: 68px; /* Proportional width */
+    height: 35px; /* Proportional height */
+    pointer-events: none; /* Mouse clicks pass through */
     z-index: 10;
-    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     transform-origin: bottom center;
+    animation: snuggle-cat 6s ease-in-out infinite;
   }
 
-  .lying-cat-img {
-    width: 100%;
-    height: auto;
+  .lying-cat-body {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 55px;
+    height: 26px;
     display: block;
+    z-index: 2;
+  }
+
+  .lying-cat-tail {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 14px;
+    height: 35px;
+    display: block;
+    z-index: 1;
+    transform-origin: 25% 90%; /* Base of the tail */
+    animation: wag-tail 4.5s ease-in-out infinite;
   }
 
   .cozy-music-player:hover .lying-cat-container {
-    transform: scale(1.08) translateY(-1px);
+    /* Combine active animation with hover scale feedback */
+    animation-play-state: paused;
+    transform: scale(1.12) translateY(-1px);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  @keyframes snuggle-cat {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(-3px, 0.5px) rotate(-1.5deg);
+    }
+    50% {
+      transform: translate(0, 0) rotate(0.5deg);
+    }
+    75% {
+      transform: translate(2px, 0.2px) rotate(1deg);
+    }
+  }
+
+  @keyframes wag-tail {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(18deg);
+    }
+    40% {
+      transform: rotate(-5deg);
+    }
+    60% {
+      transform: rotate(15deg);
+    }
+    80% {
+      transform: rotate(-2deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lying-cat-container,
+    .lying-cat-tail {
+      animation: none !important;
+    }
   }
 
   .player-control-btn {

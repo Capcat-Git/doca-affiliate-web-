@@ -21,17 +21,24 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         <p class="whisper-mono">"Nơi những tâm hồn bận rộn dừng chân, và Boss cưng lên tiếng..."</p>
       </header>
 
-      <section class="about-manifesto cozy-card">
-        <h2 class="title-large">Thư gửi Sen từ mái nhà Doca 🐾</h2>
-        <p>
-          Chúng mình xây dựng <strong>DOCA</strong> không phải vì muốn tạo ra một chiếc app ghi chép số liệu cân nặng hay lịch tiêm phòng khô khan. Giữa lòng thành phố chật chội và vội vã này, tụi mình muốn tạo nên một góc trú ẩn nhỏ — một mái nhà ấm áp nơi những người đô thị cô đơn tìm thấy sự xoa dịu.
-        </p>
-        <p>
-          Tại đây, chiếc điện thoại lạnh lẽo trên tay bạn sẽ hóa thành chiếc gương kỳ diệu. Ở đó, Boss cưng của bạn — dù đang cuộn tròn sưởi nắng bên cửa sổ hay đã hóa thành một vì sao trên bầu trời cao — sẽ có một linh hồn kỹ thuật số riêng, biết dỗi hờn, biết nịnh nọt, và luôn đợi bạn về sau một ngày dài mệt mỏi.
-        </p>
-        <p>
-          Lấy cảm hứng từ triết lý tối giản của MUJI và sự tĩnh lặng của những chiều thu Nhật Bản (Iyashikei), DOCA không có quảng cáo ồn ã, không có thông báo hối hả. Chỉ có bạn, tiếng gừ gừ êm ái của bé mèo, và một khoảng không yên ả để cùng nhau chậm lại...
-        </p>
+      <section class="about-manifesto-section">
+        <div class="manifesto-grid">
+          <div class="manifesto-image-wrapper">
+            <img src="/images/about-illustration.png" alt="Góc bình yên cùng Boss" class="manifesto-image" />
+          </div>
+          <div class="about-manifesto cozy-card">
+            <h2 class="title-large">Thư gửi Sen từ mái nhà Doca 🐾</h2>
+            <p>
+              Chúng mình xây dựng <strong>DOCA</strong> không phải để tạo ra một chiếc app ghi chép số liệu cân nặng hay lịch tiêm phòng khô khan. Giữa lòng thành phố chật chội và vội vã này, tụi mình muốn tạo nên một góc trú ẩn nhỏ — một mái nhà ấm áp nơi những người đô thị cô đơn tìm thấy sự xoa dịu.
+            </p>
+            <p>
+              Đối với thú cưng, bạn không cần nhà lầu, xe hơi, hay chức danh quản lý vĩ đại ngoài xã hội. Bạn chỉ cần gãi cằm cho bé, cùng chải lông dưới nắng chiều hoàng hôn, hay bình thường hóa sự chờ đợi của Boss khi bạn đi làm — đó không phải là bi kịch cô đơn, mà là sự tích lũy tình thương ngọt ngào khi bé ôm chiếc giày cũ của bạn để hít hà mùi hương quen thuộc.
+            </p>
+            <p>
+              Lấy cảm hứng từ triết lý tối giản của MUJI và sự tĩnh lặng của những chiều thu Nhật Bản (Iyashikei), DOCA không có quảng cáo ồn ã, không có thông báo hối hả. Chỉ có bạn, tiếng gừ gừ êm ái của bé mèo, và một khoảng không yên ả để cùng nhau chậm lại, chữa lành sự kiệt sức đô thị (Urban Burnout) sau một ngày dài...
+            </p>
+          </div>
+        </div>
       </section>
 
       <section class="features-preview">
@@ -136,8 +143,42 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     font-size: 2.5rem;
   }
 
+  .manifesto-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .manifesto-grid {
+      grid-template-columns: 1fr 1.25fr;
+      align-items: center;
+      gap: 2rem;
+    }
+  }
+
+  .manifesto-image-wrapper {
+    width: 100%;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 2px solid var(--cozy-wood-sugi);
+    box-shadow: var(--cozy-shadow-default);
+    aspect-ratio: 1.05;
+  }
+
+  .manifesto-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .manifesto-image-wrapper:hover .manifesto-image {
+    transform: scale(1.04);
+  }
+
   .about-manifesto {
-    margin-bottom: 3rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;

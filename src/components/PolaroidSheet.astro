@@ -219,18 +219,21 @@
   }
 
   .action-btn-group {
-    background-color: #F5F3EF;
-    color: var(--cozy-green-matcha);
+    background-color: var(--cozy-bg-cream-warm); /* Warm cream matcha background */
+    color: var(--cozy-green-matcha-forest); /* Forest Green (safe AA contrast > 4.5:1) */
     border-radius: 14px;
     height: 50px;
     font-size: 0.95rem;
     font-weight: 700;
     width: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(74, 138, 46, 0.15); /* Soft matching green border */
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .action-btn-group:hover {
-    background-color: #EAE8E3;
+    background-color: var(--cozy-bg-oatmeal);
+    color: var(--cozy-green-matcha-dark); /* Deeper green on hover for enhanced readability */
+    border-color: rgba(74, 138, 46, 0.3);
   }
 
   .polaroid-frame img.placeholder-logo {

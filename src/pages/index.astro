@@ -144,15 +144,8 @@ const getCategoryLabel = (cat: string) => {
         <h1 class="hero-title">Góc Nhỏ Bình Yên</h1>
         <p class="hero-subtitle">Nơi cùng thú cưng sống chậm lại một nhịp, mỗi ngày.</p>
         
-        <!-- Form Waitlist Mini -->
-        <form id="hero-waitlist-form" class="hero-waitlist-form" novalidate>
-          <input 
-            type="email" 
-            id="hero-email" 
-            class="form-input hero-input" 
-            placeholder="Nhập email của Sen..." 
-            required 
-          />
+        <!-- Cozy Music Player Widget (Plays 30s cozy lofi snippets) -->
+        <div class="cozy-music-player">
           <div class="peeking-cat-container">
             <svg viewBox="0 0 200 100" class="peeking-cat-svg">
               <!-- Head & Ears (Wider and rounder cheeks) -->
@@ -172,7 +165,7 @@ const getCategoryLabel = (cat: string) => {
               <rect x="128" y="52" width="4" height="20" rx="2" fill="#15170F" />
               <!-- Nose -->
               <path d="M 97 71 Q 100 69, 103 71 Q 100 75, 97 71 Z" fill="#FAF6F0" />
-              <!-- Whiskers (Adjusted start points for rounder cheeks) -->
+              <!-- Whiskers -->
               <line x1="30" y1="60" x2="10" y2="57" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
               <line x1="28" y1="68" x2="8" y2="68" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
               <line x1="30" y1="76" x2="10" y2="79" stroke="#15170F" stroke-width="2.5" stroke-linecap="round" />
@@ -184,20 +177,28 @@ const getCategoryLabel = (cat: string) => {
               <path d="M 188 95 C 194 85, 178 75, 168 86 C 164 90, 178 98, 188 95 Z" fill="#15170F" />
             </svg>
           </div>
-          <button type="submit" class="submit-btn">
-            Theo dõi Boss <i class="ph-light ph-paw"></i>
+
+          <!-- Left: Vinyl Record rotating icon -->
+          <div class="player-disc-wrapper">
+            <div class="player-disc">
+              <i class="ph-fill ph-disc"></i>
+            </div>
+          </div>
+
+          <!-- Middle: Metadata info -->
+          <div class="player-info">
+            <span class="player-title">Bản Nhạc Lofi Của Boss 🐾</span>
+            <span class="player-status">Đang tạm dừng...</span>
+          </div>
+
+          <!-- Right: Play/Pause button -->
+          <button class="player-control-btn" aria-label="Play/Pause">
+            <i class="ph-fill ph-play play-icon"></i>
+            <i class="ph-fill ph-pause pause-icon hidden"></i>
           </button>
-        </form>
 
-        <!-- Custom Friendly Error Notification -->
-        <div id="hero-error-msg" class="hero-error-msg hidden">
-          <i class="ph-light ph-warning-circle error-icon"></i>
-          <span id="hero-error-text">Hình như email của Sen bị thiếu ký tự '@' hoặc sai định dạng rồi... Nhập lại giúp tụi con nha! 🐾</span>
-        </div>
-
-        <div id="hero-success-msg" class="hero-success hidden">
-          <span class="success-paw" style="color: var(--cozy-green-matcha);"><i class="ph-light ph-paw"></i></span>
-          <p>Boss đã nhận thư! Cẩm nang sống chậm sẽ sớm bay đến email của bạn.</p>
+          <!-- Hidden audio element playing a high-quality free cozy lofi track -->
+          <audio id="cozy-audio-player" src="https://assets.codepen.io/4358584/Anitek_-_01_-_Kisses.mp3" preload="auto"></audio>
         </div>
       </div>
     </header>
@@ -545,24 +546,25 @@ const getCategoryLabel = (cat: string) => {
     margin: 0 auto 1.5rem auto;
   }
 
-  .hero-waitlist-form {
+  .cozy-music-player {
     display: flex;
     align-items: center;
     background-color: #FFFFFF;
     border: 1px solid var(--cozy-border-light);
     border-radius: 30px;
-    padding: 4px 4px 4px 12px;
+    padding: 6px 6px 6px 12px;
     width: 100%;
     max-width: 380px;
     margin: 0 auto;
     box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    position: relative; /* Enabled for absolute peeking cat position */
+    position: relative;
+    gap: 0.75rem;
   }
 
   .peeking-cat-container {
     position: absolute;
-    bottom: calc(100% - 2px); /* Align paw baseline to sit exactly on the input top border */
-    left: 32px; /* Position above the "email" input text on the left side */
+    bottom: calc(100% - 2px);
+    left: 32px;
     width: 70px;
     height: 35px;
     overflow: hidden;
@@ -573,106 +575,96 @@ const getCategoryLabel = (cat: string) => {
   .peeking-cat-svg {
     width: 100%;
     height: 100%;
-    transform: translateY(16px); /* Hide body, show ears slightly higher */
+    transform: translateY(16px);
     transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
-  .hero-input:focus ~ .peeking-cat-container .peeking-cat-svg {
-    transform: translateY(0); /* Peek up fully on focus */
+  .cozy-music-player.playing .peeking-cat-svg {
+    transform: translateY(0);
   }
 
-  .hero-input:not(:placeholder-shown) ~ .peeking-cat-container .peeking-cat-svg {
-    transform: translateY(0); /* Stay up if input has content */
-  }
-
-  .hero-error-msg {
+  .player-disc-wrapper {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: var(--cozy-text-obsidian);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    background-color: #FFF2E6; /* Cozy soft orange tint */
-    border: 1px solid rgba(230, 100, 0, 0.15);
-    color: #CC5200; /* Darker burnt orange for high contrast */
-    font-size: 0.82rem;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 12px;
-    margin: 0.75rem auto 0 auto;
-    width: 100%;
-    max-width: 380px;
-    box-shadow: 0 4px 12px rgba(230, 100, 0, 0.04);
-    animation: fadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
 
-  .hero-error-msg.hidden {
-    display: none;
+  .player-disc {
+    color: var(--cozy-bg-pure);
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
   }
 
-  .error-icon {
-    font-size: 1.15rem;
-    color: #CC5200;
-    flex-shrink: 0;
+  .cozy-music-player.playing .player-disc {
+    animation: spin-vinyl 3.5s linear infinite;
   }
 
-  .form-input {
-    border: none;
-    background: transparent;
+  @keyframes spin-vinyl {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .player-info {
     flex-grow: 1;
-    font-size: 0.9rem;
-    padding: 0.5rem 0;
-    outline: none;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 2px;
+  }
+
+  .player-title {
     font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: var(--cozy-text-obsidian);
   }
 
-  .form-input::placeholder {
-    color: #A0A0A5;
+  .player-status {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: #8E8E93;
   }
 
-  .submit-btn {
+  .player-control-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     background-color: var(--cozy-text-obsidian);
     color: var(--cozy-bg-pure);
-    border-radius: 24px;
-    padding: 0.6rem 1.25rem;
-    font-size: 0.85rem;
-    font-weight: 700;
     border: none;
     cursor: pointer;
-    white-space: nowrap;
-    transition: opacity 0.2s, transform 0.1s;
-    font-family: 'Inter', sans-serif;
-  }
-
-  .submit-btn:hover {
-    opacity: 0.9;
-  }
-
-  .submit-btn:active {
-    transform: scale(0.97);
-  }
-
-  /* Success Msg */
-  .hero-success {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
-    animation: fadeIn 0.5s ease;
+    justify-content: center;
+    font-size: 1.15rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(21, 23, 15, 0.15);
+    flex-shrink: 0;
   }
 
-  .hero-success.hidden {
-    display: none;
+  .player-control-btn:hover {
+    transform: scale(1.08);
+    background-color: var(--cozy-green-matcha-forest);
   }
 
-  .success-paw {
-    font-size: 1.75rem;
-    animation: bounce 1s infinite alternate;
+  .player-control-btn .play-icon,
+  .player-control-btn .pause-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .hero-success p {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--cozy-green-matcha);
+  .hidden {
+    display: none !important;
   }
 
   /* Section Styles */
@@ -1213,84 +1205,54 @@ const getCategoryLabel = (cat: string) => {
       }
     });
 
-    // --- 1. HERO WAITLIST HANDLER ---
-    const form = document.getElementById('hero-waitlist-form') as HTMLFormElement;
-    const emailInput = document.getElementById('hero-email') as HTMLInputElement;
-    const successMsg = document.getElementById('hero-success-msg');
+    // --- 1. COZY MUSIC PLAYER HANDLER ---
+    const audio = document.getElementById('cozy-audio-player') as HTMLAudioElement;
+    const playBtn = document.querySelector('.player-control-btn');
+    const playerContainer = document.querySelector('.cozy-music-player');
+    const playerStatus = document.querySelector('.player-status');
+    const playIcon = document.querySelector('.play-icon');
+    const pauseIcon = document.querySelector('.pause-icon');
 
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const errorMsg = document.getElementById('hero-error-msg');
-      const errorText = document.getElementById('hero-error-text');
-      if (errorMsg) errorMsg.classList.add('hidden');
+    let stopTimeout: any = null;
 
-      const email = emailInput.value.trim();
+    playBtn?.addEventListener('click', () => {
+      if (!audio) return;
+      if (audio.paused) {
+        audio.play().then(() => {
+          playerContainer?.classList.add('playing');
+          if (playerStatus) playerStatus.textContent = 'Đang phát (30s)...';
+          playIcon?.classList.add('hidden');
+          pauseIcon?.classList.remove('hidden');
 
-      if (!email) {
-        if (errorMsg && errorText) {
-          errorText.textContent = "Hình như Sen chưa điền email kìa... Nhập email để tụi con gửi thư nhé! 🐾";
-          errorMsg.classList.remove('hidden');
-        }
-        return;
-      }
-
-      // Simple email validation regex
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        if (errorMsg && errorText) {
-          errorText.textContent = "Hình như email của Sen bị thiếu ký tự '@' hoặc sai định dạng rồi... Nhập lại giúp tụi con nha! 🐾";
-          errorMsg.classList.remove('hidden');
-        }
-        return;
-      }
-
-      const supabaseUrl = (window as any).PUBLIC_SUPABASE_URL || '';
-      const supabaseKey = (window as any).PUBLIC_SUPABASE_ANON_KEY || '';
-
-      if (supabaseUrl && supabaseKey) {
-        try {
-          const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
-          if (submitBtn) submitBtn.disabled = true;
-
-          const res = await fetch(`${supabaseUrl}/rest/v1/waitlist`, {
-            method: 'POST',
-            headers: {
-              'apikey': supabaseKey,
-              'Authorization': `Bearer ${supabaseKey}`,
-              'Content-Type': 'application/json',
-              'Prefer': 'return=minimal'
-            },
-            body: JSON.stringify({
-              email: email,
-              source_channel: 'home_hero'
-            })
-          });
-
-          if (res.ok) {
-            form.style.display = 'none';
-            successMsg?.classList.remove('hidden');
-          } else {
-            if (errorMsg && errorText) {
-              errorText.textContent = "Có lỗi xảy ra khi đăng ký waitlist, Sen vui lòng thử lại nhé! 🐾";
-              errorMsg.classList.remove('hidden');
-            }
-            if (submitBtn) submitBtn.disabled = false;
-          }
-        } catch (err) {
-          console.error(err);
-          if (errorMsg && errorText) {
-            errorText.textContent = "Không thể kết nối máy chủ. Sen hãy kiểm tra mạng nhé! 🐾";
-            errorMsg.classList.remove('hidden');
-          }
-          const submitBtn = form.querySelector('.submit-btn') as HTMLButtonElement;
-          if (submitBtn) submitBtn.disabled = false;
-        }
+          // Set timeout to pause after 30 seconds
+          if (stopTimeout) clearTimeout(stopTimeout);
+          stopTimeout = setTimeout(() => {
+            audio.pause();
+            audio.currentTime = 0; // Rewind
+            playerContainer?.classList.remove('playing');
+            if (playerStatus) playerStatus.textContent = 'Đang tạm dừng...';
+            playIcon?.classList.remove('hidden');
+            pauseIcon?.classList.add('hidden');
+          }, 30000);
+        }).catch(err => {
+          console.warn("Audio play failed: check browser gesture policy", err);
+        });
       } else {
-        console.warn('Supabase credentials missing. Simulating waitlist signup.');
-        form.style.display = 'none';
-        successMsg?.classList.remove('hidden');
+        audio.pause();
+        playerContainer?.classList.remove('playing');
+        if (playerStatus) playerStatus.textContent = 'Đang tạm dừng...';
+        playIcon?.classList.remove('hidden');
+        pauseIcon?.classList.add('hidden');
+        if (stopTimeout) clearTimeout(stopTimeout);
       }
+    });
+
+    audio?.addEventListener('ended', () => {
+      playerContainer?.classList.remove('playing');
+      if (playerStatus) playerStatus.textContent = 'Đang tạm dừng...';
+      playIcon?.classList.remove('hidden');
+      pauseIcon?.classList.add('hidden');
+      if (stopTimeout) clearTimeout(stopTimeout);
     });
 
     // --- 2. CATALOGUE FILTER & PAGINATION ---

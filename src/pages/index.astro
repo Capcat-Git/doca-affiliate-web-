@@ -131,6 +131,10 @@ const getCategoryLabel = (cat: string) => {
               <span class="mini-bar"></span>
               <span class="mini-bar"></span>
             </div>
+            <div class="mini-player-icon-wrapper">
+              <i class="ph-fill ph-play mini-play-icon"></i>
+              <i class="ph-fill ph-pause mini-pause-icon hidden"></i>
+            </div>
           </div>
 
           <!-- Hamburger toggle -->
@@ -432,16 +436,18 @@ const getCategoryLabel = (cat: string) => {
     gap: 1.25rem;
   }
 
-  /* Mini Player Pill Capsule (Minimal sound wave pill) */
+  /* Mini Player Pill Capsule (Minimal sound wave and control pill) */
   .mini-player-pill {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     background-color: #FAF6F0;
     border: 1px solid var(--cozy-border-light);
     border-radius: 12px; /* Small pill */
-    width: 36px;
+    width: 58px;
     height: 24px;
+    padding: 3px 6px 3px 8px;
     box-sizing: border-box;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     opacity: 0;
@@ -458,9 +464,24 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .mini-player-pill:hover {
-    transform: scale(1.08);
+    transform: scale(1.06);
     background-color: #E2ECD2; /* Soft Matcha on hover */
     border-color: rgba(142, 172, 137, 0.35);
+  }
+
+  .mini-player-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    font-size: 0.68rem;
+    color: var(--cozy-text-obsidian);
+    transition: transform 0.2s ease;
+  }
+
+  .mini-player-pill:hover .mini-player-icon-wrapper {
+    transform: scale(1.15);
   }
 
   .mini-wave-container {
@@ -1584,6 +1605,8 @@ const getCategoryLabel = (cat: string) => {
 
     // Mini player header elements
     const miniPlayerPill = document.getElementById('mini-player-pill');
+    const miniPlayIcon = document.querySelector('.mini-play-icon');
+    const miniPauseIcon = document.querySelector('.mini-pause-icon');
 
     const playlistA = [
       { title: "Afternoon Glow ☕", start: 0, duration: 187 },
@@ -1719,6 +1742,8 @@ const getCategoryLabel = (cat: string) => {
         
         // Mini player updates
         miniPlayerPill?.classList.add('playing');
+        miniPlayIcon?.classList.add('hidden');
+        miniPauseIcon?.classList.remove('hidden');
         
         syncPlaylistUI(activeTrackIndex, true);
       } else {
@@ -1730,6 +1755,8 @@ const getCategoryLabel = (cat: string) => {
         
         // Mini player updates
         miniPlayerPill?.classList.remove('playing');
+        miniPlayIcon?.classList.remove('hidden');
+        miniPauseIcon?.classList.add('hidden');
         
         // Remove anim wave from active track
         const activeItem = document.querySelector('.track-item.active-track-item');

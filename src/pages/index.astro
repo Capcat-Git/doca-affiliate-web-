@@ -974,7 +974,7 @@ const getCategoryLabel = (cat: string) => {
 
   @media (min-width: 1024px) {
     .products-grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 1rem; /* Compact desktop gap */
     }
   }
@@ -1301,7 +1301,7 @@ const getCategoryLabel = (cat: string) => {
     
     let currentCategory = 'all';
     let currentPage = 1;
-    const itemsPerPage = 8;
+    const itemsPerPage = 10;
     
     function updateGrid() {
       if (!productCards.length) return;

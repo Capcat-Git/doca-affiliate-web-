@@ -111,13 +111,7 @@ h3, .title-large {
   padding: 0 1.25rem;
 }
 
-/* Narrow container for reading views (About page, Blog Article Details) to maintain readability */
-.about-view .container,
-.blog-detail-view header .container,
-.blog-detail-view .blog-cover-container .container,
-.blog-detail-view article .container {
-  max-width: 720px;
-}
+
 
 .cozy-card {
   background-color: var(--cozy-bg-pure);

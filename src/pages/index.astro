@@ -204,10 +204,7 @@ const getCategoryLabel = (cat: string) => {
               </button>
             </div>
 
-            <!-- Lying cat sitting on the top border near the play button -->
-            <div class="lying-cat-container">
-              <img src="/images/layout/lying-cat-animated.gif" alt="Lying Cat" class="lying-cat-img" />
-            </div>
+
 
             <!-- Right: Play/Pause button -->
             <button class="player-control-btn" aria-label="Play/Pause">
@@ -909,27 +906,7 @@ const getCategoryLabel = (cat: string) => {
     text-decoration: underline;
   }
 
-  .lying-cat-container {
-    position: absolute;
-    bottom: calc(100% - 1.5px); /* Sits exactly on top of the player card border */
-    right: 28px; /* Positioned near the play button on the right side */
-    width: 68px; /* Proportional width */
-    height: auto; /* Auto height based on aspect ratio */
-    pointer-events: none; /* Mouse clicks pass through */
-    z-index: 10;
-    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-    transform-origin: bottom center;
-  }
 
-  .lying-cat-img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .cozy-music-player:hover .lying-cat-container {
-    transform: scale(1.12) translateY(-1px);
-  }
 
   .player-control-btn {
     width: 38px;

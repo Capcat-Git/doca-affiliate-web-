@@ -131,7 +131,7 @@ const getCategoryLabel = (cat: string) => {
               <span class="mini-bar"></span>
               <span class="mini-bar"></span>
             </div>
-            <div class="mini-player-icon-wrapper">
+            <div class="mini-player-btn-circle">
               <i class="ph-fill ph-play mini-play-icon"></i>
               <i class="ph-fill ph-pause mini-pause-icon hidden"></i>
             </div>
@@ -441,13 +441,13 @@ const getCategoryLabel = (cat: string) => {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     background-color: #FAF6F0;
     border: 1px solid var(--cozy-border-light);
     border-radius: 12px; /* Small pill */
-    width: 58px;
+    width: 62px;
     height: 24px;
-    padding: 3px 6px 3px 8px;
+    padding: 3px 4px 3px 8px;
     box-sizing: border-box;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     opacity: 0;
@@ -469,19 +469,26 @@ const getCategoryLabel = (cat: string) => {
     border-color: rgba(142, 172, 137, 0.35);
   }
 
-  .mini-player-icon-wrapper {
+  .mini-player-btn-circle {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 14px;
-    height: 14px;
-    font-size: 0.68rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    border: 1px solid var(--cozy-border-light);
     color: var(--cozy-text-obsidian);
-    transition: transform 0.2s ease;
+    font-size: 0.55rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.25s ease;
+    flex-shrink: 0;
   }
 
-  .mini-player-pill:hover .mini-player-icon-wrapper {
-    transform: scale(1.15);
+  .mini-player-pill:hover .mini-player-btn-circle {
+    background-color: var(--cozy-text-obsidian);
+    color: #FFFFFF;
+    border-color: var(--cozy-text-obsidian);
   }
 
   .mini-wave-container {

@@ -10,9 +10,6 @@ const familyPhotos = familyData;
   title="Góc Nhỏ Gia Đình | doca.pet" 
   description="Nơi cất giữ những khoảnh khắc ấm áp và mộc mạc của gia đình nhà DOCA. Mời cô chú lật xem từng bức ảnh chụp kỷ niệm của tụi con nhé. 🐾"
 >
-  <!-- Nhúng Google Fonts cho chữ viết tay mặt sau Polaroid -->
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
-
   <main class="family-page-view">
     <!-- Navbar -->
     <nav class="navbar">
@@ -49,14 +46,12 @@ const familyPhotos = familyData;
     </nav>
 
     <div class="container content-container">
-      <!-- Header góc gia đình (Muji Minimalist Style) -->
-      <div class="family-header animate-fade-in">
-        <span class="family-tag">DOCA MEMORIES</span>
-        <h1 class="family-page-title">Góc Nhỏ Gia Đình</h1>
-        <p class="family-page-subtitle animate-fade-in-delayed">
-          mỗi bức ảnh là một lát cắt thời gian dịu êm mẹ Lin chụp cho tụi con...<br />
-          cô chú nhấp nhẹ vào từng tấm ảnh để đọc những dòng nhật ký viết tay ở mặt sau nhé. 🐾
-        </p>
+      <!-- Header góc gia đình (Đồng bộ layout và font chữ giống hệt kệ trang chủ) -->
+      <div class="shelf-header animate-fade-in">
+        <div class="shelf-header-info">
+          <h3 class="title-large shelf-title">Góc Nhỏ Gia Đình</h3>
+          <span class="shelf-subtitle">mỗi bức ảnh là một lát cắt thời gian dịu êm mẹ Lin chụp cho tụi con.</span>
+        </div>
       </div>
 
       <!-- Pinterest-style Masonry Grid -->
@@ -65,27 +60,25 @@ const familyPhotos = familyData;
           <div class="polaroid-card" data-id={photo.id}>
             <div class="polaroid-card-inner">
               
-              <!-- Mặt trước: Ảnh Polaroid truyền thống -->
+              <!-- Mặt trước: Thẻ ảnh tối giản Muji (Giống card sản phẩm, không có tiêu đề tả thực) -->
               <div class="card-front">
                 <div class="polaroid-frame">
                   <div class="photo-wrapper" style={`aspect-ratio: ${photo.aspectRatio || '1/1'};`}>
                     <img src={photo.imageUrl} alt={photo.title} class="polaroid-photo" loading="lazy" />
                   </div>
                   <div class="polaroid-caption">
-                    <span class="caption-text">{photo.title}</span>
+                    <span class="caption-text">@capcat.family</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Mặt sau: Ghi chú viết tay trên giấy kẻ dòng vintage -->
+              <!-- Mặt sau: Ghi chú dùng Space Mono tối giản dạng nhãn mác -->
               <div class="card-back">
                 <div class="note-paper">
-                  <div class="note-pattern">
-                    <div class="lined-content">
-                      <p class="note-handwritten">{photo.note}</p>
-                    </div>
+                  <div class="note-content-wrapper">
+                    <p class="note-monospace">{photo.note}</p>
                     <div class="note-footer">
-                      <span class="note-date">Lin & Mum 🐾</span>
+                      <span class="note-tag">#family</span>
                     </div>
                   </div>
                 </div>
@@ -143,20 +136,20 @@ const familyPhotos = familyData;
 <style>
   .family-page-view {
     min-height: 100vh;
-    background-color: #F5F2EB; /* Muji warm natural sand oatmeal beige */
+    background-color: var(--cozy-bg-beige); /* Đồng bộ background trang chủ */
     padding-bottom: 5rem;
   }
 
-  /* Navbar Styles matching product.astro */
+  /* Navbar Styles matching product.astro & index.astro */
   .navbar {
-    background-color: rgba(245, 242, 235, 0.85); /* Matches sand background */
+    background-color: rgba(251, 250, 246, 0.85);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid #E6E2D8;
+    border-bottom: 1px solid var(--cozy-border-light);
     position: sticky;
     top: 0;
     z-index: 100;
     padding: 0.5rem 0;
-    box-shadow: 0 1px 2px rgba(74, 60, 40, 0.03);
+    box-shadow: 0 1px 3px rgba(21, 23, 15, 0.04);
   }
 
   .nav-container {
@@ -187,7 +180,7 @@ const familyPhotos = familyData;
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #55524A; /* Warm charcoal */
+    color: var(--cozy-text-obsidian);
     text-decoration: none;
     transition: color 0.2s ease;
   }
@@ -219,7 +212,7 @@ const familyPhotos = familyData;
     display: block;
     width: 100%;
     height: 2px;
-    background-color: #55524A;
+    background-color: var(--cozy-text-obsidian);
     border-radius: 1px;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
   }
@@ -257,16 +250,16 @@ const familyPhotos = familyData;
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: rgba(245, 242, 235, 0.98);
+    background-color: rgba(251, 250, 246, 0.96);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid #E6E2D8;
+    border-bottom: 1.5px solid var(--cozy-border-light);
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
     opacity: 0;
     z-index: 95;
-    box-shadow: 0 8px 16px rgba(74, 60, 40, 0.04);
+    box-shadow: 0 10px 20px rgba(21, 23, 15, 0.05);
   }
 
   .mobile-menu.active {
@@ -285,7 +278,7 @@ const familyPhotos = familyData;
     font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     font-weight: 600;
-    color: #55524A;
+    color: var(--cozy-text-obsidian);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -296,12 +289,12 @@ const familyPhotos = familyData;
   }
 
   .mobile-menu-link:hover {
-    background-color: #EFECE4;
+    background-color: var(--cozy-bg-oatmeal);
     color: var(--cozy-green-matcha-forest);
   }
 
   .mobile-menu-link.active {
-    background-color: #EFECE4;
+    background-color: var(--cozy-bg-oatmeal);
     color: var(--cozy-green-matcha-forest) !important;
   }
 
@@ -315,39 +308,43 @@ const familyPhotos = familyData;
     padding-top: 2rem;
   }
 
-  /* Header chấn định (Muji design system with monospace tag) */
-  .family-header {
-    text-align: center;
-    margin-bottom: 3.5rem;
+  /* Header đồng bộ 100% giống trang chủ */
+  .shelf-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
     position: relative;
+    z-index: 1;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 3rem;
+    text-align: center;
   }
 
-  .family-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--cozy-wood-sugi);
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 0.5rem;
+  .shelf-header-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    text-align: center;
   }
 
-  .family-page-title {
+  .shelf-title {
     font-family: 'Inter', sans-serif;
-    font-size: 1.7rem;
+    font-size: 1.45rem;
     font-weight: 750;
-    color: #4A463C; /* Muji sand-coal shade */
-    margin: 0 0 0.6rem 0;
-    letter-spacing: -0.2px;
+    color: var(--cozy-wood-kogecha);
+    margin: 0;
   }
 
-  .family-page-subtitle {
-    font-size: 0.88rem;
-    line-height: 1.65;
-    color: #6E6A60;
-    opacity: 0.9;
-    margin: 0;
+  .shelf-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cozy-green-matcha-forest);
+    letter-spacing: 0.2px;
   }
 
   /* Lưới so le Pinterest Masonry chuẩn */
@@ -383,7 +380,7 @@ const familyPhotos = familyData;
     position: relative;
   }
 
-  /* Muji Zen: Subtle offsets only to look extremely clean, neat, yet organic */
+  /* Muji Zen: Nghiêng rất khẽ mô phỏng trải thẻ tự nhiên */
   .polaroid-card:nth-child(odd) {
     transform: rotate(-0.5deg);
   }
@@ -416,18 +413,18 @@ const familyPhotos = familyData;
     transform: rotateY(180deg);
   }
 
-  /* Thiết kế đồng bộ hai mặt */
+  /* Thiết kế đồng bộ hai mặt giống card sản phẩm */
   .card-front, .card-back {
     width: 100%;
     backface-visibility: hidden;
-    border-radius: 2px;
-    box-shadow: 0 4px 10px rgba(74, 60, 40, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    border-radius: 18px; /* Đồng bộ bo góc card sản phẩm */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
+    transition: box-shadow 0.3s ease;
   }
 
   .polaroid-card:hover .card-front,
   .polaroid-card:hover .card-back {
-    box-shadow: 0 10px 24px rgba(74, 60, 40, 0.1), 0 2px 4px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 20px rgba(139, 94, 60, 0.08);
   }
 
   .card-back {
@@ -438,25 +435,24 @@ const familyPhotos = familyData;
     transform: rotateY(180deg);
   }
 
-  /* --- MẶT TRƯỚC: ẢNH POLAROID MINIMALIST --- */
+  /* --- MẶT TRƯỚC: CARD ẢNH CỦA GIA ĐÌNH (GIỐNG CARD SẢN PHẨM) --- */
   .polaroid-frame {
-    background-color: #FFFFFF; /* Pure clean Muji white paper */
-    padding: 0.75rem 0.75rem 2.2rem 0.75rem; /* Thick bottom border */
-    border: 1px solid #E6E2D8; /* Extremely soft gray border */
-    border-radius: 2px;
+    background-color: var(--cozy-bg-pure);
+    padding: 0.65rem;
+    border: 1px solid var(--cozy-border-light);
+    border-radius: 18px;
     display: flex;
     flex-direction: column;
     gap: 0.65rem;
+    height: 100%;
   }
 
-  /* Khung bo ảnh mô phỏng film slot */
+  /* Khung bo ảnh giống hệt card sản phẩm */
   .photo-wrapper {
     width: 100%;
     overflow: hidden;
-    background-color: #1A1A18; /* Dark carbon black back */
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft slot shadow */
-    border-radius: 1px;
+    background-color: var(--cozy-bg-beige);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -472,78 +468,64 @@ const familyPhotos = familyData;
 
   .polaroid-caption {
     text-align: center;
-    padding-top: 0.3rem;
+    padding: 0.25rem 0;
   }
 
-  /* Nét viết tay chữ xanh thanh mảnh lịch thiệp */
+  /* Nhãn @capcat.family bằng Space Mono nhỏ xíu tinh tế */
   .caption-text {
-    font-family: 'Caveat', cursive;
-    font-size: 1.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
     font-weight: 700;
-    color: #2D3A44; /* Clean ink color */
-    letter-spacing: 0.2px;
-    transform: rotate(-1deg);
+    color: var(--cozy-wood-sugi);
+    letter-spacing: 0.5px;
     display: inline-block;
   }
 
-  /* --- MẶT SAU: GIẤY PHIẾU CỔ ĐIỂN VINTAGE --- */
+  /* --- MẶT SAU: LỜI NHẮN MÓN ĐỒ VỚI SPACE MONO TỐI GIẢN (MUJI) --- */
   .card-back {
-    background-color: #FAF8F5; /* Muji sand off-white */
-    border: 1px solid #E6E2D8;
-    border-radius: 2px;
+    background-color: var(--cozy-bg-pure);
+    border: 1px solid var(--cozy-border-light);
+    border-radius: 18px;
   }
 
   .note-paper {
     width: 100%;
     height: 100%;
-    padding: 0.85rem;
+    padding: 1.25rem;
     display: flex;
     box-sizing: border-box;
   }
 
-  .note-pattern {
+  .note-content-wrapper {
     width: 100%;
     height: 100%;
-    border: 1px solid #E6E2D8; /* Clean thin border */
-    border-radius: 1px;
-    padding: 1.1rem 0.8rem 0.6rem 0.8rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
-    /* Soft ruled line pattern matching Muji notebook rules */
-    background-image: linear-gradient(to bottom, transparent 23px, #E8E5DD 23px);
-    background-size: 100% 24px;
-    background-position: 0 8px;
   }
 
-  .lined-content {
-    flex-grow: 1;
-    overflow: hidden;
-  }
-
+  /* Chữ viết bằng Space Mono, không còn dòng kẻ tả thực */
   .note-handwritten {
-    font-family: 'Caveat', cursive;
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 24px;
-    color: #433D3C; /* Graphite pencil gray */
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--cozy-text-obsidian);
     margin: 0;
     text-align: left;
     word-break: break-word;
-    padding-left: 0.2rem;
-    letter-spacing: 0.1px;
   }
 
   .note-footer {
     text-align: right;
-    padding-top: 0.4rem;
-    border-top: 1px dashed #E6E2D8;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--cozy-border-light);
   }
 
   .note-date {
-    font-family: 'Caveat', cursive;
-    font-size: 1.05rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--cozy-wood-sugi);
   }

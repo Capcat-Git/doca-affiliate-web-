@@ -117,7 +117,7 @@ const familyPhotos = familyData;
       }
     });
 
-    // --- 2. POLAROID CARD FLIP (Chỉ cho phép duy nhất một card lật tại một thời điểm) ---
+    // --- 2. POLAROID CARD FLIP (Chỉ lật duy nhất 1 card tại 1 thời điểm, lệch pha 150ms tự nhiên) ---
     const cards = document.querySelectorAll('.polaroid-card');
     
     cards.forEach(card => {
@@ -129,15 +129,26 @@ const familyPhotos = familyData;
         if (inner) {
           const isFlipped = inner.classList.contains('is-flipped');
           
-          // Xoay ngược tất cả các card khác đang bị lật về trạng thái cũ
-          document.querySelectorAll('.polaroid-card-inner.is-flipped').forEach(flippedInner => {
-            if (flippedInner !== inner) {
-              flippedInner.classList.remove('is-flipped');
+          if (isFlipped) {
+            // Nếu đang lật thì úp ngược về cũ ngay lập tức
+            inner.classList.remove('is-flipped');
+          } else {
+            const otherFlipped = document.querySelectorAll('.polaroid-card-inner.is-flipped');
+            
+            if (otherFlipped.length > 0) {
+              // 1. Úp card cũ xuống trước
+              otherFlipped.forEach(flippedInner => {
+                flippedInner.classList.remove('is-flipped');
+              });
+              
+              // 2. Trì hoãn 150ms lệch pha rồi mới lật card mới lên tạo nhịp tự nhiên
+              setTimeout(() => {
+                inner.classList.add('is-flipped');
+              }, 150);
+            } else {
+              inner.classList.add('is-flipped');
             }
-          });
-          
-          // Lật hoặc trả card hiện tại
-          inner.classList.toggle('is-flipped');
+          }
         }
       });
     });
@@ -433,18 +444,28 @@ const familyPhotos = familyData;
     z-index: 99;
   }
 
+  /* Khi lật mặt sau, đổ bóng sâu và rộng hơn tạo cảm giác nổi cao lên sát người xem */
+  .polaroid-card-inner.is-flipped .card-back {
+    box-shadow: 0 24px 48px rgba(74, 60, 40, 0.14), 0 8px 20px rgba(0, 0, 0, 0.05);
+  }
+
   /* Thiết kế viền siêu mỏng và bo nhọn hơn (radius 4px) */
   .card-front, .card-back {
     width: 100%;
     backface-visibility: hidden;
     border-radius: 4px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.02);
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.75s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .polaroid-card:hover .card-front,
   .polaroid-card:hover .card-back {
     box-shadow: 0 6px 15px rgba(139, 94, 60, 0.06);
+  }
+
+  /* Tăng thêm bóng đổ khi hover trên card đang lật */
+  .polaroid-card:hover .polaroid-card-inner.is-flipped .card-back {
+    box-shadow: 0 28px 56px rgba(74, 60, 40, 0.18), 0 10px 24px rgba(0, 0, 0, 0.06);
   }
 
   .card-back {

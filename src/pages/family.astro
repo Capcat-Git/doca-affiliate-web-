@@ -58,8 +58,8 @@ const familyPhotos = familyData;
 
       <!-- Pinterest-style Masonry Grid (Khoảng cách mỏng hơn cho hình to ra) -->
       <div class="family-masonry-grid">
-        {familyPhotos.map((photo) => (
-          <div class="polaroid-card" data-id={photo.id}>
+        {familyPhotos.map((photo, index) => (
+          <div class={`polaroid-card ${index >= 10 ? 'hidden-card' : ''}`} data-id={photo.id}>
             <div class="polaroid-card-inner">
               
               <!-- Mặt trước: Thẻ ảnh Muji viền mỏng bo nhọn, watermark trên hình, chân hình trống -->
@@ -88,6 +88,13 @@ const familyPhotos = familyData;
             </div>
           </div>
         ))}
+      </div>
+
+      <!-- Nút xem thêm tối giản phong cách Muji -->
+      <div class="load-more-container animate-fade-in-delayed">
+        <button id="load-more-btn" class="load-more-btn">
+          Xem thêm khoảnh khắc <i class="ph-light ph-caret-down"></i>
+        </button>
       </div>
     </div>
   </main>
@@ -151,6 +158,29 @@ const familyPhotos = familyData;
           }
         }
       });
+    });
+
+    // --- 3. LOAD MORE (Xem thêm mỗi lần 10 hình) ---
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    
+    loadMoreBtn?.addEventListener('click', () => {
+      const hiddenCards = document.querySelectorAll('.polaroid-card.hidden-card');
+      
+      // Lấy tối đa 10 hình tiếp theo để hiển thị
+      const nextBatch = Array.from(hiddenCards).slice(0, 10);
+      nextBatch.forEach(card => {
+        card.classList.remove('hidden-card');
+      });
+      
+      // Kiểm tra xem còn hình ẩn nào không
+      const remainingHidden = document.querySelectorAll('.polaroid-card.hidden-card');
+      if (remainingHidden.length === 0) {
+        if (loadMoreBtn) {
+          loadMoreBtn.classList.add('disabled');
+          loadMoreBtn.innerHTML = 'Bạn đã xem hết khoảnh khắc rồi 🐾';
+          loadMoreBtn.setAttribute('disabled', 'true');
+        }
+      }
     });
   });
 </script>
@@ -398,6 +428,54 @@ const familyPhotos = familyData;
     perspective: 1000px;
     position: relative;
     transform: none !important; /* Đảm bảo phẳng hoàn toàn không nghiêng */
+  }
+
+  .polaroid-card.hidden-card {
+    display: none !important; /* Hide cards beyond the first 10 */
+  }
+
+  /* Load More container & Muji-style button */
+  .load-more-container {
+    margin-top: 3.5rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .load-more-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cozy-text-obsidian);
+    background-color: var(--cozy-bg-pure);
+    border: 1px solid var(--cozy-border-light);
+    border-radius: 8px;
+    padding: 0.7rem 2rem;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .load-more-btn:hover:not(.disabled) {
+    background-color: var(--cozy-bg-oatmeal);
+    border-color: var(--cozy-wood-sugi);
+    color: var(--cozy-green-matcha-forest);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(74, 60, 40, 0.04);
+  }
+
+  .load-more-btn:active:not(.disabled) {
+    transform: translateY(0);
+  }
+
+  .load-more-btn.disabled {
+    color: #A39E93;
+    background-color: var(--cozy-bg-beige);
+    border-color: var(--cozy-border-light);
+    cursor: not-allowed;
+    opacity: 0.8;
   }
 
   @media (max-width: 1023px) {

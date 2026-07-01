@@ -49,8 +49,9 @@ const familyPhotos = familyData;
     </nav>
 
     <div class="container content-container">
-      <!-- Header góc gia đình -->
+      <!-- Header góc gia đình (Muji Minimalist Style) -->
       <div class="family-header animate-fade-in">
+        <span class="family-tag">DOCA MEMORIES</span>
         <h1 class="family-page-title">Góc Nhỏ Gia Đình</h1>
         <p class="family-page-subtitle animate-fade-in-delayed">
           mỗi bức ảnh là một lát cắt thời gian dịu êm mẹ Lin chụp cho tụi con...<br />
@@ -142,20 +143,20 @@ const familyPhotos = familyData;
 <style>
   .family-page-view {
     min-height: 100vh;
-    background-color: var(--cozy-bg-beige);
+    background-color: #F5F2EB; /* Muji warm natural sand oatmeal beige */
     padding-bottom: 5rem;
   }
 
   /* Navbar Styles matching product.astro */
   .navbar {
-    background-color: rgba(251, 250, 246, 0.85);
+    background-color: rgba(245, 242, 235, 0.85); /* Matches sand background */
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--cozy-border-light);
+    border-bottom: 1px solid #E6E2D8;
     position: sticky;
     top: 0;
     z-index: 100;
     padding: 0.5rem 0;
-    box-shadow: 0 1px 3px rgba(21, 23, 15, 0.04);
+    box-shadow: 0 1px 2px rgba(74, 60, 40, 0.03);
   }
 
   .nav-container {
@@ -186,7 +187,7 @@ const familyPhotos = familyData;
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--cozy-text-obsidian);
+    color: #55524A; /* Warm charcoal */
     text-decoration: none;
     transition: color 0.2s ease;
   }
@@ -218,7 +219,7 @@ const familyPhotos = familyData;
     display: block;
     width: 100%;
     height: 2px;
-    background-color: var(--cozy-text-obsidian);
+    background-color: #55524A;
     border-radius: 1px;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
   }
@@ -256,16 +257,16 @@ const familyPhotos = familyData;
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: rgba(251, 250, 246, 0.96);
+    background-color: rgba(245, 242, 235, 0.98);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1.5px solid var(--cozy-border-light);
+    border-bottom: 1px solid #E6E2D8;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
     opacity: 0;
     z-index: 95;
-    box-shadow: 0 10px 20px rgba(21, 23, 15, 0.05);
+    box-shadow: 0 8px 16px rgba(74, 60, 40, 0.04);
   }
 
   .mobile-menu.active {
@@ -284,7 +285,7 @@ const familyPhotos = familyData;
     font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--cozy-text-obsidian);
+    color: #55524A;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -295,12 +296,12 @@ const familyPhotos = familyData;
   }
 
   .mobile-menu-link:hover {
-    background-color: var(--cozy-bg-oatmeal);
+    background-color: #EFECE4;
     color: var(--cozy-green-matcha-forest);
   }
 
   .mobile-menu-link.active {
-    background-color: var(--cozy-bg-oatmeal);
+    background-color: #EFECE4;
     color: var(--cozy-green-matcha-forest) !important;
   }
 
@@ -314,26 +315,38 @@ const familyPhotos = familyData;
     padding-top: 2rem;
   }
 
-  /* Header chấn định */
+  /* Header chấn định (Muji design system with monospace tag) */
   .family-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
     position: relative;
   }
 
+  .family-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--cozy-wood-sugi);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
   .family-page-title {
-    font-size: 1.85rem;
-    font-weight: 800;
-    color: var(--cozy-wood-kogecha);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 750;
+    color: #4A463C; /* Muji sand-coal shade */
     margin: 0 0 0.6rem 0;
     letter-spacing: -0.2px;
   }
 
   .family-page-subtitle {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #555558;
-    opacity: 0.85;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #6E6A60;
+    opacity: 0.9;
     margin: 0;
   }
 
@@ -361,33 +374,33 @@ const familyPhotos = familyData;
 
   /* Polaroid Card container */
   .polaroid-card {
-    display: inline-block; /* MUST be inline-block for column-count masonry grid to prevent card half-splitting! */
+    display: inline-block;
     width: 100%;
     break-inside: avoid;
     margin-bottom: 1.5rem;
     cursor: pointer;
-    perspective: 1000px; /* Necessary for Y-axis 3D rotation */
+    perspective: 1000px;
     position: relative;
   }
 
-  /* Bổ sung độ nghiêng lệch ngẫu nhiên mô phỏng ảnh Polaroid thật rải rác */
+  /* Muji Zen: Subtle offsets only to look extremely clean, neat, yet organic */
   .polaroid-card:nth-child(odd) {
-    transform: rotate(-1.2deg);
+    transform: rotate(-0.5deg);
   }
   .polaroid-card:nth-child(even) {
-    transform: rotate(1.5deg);
+    transform: rotate(0.6deg);
   }
   .polaroid-card:nth-child(3n) {
-    transform: rotate(-0.8deg);
+    transform: rotate(-0.3deg);
   }
   .polaroid-card:nth-child(5n) {
-    transform: rotate(1.8deg);
+    transform: rotate(0.8deg);
   }
 
   .polaroid-card:hover {
     z-index: 50;
-    transform: scale(1.04) rotate(0deg);
-    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: scale(1.035) rotate(0deg);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   /* Wrapper xoay lật 3D */
@@ -406,15 +419,15 @@ const familyPhotos = familyData;
   /* Thiết kế đồng bộ hai mặt */
   .card-front, .card-back {
     width: 100%;
-    backface-visibility: hidden; /* Hide other side when rotated */
-    border-radius: 2px; /* Real polaroids have slightly sharp/squared corners */
-    box-shadow: 0 6px 14px rgba(139, 94, 60, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
-    transition: box-shadow 0.3s ease;
+    backface-visibility: hidden;
+    border-radius: 2px;
+    box-shadow: 0 4px 10px rgba(74, 60, 40, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
 
   .polaroid-card:hover .card-front,
   .polaroid-card:hover .card-back {
-    box-shadow: 0 15px 30px rgba(139, 94, 60, 0.16), 0 4px 8px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 24px rgba(74, 60, 40, 0.1), 0 2px 4px rgba(0, 0, 0, 0.04);
   }
 
   .card-back {
@@ -422,27 +435,27 @@ const familyPhotos = familyData;
     top: 0;
     left: 0;
     height: 100%;
-    transform: rotateY(180deg); /* Pre-flip back side */
+    transform: rotateY(180deg);
   }
 
-  /* --- MẶT TRƯỚC: ẢNH POLAROID HOÀN HẢO --- */
+  /* --- MẶT TRƯỚC: ẢNH POLAROID MINIMALIST --- */
   .polaroid-frame {
-    background-color: #FCFCFA; /* Warm physical photo-paper color */
-    padding: 0.75rem 0.75rem 2.2rem 0.75rem; /* Classic thick bottom layout */
-    border: 1px solid rgba(139, 94, 60, 0.12);
+    background-color: #FFFFFF; /* Pure clean Muji white paper */
+    padding: 0.75rem 0.75rem 2.2rem 0.75rem; /* Thick bottom border */
+    border: 1px solid #E6E2D8; /* Extremely soft gray border */
     border-radius: 2px;
     display: flex;
     flex-direction: column;
     gap: 0.65rem;
   }
 
-  /* Khung bo ảnh mô phỏng khe lắp film thực tế */
+  /* Khung bo ảnh mô phỏng film slot */
   .photo-wrapper {
     width: 100%;
     overflow: hidden;
-    background-color: #1A1A17; /* Dark inner backing */
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.25); /* Inner slot shadow */
+    background-color: #1A1A18; /* Dark carbon black back */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft slot shadow */
     border-radius: 1px;
     display: flex;
     align-items: center;
@@ -462,21 +475,21 @@ const familyPhotos = familyData;
     padding-top: 0.3rem;
   }
 
-  /* Chữ viết tay tên ảnh bằng mực bút bi xanh đen */
+  /* Nét viết tay chữ xanh thanh mảnh lịch thiệp */
   .caption-text {
     font-family: 'Caveat', cursive;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: #1c2d3d; /* Classic ballpoint blue-black ink */
+    color: #2D3A44; /* Clean ink color */
     letter-spacing: 0.2px;
-    transform: rotate(-1.5deg);
+    transform: rotate(-1deg);
     display: inline-block;
   }
 
-  /* --- MẶT SAU: GIẤY NHẬT KÝ KẺ DÒNG VINTAGE --- */
+  /* --- MẶT SAU: GIẤY PHIẾU CỔ ĐIỂN VINTAGE --- */
   .card-back {
-    background-color: #FAF6EE; /* Aged paper tone */
-    border: 1px solid rgba(139, 94, 60, 0.12);
+    background-color: #FAF8F5; /* Muji sand off-white */
+    border: 1px solid #E6E2D8;
     border-radius: 2px;
   }
 
@@ -491,15 +504,15 @@ const familyPhotos = familyData;
   .note-pattern {
     width: 100%;
     height: 100%;
-    border: 1px dashed rgba(139, 94, 60, 0.15);
+    border: 1px solid #E6E2D8; /* Clean thin border */
     border-radius: 1px;
     padding: 1.1rem 0.8rem 0.6rem 0.8rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
-    /* Lined paper pattern: aligned to 24px vertical steps */
-    background-image: linear-gradient(to bottom, transparent 23px, #E5DEC9 23px);
+    /* Soft ruled line pattern matching Muji notebook rules */
+    background-image: linear-gradient(to bottom, transparent 23px, #E8E5DD 23px);
     background-size: 100% 24px;
     background-position: 0 8px;
   }
@@ -509,17 +522,15 @@ const familyPhotos = familyData;
     overflow: hidden;
   }
 
-  /* Đồng bộ font size và line-height khớp sọc dòng kẻ nhạt phía sau */
   .note-handwritten {
     font-family: 'Caveat', cursive;
     font-size: 1.25rem;
     font-weight: 600;
-    line-height: 24px; /* Matches background-size height to snap on lines! */
-    color: #38302E; /* Pencil carbon shade */
+    line-height: 24px;
+    color: #433D3C; /* Graphite pencil gray */
     margin: 0;
     text-align: left;
     word-break: break-word;
-    /* Soft handwriting spacing */
     padding-left: 0.2rem;
     letter-spacing: 0.1px;
   }
@@ -527,7 +538,7 @@ const familyPhotos = familyData;
   .note-footer {
     text-align: right;
     padding-top: 0.4rem;
-    border-top: 1px dashed rgba(139, 94, 60, 0.15);
+    border-top: 1px dashed #E6E2D8;
   }
 
   .note-date {

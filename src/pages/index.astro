@@ -1467,13 +1467,14 @@ const getCategoryLabel = (cat: string) => {
 
   .fanned-products-deck {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; /* flex-start allows snapping from first item on mobile */
     align-items: center;
-    gap: 0.75rem; /* Mobile first gap */
+    gap: 1rem;
     width: 100%;
     max-width: 1200px;
-    padding: 0 1rem;
-    overflow-x: auto; /* Allow horizontal swiping on mobile devices */
+    padding: 0 calc(50vw - 100px); /* Center snap padding on mobile (half screen minus half card width) */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -1484,45 +1485,50 @@ const getCategoryLabel = (cat: string) => {
 
   .fanned-card-wrapper {
     flex-shrink: 0;
-    width: 185px; /* Cozy cards on mobile */
+    width: 200px; /* Uniform mobile card width */
+    scroll-snap-align: center; /* Native center snap */
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     transform-origin: bottom center;
   }
 
-  /* Curved fanned rotations only on desktops to ensure perfect alignment */
+  /* Curved overlapping fanned deck on desktop */
   @media (min-width: 1024px) {
     .fanned-products-deck {
-      gap: -1.2rem; /* Elegant card overlap on desktop */
+      justify-content: center; /* Center deck content on desktop */
+      gap: -2.2rem; /* Noticeable card overlap */
+      padding: 0 1rem;
+      scroll-snap-type: none; /* Disable scroll snapping on desktop */
       overflow: visible;
     }
 
     .fanned-card-wrapper {
       width: 215px;
+      scroll-snap-align: none;
     }
 
-    /* Angular rotation and vertical offset curve */
+    /* Sagging/drooping curve: middle drops, ends tilt and rise */
     .fanned-card-wrapper.card-index-0 {
-      transform: rotate(-4.5deg) translateY(7px);
+      transform: rotate(-6deg) translateY(-8px);
     }
     .fanned-card-wrapper.card-index-1 {
-      transform: rotate(-2deg) translateY(2px);
+      transform: rotate(-3deg) translateY(-2px);
     }
     .fanned-card-wrapper.card-index-2 {
-      transform: rotate(0deg) translateY(0px);
+      transform: rotate(0deg) translateY(4px);
       z-index: 10; /* Center card stands on top */
     }
     .fanned-card-wrapper.card-index-3 {
-      transform: rotate(2deg) translateY(2px);
+      transform: rotate(3deg) translateY(-2px);
     }
     .fanned-card-wrapper.card-index-4 {
-      transform: rotate(4.5deg) translateY(7px);
+      transform: rotate(6deg) translateY(-8px);
     }
 
-    /* Hover animation: pops up, straightens, highlights shadow */
+    /* Hover: nhấc thẳng lên, phóng to, đổ bóng nổi bật */
     .fanned-card-wrapper:hover {
-      transform: scale(1.06) rotate(0deg) translateY(-14px) !important;
+      transform: scale(1.08) rotate(0deg) translateY(-16px) !important;
       z-index: 25 !important;
-      filter: drop-shadow(0 12px 25px rgba(139, 94, 60, 0.16));
+      filter: drop-shadow(0 15px 30px rgba(139, 94, 60, 0.18));
     }
   }
 

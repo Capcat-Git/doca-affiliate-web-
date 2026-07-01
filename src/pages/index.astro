@@ -1469,10 +1469,10 @@ const getCategoryLabel = (cat: string) => {
     display: flex;
     justify-content: flex-start; /* flex-start allows snapping from first item on mobile */
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem; /* Narrower gap between cards */
     width: 100%;
     max-width: 1200px;
-    padding: 0 15vw; /* 15vw padding on both sides to perfectly center a 70vw card */
+    padding: 2rem 15vw; /* 2rem vertical padding prevents clipping on zoom-in */
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;

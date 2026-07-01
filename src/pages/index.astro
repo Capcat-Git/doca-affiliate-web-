@@ -1175,7 +1175,20 @@ const getCategoryLabel = (cat: string) => {
     display: none !important;
   }
 
+  :global(html) {
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
+  }
+
   /* Section Styles */
+  .hero-section,
+  .shelf-section,
+  .mailbox-section,
+  .blog-section {
+    scroll-snap-align: start;
+    scroll-margin-top: 4.5rem; /* Match sticky navbar height to prevent title overlap */
+  }
+
   .shelf-section, .blog-section {
     background-color: var(--cozy-bg-beige);
     border-top: 1px solid var(--cozy-border-light);
@@ -1184,6 +1197,8 @@ const getCategoryLabel = (cat: string) => {
   }
 
   .mailbox-section {
+    scroll-snap-align: start;
+    scroll-margin-top: 4.5rem;
     padding: 3.5rem 0;
     overflow: hidden; /* Prevent horizontal scrollbars if stamp peeks out */
     position: relative;

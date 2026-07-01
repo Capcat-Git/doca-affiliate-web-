@@ -90,8 +90,12 @@ const familyPhotos = familyData;
         ))}
       </div>
 
-      <!-- Phân trang gia đình (Pagination) -->
-      <div id="family-pagination" class="family-pagination animate-fade-in-delayed"></div>
+      <!-- Nút xem thêm tối giản phong cách Muji phối màu Matcha -->
+      <div class="load-more-container animate-fade-in-delayed">
+        <button id="load-more-btn" class="load-more-btn">
+          Xem thêm khoảnh khắc <i class="ph-light ph-caret-down"></i>
+        </button>
+      </div>
     </div>
   </main>
 </Layout>
@@ -156,85 +160,28 @@ const familyPhotos = familyData;
       });
     });
 
-    // --- 3. GALERIE PAGINATION (Phân trang giống sản phẩm, mỗi trang 10 hình) ---
-    const paginationContainer = document.getElementById('family-pagination');
-    const allCards = document.querySelectorAll('.polaroid-card');
-    const itemsPerPage = 10;
-    const totalItems = allCards.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    let currentPage = 1;
-
-    function updateGallery() {
-      allCards.forEach((card, index) => {
-        const start = (currentPage - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
-        
-        // Úp tất cả các card khác khi đổi trang
-        const inner = card.querySelector('.polaroid-card-inner');
-        if (inner) {
-          inner.classList.remove('is-flipped');
-        }
-        
-        if (index >= start && index < end) {
-          card.classList.remove('hidden-card');
-        } else {
-          card.classList.add('hidden-card');
-        }
+    // --- 3. LOAD MORE (Xem thêm mỗi lần 10 hình) ---
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    
+    loadMoreBtn?.addEventListener('click', () => {
+      const hiddenCards = document.querySelectorAll('.polaroid-card.hidden-card');
+      
+      // Lấy tối đa 10 hình tiếp theo để hiển thị
+      const nextBatch = Array.from(hiddenCards).slice(0, 10);
+      nextBatch.forEach(card => {
+        card.classList.remove('hidden-card');
       });
       
-      renderPagination();
-    }
-
-    function renderPagination() {
-      if (!paginationContainer) return;
-      
-      if (totalPages <= 1) {
-        paginationContainer.innerHTML = '';
-        paginationContainer.style.display = 'none';
-        return;
+      // Kiểm tra xem còn hình ẩn nào không
+      const remainingHidden = document.querySelectorAll('.polaroid-card.hidden-card');
+      if (remainingHidden.length === 0) {
+        if (loadMoreBtn) {
+          loadMoreBtn.classList.add('disabled');
+          loadMoreBtn.innerHTML = 'Bạn đã xem hết khoảnh khắc rồi 🐾';
+          loadMoreBtn.setAttribute('disabled', 'true');
+        }
       }
-      
-      paginationContainer.style.display = 'flex';
-      let html = '';
-      
-      // Prev
-      html += `<button class="page-btn prev-btn" ${currentPage === 1 ? 'disabled' : ''}><i class="ph-light ph-caret-left"></i></button>`;
-      
-      // Page numbers
-      for (let i = 1; i <= totalPages; i++) {
-        html += `<button class="page-btn num-btn ${currentPage === i ? 'active' : ''}" data-page="${i}">${i}</button>`;
-      }
-      
-      // Next
-      html += `<button class="page-btn next-btn" ${currentPage === totalPages ? 'disabled' : ''}><i class="ph-light ph-caret-right"></i></button>`;
-      
-      paginationContainer.innerHTML = html;
-      
-      // Events
-      paginationContainer.querySelectorAll('.page-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const target = e.currentTarget as HTMLButtonElement;
-          if (target.disabled) return;
-          
-          if (target.classList.contains('prev-btn')) {
-            currentPage = Math.max(1, currentPage - 1);
-          } else if (target.classList.contains('next-btn')) {
-            currentPage = Math.min(totalPages, currentPage + 1);
-          } else {
-            currentPage = parseInt(target.getAttribute('data-page') || '1');
-          }
-          
-          updateGallery();
-          
-          // Cuộn mượt lên trên phần nội dung
-          const header = document.querySelector('.family-header');
-          header?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      });
-    }
-
-    // Khởi chạy phân trang ban đầu
-    updateGallery();
+    });
   });
 </script>
 
@@ -488,52 +435,48 @@ const familyPhotos = familyData;
   }
 
   /* Pagination container & Muji-style matcha pagination buttons */
-  .family-pagination {
+  /* Load More container & Muji-style button styled with Matcha Pagination colors */
+  .load-more-container {
+    margin-top: 3.5rem;
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 3.5rem;
     width: 100%;
   }
 
-  .page-btn {
+  .load-more-btn {
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid rgba(74, 138, 46, 0.15);
-    background-color: #E2ECD2;
     color: var(--cozy-green-matcha-dark);
+    background-color: #E2ECD2; /* Màu xanh Matcha sữa */
+    border: 1px solid rgba(74, 138, 46, 0.15);
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  .page-btn:hover:not(:disabled) {
-    background-color: var(--cozy-green-matcha);
-    color: var(--cozy-bg-pure);
+  .load-more-btn:hover:not(.disabled) {
+    background-color: var(--cozy-green-matcha); /* Xanh Matcha đậm */
+    color: var(--cozy-bg-pure); /* Chữ trắng */
     border-color: var(--cozy-green-matcha);
-    transform: scale(1.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 138, 46, 0.15);
   }
 
-  .page-btn:disabled {
-    opacity: 0.35;
+  .load-more-btn:active:not(.disabled) {
+    transform: translateY(0);
+  }
+
+  .load-more-btn.disabled {
     cursor: not-allowed;
     background-color: #F0F4E8;
     color: #9CADA2;
     border-color: rgba(0, 0, 0, 0.02);
-  }
-
-  .page-btn.active {
-    background-color: var(--cozy-green-matcha-forest);
-    color: var(--cozy-bg-pure);
-    border-color: var(--cozy-green-matcha-forest);
-    box-shadow: 0 4px 10px rgba(74, 138, 46, 0.25);
+    opacity: 0.85;
   }
 
   @media (max-width: 1023px) {

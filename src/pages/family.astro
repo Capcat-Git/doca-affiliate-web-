@@ -56,7 +56,7 @@ const familyPhotos = familyData;
         </p>
       </div>
 
-      <!-- Pinterest-style Masonry Grid -->
+      <!-- Pinterest-style Masonry Grid (Khoảng cách mỏng hơn cho hình to ra) -->
       <div class="family-masonry-grid">
         {familyPhotos.map((photo) => (
           <div class="polaroid-card" data-id={photo.id}>
@@ -117,7 +117,7 @@ const familyPhotos = familyData;
       }
     });
 
-    // --- 2. POLAROID CARD FLIP ---
+    // --- 2. POLAROID CARD FLIP (Chỉ cho phép duy nhất một card lật tại một thời điểm) ---
     const cards = document.querySelectorAll('.polaroid-card');
     
     cards.forEach(card => {
@@ -127,6 +127,16 @@ const familyPhotos = familyData;
         
         const inner = card.querySelector('.polaroid-card-inner');
         if (inner) {
+          const isFlipped = inner.classList.contains('is-flipped');
+          
+          // Xoay ngược tất cả các card khác đang bị lật về trạng thái cũ
+          document.querySelectorAll('.polaroid-card-inner.is-flipped').forEach(flippedInner => {
+            if (flippedInner !== inner) {
+              flippedInner.classList.remove('is-flipped');
+            }
+          });
+          
+          // Lật hoặc trả card hiện tại
           inner.classList.toggle('is-flipped');
         }
       });
@@ -345,10 +355,10 @@ const familyPhotos = familyData;
     margin: 0;
   }
 
-  /* Lưới so le Pinterest Masonry chuẩn */
+  /* Lưới so le Pinterest Masonry chuẩn (Gap mỏng lại để hình to ra) */
   .family-masonry-grid {
     column-count: 5;
-    column-gap: 1.5rem;
+    column-gap: 0.65rem;
     width: 100%;
   }
 
@@ -356,45 +366,44 @@ const familyPhotos = familyData;
   @media (max-width: 1023px) {
     .family-masonry-grid {
       column-count: 3;
-      column-gap: 1.25rem;
+      column-gap: 0.5rem;
     }
   }
 
   @media (max-width: 639px) {
     .family-masonry-grid {
       column-count: 2;
-      column-gap: 0.85rem;
+      column-gap: 0.4rem;
     }
   }
 
-  /* Polaroid Card container */
+  /* Polaroid Card container (Card KHÔNG nghiêng) */
   .polaroid-card {
     display: inline-block;
     width: 100%;
     break-inside: avoid;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.65rem;
     cursor: pointer;
     perspective: 1000px;
     position: relative;
+    transform: none !important; /* Đảm bảo phẳng hoàn toàn không nghiêng */
   }
 
-  /* Muji Zen: Nghiêng khẽ mộc mạc */
-  .polaroid-card:nth-child(odd) {
-    transform: rotate(-0.5deg);
+  @media (max-width: 1023px) {
+    .polaroid-card {
+      margin-bottom: 0.5rem;
+    }
   }
-  .polaroid-card:nth-child(even) {
-    transform: rotate(0.6deg);
-  }
-  .polaroid-card:nth-child(3n) {
-    transform: rotate(-0.3deg);
-  }
-  .polaroid-card:nth-child(5n) {
-    transform: rotate(0.8deg);
+
+  @media (max-width: 639px) {
+    .polaroid-card {
+      margin-bottom: 0.4rem;
+    }
   }
 
   .polaroid-card:hover {
     z-index: 50;
-    transform: scale(1.035) rotate(0deg);
+    transform: scale(1.035) !important; /* Chỉ phóng to khẽ, giữ hướng thẳng đứng */
     transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
@@ -415,7 +424,7 @@ const familyPhotos = familyData;
   .card-front, .card-back {
     width: 100%;
     backface-visibility: hidden;
-    border-radius: 4px; /* Bo góc nhọn hơn (giảm từ 18px xuống 4px) */
+    border-radius: 4px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.02);
     transition: box-shadow 0.3s ease;
   }
@@ -436,7 +445,7 @@ const familyPhotos = familyData;
   /* --- MẶT TRƯỚC: CARD ẢNH POLAROID VIỀN MỎNG --- */
   .polaroid-frame {
     background-color: var(--cozy-bg-pure);
-    padding: 0.5rem 0.5rem 1.75rem 0.5rem; /* Chân hình dày vừa phải và để trống hoàn toàn */
+    padding: 0.5rem 0.5rem 1.75rem 0.5rem; /* Chân hình để trống hoàn toàn */
     border: 0.5px solid rgba(139, 94, 60, 0.15); /* Viền siêu mỏng */
     border-radius: 4px;
     display: flex;
@@ -449,7 +458,7 @@ const familyPhotos = familyData;
     width: 100%;
     overflow: hidden;
     background-color: var(--cozy-bg-beige);
-    border-radius: 2px; /* Bo góc trong nhọn tương ứng */
+    border-radius: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -470,7 +479,7 @@ const familyPhotos = familyData;
     bottom: 8px;
     right: 8px;
     font-family: 'Space Mono', monospace;
-    font-size: 0.45rem; /* Cực kỳ nhỏ */
+    font-size: 0.45rem;
     font-weight: 700;
     color: #FFFFFF;
     opacity: 0.45;

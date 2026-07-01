@@ -377,9 +377,6 @@ const getCategoryLabel = (cat: string) => {
     <section id="shelf-section" class="shelf-section">
       <div class="container">
         <div class="shelf-header">
-          <div class="shelf-header-illustration-wrapper">
-            <img src="/images/pet-food-bags.png" alt="Kệ quà của mẹ" class="shelf-header-illustration" />
-          </div>
           <div class="shelf-header-info">
             <h3 class="title-large shelf-title">Kệ quà của mẹ</h3>
             <span class="shelf-subtitle">thức quả lành tính mẹ Lin chọn cho tụi con.</span>
@@ -416,7 +413,10 @@ const getCategoryLabel = (cat: string) => {
           <a href="/product" class="shelf-view-all-link">
             ... ghé tiệm xem tất cả quà lành 🐾 &rarr;
           </a>
-          <p class="shelf-support-note">cô chú nếu ưng thì ủng hộ nhà con nhé.</p>
+          <p class="shelf-support-note">
+            Mỗi hộp quà nhỏ gửi trao là một chút tình thương vun vén cho tụi con,<br />
+            cô chú nếu thấy ưng ý thì ủng hộ nhà con nhé. 🐾
+          </p>
         </div>
       </div>
     </section>
@@ -1467,7 +1467,7 @@ const getCategoryLabel = (cat: string) => {
   .fanned-products-container {
     width: 100%;
     overflow: visible;
-    padding: 2.5rem 0 3.5rem 0;
+    padding: 0.75rem 0 1.25rem 0; /* Shortened spacing */
     display: flex;
     justify-content: center;
     position: relative;
@@ -1585,12 +1585,17 @@ const getCategoryLabel = (cat: string) => {
 
   .shelf-support-note {
     font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 550;
-    color: var(--cozy-wood-sugi);
-    margin-top: 0.85rem;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #555558;
+    opacity: 0.85;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--cozy-border-light); /* Dashed line exactly like illustration */
     text-align: center;
-    letter-spacing: 0.1px;
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* Blog List */

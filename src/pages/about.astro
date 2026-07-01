@@ -423,6 +423,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           });
 
           if (res.ok) {
+            if (typeof (window as any).gtag === 'function') {
+              (window as any).gtag('event', 'join_waitlist', {
+                email: email,
+                source_channel: 'about_waitlist'
+              });
+            }
             form.style.display = 'none';
             successMsg?.classList.remove('hidden');
           } else {
@@ -443,6 +449,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         }
       } else {
         console.warn('Supabase credentials missing. Simulating waitlist signup.');
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'join_waitlist', {
+            email: email,
+            source_channel: 'about_waitlist'
+          });
+        }
         form.style.display = 'none';
         successMsg?.classList.remove('hidden');
       }

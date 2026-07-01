@@ -783,7 +783,6 @@ const getCategoryLabel = (cat: string) => {
       
       paginationContainer.innerHTML = html;
       
-      // Events
       paginationContainer.querySelectorAll('.page-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const target = e.currentTarget as HTMLButtonElement;
@@ -792,13 +791,19 @@ const getCategoryLabel = (cat: string) => {
           currentPage = pageNum;
           updateGrid();
           
+          // Track GA4 pagination click
+          if (typeof (window as any).gtag === 'function') {
+            (window as any).gtag('event', 'click_product_pagination', {
+              page: currentPage
+            });
+          }
+          
           const shelfSection = document.querySelector('.shelf-section');
           shelfSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
       });
     }
     
-    // Tab event handlers
     tabBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
         tabBtns.forEach(b => b.classList.remove('active'));
@@ -808,6 +813,13 @@ const getCategoryLabel = (cat: string) => {
         currentCategory = target.getAttribute('data-category') || 'all';
         currentPage = 1;
         updateGrid();
+
+        // Track GA4 category filter click
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'filter_category', {
+            category: currentCategory
+          });
+        }
       });
     });
     

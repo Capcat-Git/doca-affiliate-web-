@@ -126,7 +126,6 @@ const familyPhotos = familyData;
 
     // --- 2. POLAROID CARD FLIP (Chỉ lật duy nhất 1 card tại 1 thời điểm, lệch pha 150ms tự nhiên) ---
     const cards = document.querySelectorAll('.polaroid-card');
-    
     cards.forEach(card => {
       card.addEventListener('click', (e) => {
         const target = e.target as HTMLElement;
@@ -135,12 +134,29 @@ const familyPhotos = familyData;
         const inner = card.querySelector('.polaroid-card-inner');
         if (inner) {
           const isFlipped = inner.classList.contains('is-flipped');
+          const cardId = card.getAttribute('data-id') || '';
           
           if (isFlipped) {
             // Nếu đang lật thì úp ngược về cũ ngay lập tức
             inner.classList.remove('is-flipped');
+            
+            // Track GA4 unflipped event
+            if (typeof (window as any).gtag === 'function') {
+              (window as any).gtag('event', 'flip_photo_card', {
+                photo_id: cardId,
+                state: 'unflipped'
+              });
+            }
           } else {
             const otherFlipped = document.querySelectorAll('.polaroid-card-inner.is-flipped');
+            
+            // Track GA4 flipped event
+            if (typeof (window as any).gtag === 'function') {
+              (window as any).gtag('event', 'flip_photo_card', {
+                photo_id: cardId,
+                state: 'flipped'
+              });
+            }
             
             if (otherFlipped.length > 0) {
               // 1. Úp card cũ xuống trước
@@ -162,9 +178,13 @@ const familyPhotos = familyData;
 
     // --- 3. LOAD MORE (Xem thêm mỗi lần 10 hình) ---
     const loadMoreBtn = document.getElementById('load-more-btn');
-    
     loadMoreBtn?.addEventListener('click', () => {
       const hiddenCards = document.querySelectorAll('.polaroid-card.hidden-card');
+      
+      // Track GA4 event
+      if (typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'click_load_more_moments');
+      }
       
       // Lấy tối đa 10 hình tiếp theo để hiển thị
       const nextBatch = Array.from(hiddenCards).slice(0, 10);

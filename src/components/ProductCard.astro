@@ -107,7 +107,7 @@ const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / p
   }
 
   .product-card-v2:hover .product-image {
-    transform: scale(1.05);
+    transform: scale(1.05) rotate(1.2deg);
   }
 
   .product-meta {
@@ -133,25 +133,25 @@ const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / p
 
   .platform-badge {
     font-family: 'Inter', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #E05F65;
-    background-color: #FDE8E9;
+    font-size: 0.65rem;
+    font-weight: 700;
     padding: 0.15rem 0.5rem;
-    border-radius: 8px;
-    letter-spacing: 0.2px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
     display: inline-flex;
     align-items: center;
+    border: 1.2px dashed currentColor; /* Dashed stamp outline */
+    text-transform: uppercase;
   }
 
   .platform-badge[data-platform="shopee"] {
-    color: #FFFFFF;
-    background-color: #EE4D2D; /* Official Shopee Orange */
+    color: #EE4D2D; /* Shopee Orange */
+    background-color: #FFF0ED; /* Warm soft light orange tint */
   }
 
   .platform-badge[data-platform="fahasa"] {
-    color: #9C3338;
-    background-color: #F5E6E6;
+    color: #9C3338; /* Fahasa Deep Red */
+    background-color: #FDF1F1; /* Warm soft light red tint */
   }
 
   .product-image.placeholder-logo {

@@ -378,11 +378,11 @@ const getCategoryLabel = (cat: string) => {
       <div class="container">
         <div class="shelf-header">
           <div class="shelf-header-illustration-wrapper">
-            <img src="/images/pet-food-bags.png" alt="Kệ đồ chữa lành" class="shelf-header-illustration" />
+            <img src="/images/pet-food-bags.png" alt="Kệ quà của mẹ" class="shelf-header-illustration" />
           </div>
           <div class="shelf-header-info">
-            <h3 class="title-large shelf-title">Kệ Đồ Chữa Lành</h3>
-            <span class="shelf-subtitle">Thức quả lành tính, đong đầy yêu thương cho Boss & Sen 🐾</span>
+            <h3 class="title-large shelf-title">Kệ quà của mẹ</h3>
+            <span class="shelf-subtitle">thức quả lành tính mẹ Lin chọn cho tụi con.</span>
           </div>
         </div>
       </div>
@@ -414,8 +414,9 @@ const getCategoryLabel = (cat: string) => {
         <!-- Đường dẫn xem tất cả sản phẩm -->
         <div class="shelf-view-all-wrapper">
           <a href="/product" class="shelf-view-all-link">
-            ... hoặc xem tất cả sản phẩm chữa lành 🐾 &rarr;
+            ... hoặc xem tất cả sản phẩm 🐾 &rarr;
           </a>
+          <p class="shelf-support-note">cô chú nếu ưng thì ủng hộ nhà con nhé.</p>
         </div>
       </div>
     </section>
@@ -1294,13 +1295,16 @@ const getCategoryLabel = (cat: string) => {
 
   .shelf-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
+    justify-content: center;
+    gap: 0.75rem;
     position: relative;
     z-index: 1;
-    border-bottom: 1px dashed var(--cozy-border-light);
-    padding-bottom: 1.25rem;
-    margin-bottom: 1.25rem;
+    border-bottom: none; /* Bỏ gạch đứt ngăn cách */
+    padding-bottom: 0;
+    margin-bottom: 0.5rem;
+    text-align: center;
   }
 
   .shelf-header-illustration-wrapper {
@@ -1328,7 +1332,9 @@ const getCategoryLabel = (cat: string) => {
   .shelf-header-info {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0.25rem;
+    text-align: center;
   }
 
   .shelf-title {
@@ -1575,6 +1581,16 @@ const getCategoryLabel = (cat: string) => {
     border-color: var(--cozy-green-matcha-forest);
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(74, 138, 46, 0.2);
+  }
+
+  .shelf-support-note {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 550;
+    color: var(--cozy-wood-sugi);
+    margin-top: 0.85rem;
+    text-align: center;
+    letter-spacing: 0.1px;
   }
 
   /* Blog List */

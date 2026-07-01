@@ -197,6 +197,24 @@ if (products.length === 0) {
   products = STATIC_PRODUCTS_FALLBACK;
 }
 
+// 3. Chọn ra đúng 5 sản phẩm nổi bật có ảnh đầy đủ để trưng bày ở trang chủ
+const FEATURED_SLUGS = [
+  'khan-tam-sieu-hut-nuoc-cho-meo-mastercare',
+  'hat-cho-meo-mr-vet-1kg',
+  'pate-meo-moi-lua-tuoi-catchy-400g',
+  'pate-sua-de-bite-of-wild-bich-70g-cho-meo-tu-2-thang-tuoi',
+  'hat-cho-meo-con-bite-of-wild-1kg'
+];
+
+let featuredProducts: any[] = FEATURED_SLUGS.map(slug => {
+  return products.find(p => p.slug === slug);
+}).filter(Boolean);
+
+if (featuredProducts.length < 5) {
+  const remaining = products.filter(p => !featuredProducts.some(fp => fp.slug === p.slug));
+  featuredProducts = [...featuredProducts, ...remaining].slice(0, 5);
+}
+
 // Hàm format danh mục sản phẩm của Supabase sang nhãn hiển thị nếu cần
 const getCategoryLabel = (cat: string) => {
   const labels: Record<string, string> = {
@@ -368,50 +386,35 @@ const getCategoryLabel = (cat: string) => {
           </div>
         </div>
 
-        <!-- Các tab phân loại (Catalogue Tabs) -->
-        <div class="category-tabs-container">
-          <button class="tab-btn active" data-category="all">
-            <i class="ph-light ph-circles-four tab-icon-ph"></i> Tất cả
-          </button>
-          <button class="tab-btn" data-category="thuc_an">
-            <img src="/images/pate-cans.png" class="tab-icon" alt="" /> Thức Ăn Mèo
-          </button>
-          <button class="tab-btn" data-category="vat_pham">
-            <img src="/images/pate-dog.png" class="tab-icon" alt="" /> Vật Phẩm Chăm Sóc
-          </button>
-          <button class="tab-btn" data-category="sach">
-            <img src="/images/clay-book.png" class="tab-icon" alt="" /> Sách Chữa Lành
-          </button>
-          <button class="tab-btn" data-category="phu_kien">
-            <img src="/images/pet-bowls.png" class="tab-icon" alt="" /> Phụ Kiện Nhà Ở
-          </button>
-        </div>
-        
-        <div class="products-grid">
-          {products.map(product => (
-            <ProductCard 
-              id={product.id}
-              slug={product.slug}
-              name={product.name}
-              category={getCategoryLabel(product.category)}
-              categoryRaw={product.category}
-              price={product.price}
-              wholesalePrice={product.wholesale_price}
-              minGroupSize={product.min_group_size}
-              affiliateUrl={product.affiliate_url}
-              imageUrl={product.image_url}
-              quote={product.quote}
-            />
-          ))}
+        <!-- Trưng bày sản phẩm cánh quạt (Fanned Products Deck) -->
+        <div class="fanned-products-container">
+          <div class="fanned-products-deck">
+            {featuredProducts.map((product, index) => (
+              <div class={`fanned-card-wrapper card-index-${index}`}>
+                <ProductCard 
+                  id={product.id}
+                  slug={product.slug}
+                  name={product.name}
+                  category={getCategoryLabel(product.category)}
+                  categoryRaw={product.category}
+                  price={product.price}
+                  wholesalePrice={product.wholesale_price}
+                  minGroupSize={product.min_group_size}
+                  affiliateUrl={product.affiliate_url}
+                  imageUrl={product.image_url}
+                  quote={product.quote}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
-        <!-- Phân trang sản phẩm (Pagination) -->
-        <div id="products-pagination" class="products-pagination"></div>
-
-        <!-- Description moved to the bottom of the section -->
-        <p class="shelf-desc-bottom">
-          Pate béo ngậy, hạt thơm ngon và vô vàn chiếc "ôm ấm áp" vỗ về sức khỏe Boss, xoa dịu tâm hồn Sen. Mời cô chú thong thả ghé lựa, tụi con cam kết hạt chuẩn cơm lành, Boss ăn là thích mê! 🐾
-        </p>
+        <!-- Đường dẫn xem tất cả sản phẩm -->
+        <div class="shelf-view-all-wrapper">
+          <a href="/product" class="shelf-view-all-link">
+            ... hoặc xem tất cả sản phẩm chữa lành 🐾 &rarr;
+          </a>
+        </div>
       </div>
     </section>
 
@@ -1452,148 +1455,105 @@ const getCategoryLabel = (cat: string) => {
     line-height: 1.55;
   }
 
-  /* Grid Sản Phẩm */
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem; /* Cozy mobile-first gap */
-  }
-
-  @media (min-width: 768px) {
-    .products-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem; /* More compact tablet gap */
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .products-grid {
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1rem; /* Compact desktop gap */
-    }
-  }
-
-  /* Catalogue Tabs & Pagination */
-  .category-tabs-container {
+  /* Trưng bày sản phẩm cánh quạt (Fanned Products Showcase) */
+  .fanned-products-container {
+    width: 100%;
+    overflow: visible;
+    padding: 2.5rem 0 3.5rem 0;
     display: flex;
-    gap: 0.5rem;
-    overflow-x: auto;
-    padding-bottom: 0.65rem;
-    margin-bottom: 1.25rem;
-    scrollbar-width: none; /* Hide scrollbar Firefox */
+    justify-content: center;
+    position: relative;
+  }
+
+  .fanned-products-deck {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem; /* Mobile first gap */
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 1rem;
+    overflow-x: auto; /* Allow horizontal swiping on mobile devices */
+    scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    padding-left: 0.25rem;
   }
-  
-  .category-tabs-container::-webkit-scrollbar {
-    display: none; /* Hide scrollbar Chrome/Safari */
+
+  .fanned-products-deck::-webkit-scrollbar {
+    display: none;
   }
-  
-  .tab-btn {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #5D5E56; /* Darker warm gray for high readability (contrast 6.4:1) */
-    background-color: var(--cozy-bg-pure); /* Cloud background */
-    border: 1px solid var(--cozy-border-light); /* Sand border */
-    padding: 0.45rem 0.95rem;
-    border-radius: 20px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-    
-    /* Enabled inline-flex for visual icon + text alignment */
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  
-  .tab-icon {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
+
+  .fanned-card-wrapper {
     flex-shrink: 0;
-    filter: drop-shadow(0 2px 4px rgba(139, 94, 60, 0.1));
-    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+    width: 185px; /* Cozy cards on mobile */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-origin: bottom center;
   }
 
-  .tab-btn:hover .tab-icon {
-    transform: scale(1.15) rotate(4deg);
+  /* Curved fanned rotations only on desktops to ensure perfect alignment */
+  @media (min-width: 1024px) {
+    .fanned-products-deck {
+      gap: -1.2rem; /* Elegant card overlap on desktop */
+      overflow: visible;
+    }
+
+    .fanned-card-wrapper {
+      width: 215px;
+    }
+
+    /* Angular rotation and vertical offset curve */
+    .fanned-card-wrapper.card-index-0 {
+      transform: rotate(-4.5deg) translateY(7px);
+    }
+    .fanned-card-wrapper.card-index-1 {
+      transform: rotate(-2deg) translateY(2px);
+    }
+    .fanned-card-wrapper.card-index-2 {
+      transform: rotate(0deg) translateY(0px);
+      z-index: 10; /* Center card stands on top */
+    }
+    .fanned-card-wrapper.card-index-3 {
+      transform: rotate(2deg) translateY(2px);
+    }
+    .fanned-card-wrapper.card-index-4 {
+      transform: rotate(4.5deg) translateY(7px);
+    }
+
+    /* Hover animation: pops up, straightens, highlights shadow */
+    .fanned-card-wrapper:hover {
+      transform: scale(1.06) rotate(0deg) translateY(-14px) !important;
+      z-index: 25 !important;
+      filter: drop-shadow(0 12px 25px rgba(139, 94, 60, 0.16));
+    }
   }
 
-  .tab-icon-ph {
-    font-size: 1.1rem;
-    flex-shrink: 0;
-    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-
-  .tab-btn:hover .tab-icon-ph {
-    transform: scale(1.15);
-  }
-  
-  .tab-btn:hover {
-    background-color: var(--cozy-bg-oatmeal); /* Sand oatmeal hover */
-    border-color: var(--cozy-border-light);
-    color: var(--cozy-text-obsidian);
-  }
-  
-  .tab-btn.active {
-    background-color: var(--cozy-green-matcha-forest); /* Dark Forest Green for safe contrast (4.6:1) */
-    border-color: var(--cozy-green-matcha-forest);
-    color: var(--cozy-bg-pure); /* Cloud text */
-    box-shadow: 0 4px 10px rgba(74, 138, 46, 0.25);
-  }
-
-  .tab-btn.active .tab-icon {
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-  }
-
-  .products-pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
+  /* View All Link Wrapper */
+  .shelf-view-all-wrapper {
+    text-align: center;
     margin-top: 2rem;
-    margin-bottom: 1rem;
   }
 
-  :global(.page-btn) {
+  .shelf-view-all-link {
     font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid rgba(74, 138, 46, 0.15); /* Delicate matching green outline */
-    background-color: #E2ECD2; /* Soft milky matcha-latte green background */
-    color: var(--cozy-green-matcha-dark); /* Rich dark matcha green */
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--cozy-green-matcha-forest);
+    text-decoration: none;
+    letter-spacing: 0.2px;
+    display: inline-block;
+    padding: 0.55rem 1.4rem;
+    border-radius: 20px;
+    background-color: var(--cozy-bg-pure);
+    border: 1px solid var(--cozy-border-light);
+    box-shadow: 0 4px 8px rgba(139, 94, 60, 0.04);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
-  :global(.page-btn:hover:not(:disabled)) {
-    background-color: var(--cozy-green-matcha); /* Hover transition to warm solid matcha green */
-    color: var(--cozy-bg-pure);
-    border-color: var(--cozy-green-matcha);
-    transform: scale(1.08);
-  }
-
-  :global(.page-btn:disabled) {
-    opacity: 0.35;
-    cursor: not-allowed;
-    background-color: #F0F4E8; /* Very light washed out matcha */
-    color: #9CADA2;
-    border-color: rgba(0, 0, 0, 0.02);
-  }
-
-  :global(.page-btn.active) {
-    background-color: var(--cozy-green-matcha-forest); /* Active solid forest green for high contrast */
+  .shelf-view-all-link:hover {
+    background-color: var(--cozy-green-matcha-forest);
     color: var(--cozy-bg-pure);
     border-color: var(--cozy-green-matcha-forest);
-    box-shadow: 0 4px 10px rgba(74, 138, 46, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(74, 138, 46, 0.2);
   }
 
   /* Blog List */
@@ -2043,108 +2003,5 @@ const getCategoryLabel = (cat: string) => {
         }
       }, { passive: true });
     }
-
-    // --- 2. CATALOGUE FILTER & PAGINATION ---
-    const tabBtns = document.querySelectorAll('.category-tabs-container .tab-btn');
-    const productGrid = document.querySelector('.products-grid');
-    const productCards = productGrid ? productGrid.children : [];
-    const paginationContainer = document.getElementById('products-pagination');
-    
-    let currentCategory = 'all';
-    let currentPage = 1;
-    const itemsPerPage = 10;
-    
-    function updateGrid() {
-      if (!productCards.length) return;
-
-      // Filter product cards by category-raw attribute
-      const filteredCards = Array.from(productCards).filter(card => {
-        const cardInner = card.classList.contains('product-card-v2') ? card : card.querySelector('.product-card-v2');
-        if (!cardInner) return false;
-        const categoryRaw = cardInner.getAttribute('data-category-raw') || '';
-        if (currentCategory === 'all') return true;
-        return categoryRaw === currentCategory;
-      });
-      
-      const totalItems = filteredCards.length;
-      const totalPages = Math.ceil(totalItems / itemsPerPage);
-      
-      if (currentPage < 1) currentPage = 1;
-      if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
-      
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      
-      // Hide all first
-      Array.from(productCards).forEach(card => {
-        (card as HTMLElement).style.display = 'none';
-      });
-      
-      // Show filtered page items
-      filteredCards.forEach((card, index) => {
-        if (index >= startIndex && index < endIndex) {
-          (card as HTMLElement).style.display = 'block';
-        }
-      });
-      
-      // Render pagination
-      renderPagination(totalPages);
-    }
-    
-    function renderPagination(totalPages: number) {
-      if (!paginationContainer) return;
-      
-      if (totalPages <= 1) {
-        paginationContainer.innerHTML = '';
-        paginationContainer.style.display = 'none';
-        return;
-      }
-      
-      paginationContainer.style.display = 'flex';
-      let html = '';
-      
-      // Prev
-      html += `<button class="page-btn prev-btn" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}"><i class="ph-light ph-caret-left"></i></button>`;
-      
-      // Page numbers
-      for (let i = 1; i <= totalPages; i++) {
-        html += `<button class="page-btn num-btn ${currentPage === i ? 'active' : ''}" data-page="${i}">${i}</button>`;
-      }
-      
-      // Next
-      html += `<button class="page-btn next-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}"><i class="ph-light ph-caret-right"></i></button>`;
-      
-      paginationContainer.innerHTML = html;
-      
-      // Events
-      paginationContainer.querySelectorAll('.page-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const target = e.currentTarget as HTMLButtonElement;
-          if (target.disabled) return;
-          const pageNum = parseInt(target.getAttribute('data-page') || '1');
-          currentPage = pageNum;
-          updateGrid();
-          
-          const shelfSection = document.querySelector('.shelf-section');
-          shelfSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      });
-    }
-    
-    // Tab event handlers
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        const target = e.currentTarget as HTMLButtonElement;
-        target.classList.add('active');
-        
-        currentCategory = target.getAttribute('data-category') || 'all';
-        currentPage = 1;
-        updateGrid();
-      });
-    });
-    
-    // Initial run
-    updateGrid();
   });
 </script>

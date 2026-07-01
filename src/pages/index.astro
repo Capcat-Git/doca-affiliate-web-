@@ -1472,7 +1472,7 @@ const getCategoryLabel = (cat: string) => {
     gap: 1rem;
     width: 100%;
     max-width: 1200px;
-    padding: 0 calc(50vw - 100px); /* Center snap padding on mobile (half screen minus half card width) */
+    padding: 0 15vw; /* 15vw padding on both sides to perfectly center a 70vw card */
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -1485,10 +1485,22 @@ const getCategoryLabel = (cat: string) => {
 
   .fanned-card-wrapper {
     flex-shrink: 0;
-    width: 200px; /* Uniform mobile card width */
+    width: 70vw; /* 70% of screen width on mobile */
     scroll-snap-align: center; /* Native center snap */
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    transform-origin: bottom center;
+    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-origin: center center;
+  }
+
+  /* Active card centering scaling on mobile */
+  @media (max-width: 1023px) {
+    .fanned-card-wrapper {
+      transform: scale(0.9);
+      opacity: 0.65;
+    }
+    .fanned-card-wrapper.active-card {
+      transform: scale(1.05);
+      opacity: 1;
+    }
   }
 
   /* Curved overlapping fanned deck on desktop */
@@ -1504,6 +1516,7 @@ const getCategoryLabel = (cat: string) => {
     .fanned-card-wrapper {
       width: 215px;
       scroll-snap-align: none;
+      transform-origin: bottom center;
     }
 
     /* Sagging/drooping curve: middle drops, ends tilt and rise */
@@ -2034,23 +2047,54 @@ const getCategoryLabel = (cat: string) => {
           fannedDeck.scrollLeft = stepWidth * middleIndex;
 
           let isJumping = false;
-          fannedDeck.addEventListener('scroll', () => {
-            if (isJumping) return;
 
+          const updateActiveCard = () => {
+            const deckCenter = fannedDeck.scrollLeft + fannedDeck.clientWidth / 2;
+            let closestCard: HTMLElement | null = null;
+            let minDistance = Infinity;
+
+            Array.from(fannedDeck.children).forEach(child => {
+              const card = child as HTMLElement;
+              const cardCenter = card.offsetLeft + card.clientWidth / 2;
+              const distance = Math.abs(deckCenter - cardCenter);
+              if (distance < minDistance) {
+                minDistance = distance;
+                closestCard = card;
+              }
+            });
+
+            Array.from(fannedDeck.children).forEach(child => {
+              const card = child as HTMLElement;
+              if (card === closestCard) {
+                card.classList.add('active-card');
+              } else {
+                card.classList.remove('active-card');
+              }
+            });
+          };
+
+          fannedDeck.addEventListener('scroll', () => {
             const currentScroll = fannedDeck.scrollLeft;
             
             // Loop scroll seamlessly
-            if (currentScroll >= stepWidth * 10) {
-              isJumping = true;
-              fannedDeck.scrollLeft = currentScroll - (stepWidth * 5);
-              requestAnimationFrame(() => { isJumping = false; });
-            } else if (currentScroll <= stepWidth * 0.5) {
-              isJumping = true;
-              fannedDeck.scrollLeft = currentScroll + (stepWidth * 5);
-              requestAnimationFrame(() => { isJumping = false; });
+            if (!isJumping) {
+              if (currentScroll >= stepWidth * 10) {
+                isJumping = true;
+                fannedDeck.scrollLeft = currentScroll - (stepWidth * 5);
+                requestAnimationFrame(() => { isJumping = false; });
+              } else if (currentScroll <= stepWidth * 0.5) {
+                isJumping = true;
+                fannedDeck.scrollLeft = currentScroll + (stepWidth * 5);
+                requestAnimationFrame(() => { isJumping = false; });
+              }
             }
+
+            updateActiveCard();
           }, { passive: true });
-        }, 100);
+
+          // Initialize active card state
+          updateActiveCard();
+        }, 120);
       }
     }
   });

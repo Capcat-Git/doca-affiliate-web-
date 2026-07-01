@@ -399,12 +399,24 @@ const familyPhotos = familyData;
     .polaroid-card {
       margin-bottom: 0.4rem;
     }
+    .note-monospace {
+      font-size: 0.74rem; /* Lớn hơn một chút trên mobile để dễ đọc */
+      line-height: 1.55;
+    }
+    .note-date {
+      font-size: 0.65rem;
+    }
   }
 
   .polaroid-card:hover {
     z-index: 50;
     transform: scale(1.035) !important; /* Chỉ phóng to khẽ, giữ hướng thẳng đứng */
     transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Khi chứa card đang lật, đưa cha lên lớp trên cùng */
+  .polaroid-card:has(.is-flipped) {
+    z-index: 90;
   }
 
   /* Wrapper xoay lật 3D */
@@ -415,9 +427,10 @@ const familyPhotos = familyData;
     transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Trạng thái lật mặt sau */
+  /* Trạng thái lật mặt sau (Xoay 3D + Phóng to 15%) */
   .polaroid-card-inner.is-flipped {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg) scale(1.15);
+    z-index: 99;
   }
 
   /* Thiết kế viền siêu mỏng và bo nhọn hơn (radius 4px) */

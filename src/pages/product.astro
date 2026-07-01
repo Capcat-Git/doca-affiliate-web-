@@ -1,0 +1,452 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+// Fetch danh sách sản phẩm từ Supabase tại thời điểm build (SSG)
+let products: any[] = [];
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || '';
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+
+if (supabaseUrl && supabaseKey) {
+  try {
+    const res = await fetch(`${supabaseUrl}/rest/v1/products?select=*`, {
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`
+      }
+    });
+    if (res.ok) {
+      products = await res.json();
+    }
+  } catch (err) {
+    console.warn("Failed to fetch products from Supabase at build time, using static fallback", err);
+  }
+}
+
+// Fallback tĩnh nếu Supabase chưa kết cấu dữ liệu hoặc lỗi
+const STATIC_PRODUCTS_FALLBACK = [
+  {
+    id: 'd3b19c29-379e-4e31-8e99-4d929f123891',
+    slug: 'hat-dinh-duong-huu-co',
+    name: 'Hạt Dinh Dưỡng Hữu Cơ Cho Mèo',
+    category: 'thuc_an',
+    price: 240000,
+    wholesale_price: 168000,
+    min_group_size: 15,
+    affiliate_url: 'https://shope.ee/shopee-hat-organic-aff',
+    image_url: '/images/products/hat-dinh-duong-polaroid.webp',
+    quote: 'Bữa ăn lành để Boss mượt lông, khỏe bụng – chọn organic là chọn an tâm.'
+  },
+  {
+    id: 'c2f39c29-379e-4e31-8e99-4d929f123891',
+    slug: 'luoc-massage-tao-bot',
+    name: 'Lược Chải Lông Massage Tạo Bọt',
+    category: 'vat_pham',
+    price: 95000,
+    wholesale_price: 65000,
+    min_group_size: 20,
+    affiliate_url: 'https://shope.ee/shopee-luoc-massage-aff',
+    image_url: '/images/products/luoc-massage-polaroid.webp',
+    quote: 'Hãy chải chuốt nhẹ nhàng cho Boss mỗi tối như một hoạt động chánh niệm cùng nhau.'
+  },
+  {
+    id: 'a3c87fb2-c12e-4b68-98e9-4e78a6358c21',
+    slug: 'sach-tam-ly-meo',
+    name: 'Sách Hiểu Người Bạn Mèo',
+    category: 'sach',
+    price: 120000,
+    wholesale_price: 85000,
+    min_group_size: 15,
+    affiliate_url: 'https://shope.ee/fahasa-sach-tam-ly-meo-aff',
+    image_url: '/images/products/sach-meo-polaroid.webp',
+    quote: 'Hiểu sâu sắc những tiếng meo meo lạ lùng của thú cưng để xích lại gần nhau hơn...'
+  },
+  {
+    id: 'b7b25fc8-87e3-4c91-9e23-7fa98c3e4125',
+    slug: 'den-totoro-go',
+    name: 'Đèn Ngủ Gỗ Totoro Ấm Áp',
+    category: 'phu_kien',
+    price: 250000,
+    wholesale_price: 175000,
+    min_group_size: 10,
+    affiliate_url: 'https://shope.ee/shopee-den-totoro-aff',
+    image_url: '/images/products/den-totoro-polaroid.webp',
+    quote: 'Giữ một vạt sáng vàng dịu trong đêm tĩnh lặng để Boss yên tâm ngon giấc.'
+  },
+  {
+    id: '89b7c8e1-be51-4830-9fc3-0a556cad6028',
+    slug: 'dau-ca-hoi-giam-rung-long-gympet',
+    name: 'Dầu cá hồi cho chó mèo, giảm rụng lông GYMPET',
+    category: 'vat_pham',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/2g98TexmeC',
+    image_url: null,
+    quote: 'Nuôi dưỡng bộ lông bóng mượt, giảm rụng từ gốc để Boss luôn kiêu kỳ, đáng yêu.'
+  },
+  {
+    id: 'a4d460cf-7751-4dcf-8871-8871f5fca4d4',
+    slug: 'luoc-chai-long-hoi-nuoc-thu-cung',
+    name: 'Lược chải lông hơi nước cho thú cưng',
+    category: 'vat_pham',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/9zvjDdATZG',
+    image_url: null,
+    quote: 'Hơi nước dịu nhẹ giúp loại bỏ lông rụng và massage thư giãn, vuốt ve làn da của bé.'
+  },
+  {
+    id: 'c8e1be5f-ca4d-460c-bc55-6d0878faf4dc',
+    slug: 'may-say-long-cho-meo-3in1-600w',
+    name: 'Máy sấy lông chó mèo 3in1 công suất 600W',
+    category: 'phu_kien',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/7fXoRk4veE',
+    image_url: null,
+    quote: 'Sấy khô dịu nhẹ, tạo kiểu bồng bềnh sau mỗi lần tắm để Boss luôn ấm áp, thơm tho.'
+  },
+  {
+    id: '7751b250-878f-af4d-cf81-5884830c8e1b',
+    slug: 'luoc-chai-long-petgravity-3in1',
+    name: 'Lược chải lông cho chó mèo 3 trong 1 Petgravity',
+    category: 'vat_pham',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/1qa1UrearQ',
+    image_url: null,
+    quote: 'Lược đa năng chải gỡ rối và massage êm ái, cho Boss những phút giây thư giãn yên lành.'
+  },
+  {
+    id: '0878faf4-dcf8-1588-4830-c8e1be57751b',
+    slug: 'long-say-long-khu-khuan-ozone-yimaida',
+    name: 'Lồng sấy lông chó mèo khử khuẩn Ozone YIMAIDA',
+    category: 'phu_kien',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/8V6vRjqWUk',
+    image_url: null,
+    quote: 'Không gian sấy ấm áp, êm ái tích hợp ozone khử khuẩn cho Boss cảm giác thư thái tuyệt đối.'
+  },
+  {
+    id: '4dcf8158-8483-0c8e-1be5-7751b250878f',
+    slug: 'balo-cho-cho-meo-thoang-khi-luna',
+    name: 'Balo cho chó mèo thoáng khí Luna',
+    category: 'phu_kien',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/6Aj0fjxuS8',
+    image_url: null,
+    quote: 'Chiếc phi thuyền thoáng đãng cùng Sen chu du khắp thế gian, ôm trọn tầm nhìn thế giới.'
+  },
+  {
+    id: 'bc556d08-78fa-f4dc-f815-884830c8e1be',
+    slug: 'chai-xit-khu-mui-diet-khuan-biopro',
+    name: 'Chai xịt khử mùi, diệt khuẩn khu vực nuôi thú cưng Biopro',
+    category: 'vat_pham',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/3B5P6t0T4d',
+    image_url: null,
+    quote: 'Không gian sống trong lành, sạch mát để bảo vệ sức khỏe của Boss lẫn Sen thương yêu.'
+  },
+  {
+    id: '5884830c-8e1b-e577-51b2-5884830c8e1b',
+    slug: 'nuoc-lau-san-phong-giun-san-mastercare',
+    name: 'Nước lau sàn phòng ngừa lây giun sán sang người 1 Lít Mastercare',
+    category: 'vat_pham',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/4fuCu1yOpM',
+    image_url: null,
+    quote: 'Sạch khuẩn tối đa, phòng ngừa giun sán hiệu quả cho cả nhà luôn an tâm đùa vui.'
+  },
+  {
+    id: 'b3152588-871f-5fca-4d46-0cf7751b2508',
+    slug: 'gan-bo-say-kho-mastercare-90g',
+    name: 'Gan bò sấy khô chó mèo giảm rụng lông, sáng mắt, tốt tim mạch 90g Masercare',
+    category: 'thuc_an',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/5fmk61vZUk',
+    image_url: null,
+    quote: 'Món ngon giòn sấy giàu dưỡng chất, bổ mắt tốt tim để Boss ăn vặt trạng đầy năng lượng.'
+  }
+];
+
+if (products.length === 0) {
+  products = STATIC_PRODUCTS_FALLBACK;
+}
+
+// Hàm format danh mục sản phẩm sang nhãn hiển thị
+const getCategoryLabel = (cat: string) => {
+  const labels: Record<string, string> = {
+    'thuc_an': 'Thức Ăn Mèo',
+    'vat_pham': 'Vật Phẩm Chăm Sóc',
+    'sach': 'Sách Chữa Lành',
+    'phu_kien': 'Phụ Kiện Nhà Ở'
+  };
+  return labels[cat] || cat;
+};
+---
+
+<Layout title="Kệ Đồ Chữa Lành | doca.pet" description="Tổng hợp sản phẩm tiếp thị liên kết (Affiliate) tốt lành, chất lượng cao dành riêng cho Boss và Sen. Mời cô chú lựa chọn thong thả.">
+  <script is:inline define:vars={{ supabaseUrl, supabaseKey }}>
+    window.PUBLIC_SUPABASE_URL = supabaseUrl;
+    window.PUBLIC_SUPABASE_ANON_KEY = supabaseKey;
+  </script>
+
+  <main class="product-page-view">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container nav-container">
+        <a href="/" class="logo-wrapper">
+          <img src="/images/brand/logo-light.png" alt="doca.pet Logo" class="brand-logo-img" />
+        </a>
+        <div class="nav-right">
+          <!-- Desktop navigation links -->
+          <div class="nav-links-desktop">
+            <a href="/about" class="nav-link-text">About Us</a>
+            <a href="/product" class="nav-link-text active">Sản phẩm</a>
+            <a href="/#blog-section" class="nav-link-text">Blog</a>
+          </div>
+
+          <!-- Hamburger toggle -->
+          <button id="menu-toggle-btn" class="menu-toggle" aria-label="Menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+      <!-- Mobile navigation menu -->
+      <div id="mobile-menu" class="mobile-menu">
+        <div class="container mobile-menu-container">
+          <a href="/about" class="mobile-menu-link"><i class="ph-light ph-info"></i> About Us</a>
+          <a href="/product" class="mobile-menu-link active"><i class="ph-light ph-circles-four"></i> Sản phẩm</a>
+          <a href="/#blog-section" class="mobile-menu-link"><i class="ph-light ph-book-open"></i> Blog</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Curated Shelf section -->
+    <section class="shelf-section single-page-shelf">
+      <div class="container">
+        <div class="shelf-header">
+          <div class="shelf-header-illustration-wrapper">
+            <img src="/images/pet-food-bags.png" alt="Kệ đồ chữa lành" class="shelf-header-illustration" />
+          </div>
+          <div class="shelf-header-info">
+            <h1 class="title-large shelf-title">Kệ Đồ Chữa Lành</h1>
+            <p class="shelf-subtitle">Thức quả lành tính, đong đầy yêu thương cho Boss & Sen 🐾</p>
+          </div>
+        </div>
+
+        <!-- Các tab phân loại (Catalogue Tabs) -->
+        <div class="category-tabs-container">
+          <button class="tab-btn active" data-category="all">
+            <i class="ph-light ph-circles-four tab-icon-ph"></i> Tất cả
+          </button>
+          <button class="tab-btn" data-category="thuc_an">
+            <img src="/images/pate-cans.png" class="tab-icon" alt="" /> Thức Ăn Mèo
+          </button>
+          <button class="tab-btn" data-category="vat_pham">
+            <img src="/images/pate-dog.png" class="tab-icon" alt="" /> Vật Phẩm Chăm Sóc
+          </button>
+          <button class="tab-btn" data-category="sach">
+            <img src="/images/clay-book.png" class="tab-icon" alt="" /> Sách Chữa Lành
+          </button>
+          <button class="tab-btn" data-category="phu_kien">
+            <img src="/images/pet-bowls.png" class="tab-icon" alt="" /> Phụ Kiện Nhà Ở
+          </button>
+        </div>
+        
+        <div class="products-grid">
+          {products.map(product => (
+            <ProductCard 
+              id={product.id}
+              slug={product.slug}
+              name={product.name}
+              category={getCategoryLabel(product.category)}
+              categoryRaw={product.category}
+              price={product.price}
+              wholesalePrice={product.wholesale_price}
+              minGroupSize={product.min_group_size}
+              affiliateUrl={product.affiliate_url}
+              imageUrl={product.image_url}
+              quote={product.quote}
+            />
+          ))}
+        </div>
+
+        <!-- Phân trang sản phẩm (Pagination) -->
+        <div id="products-pagination" class="products-pagination"></div>
+
+        <!-- Description at bottom -->
+        <p class="shelf-desc-bottom">
+          Pate béo ngậy, hạt thơm ngon và vô vàn chiếc "ôm ấm áp" vỗ về sức khỏe Boss, xoa dịu tâm hồn Sen. Mời cô chú thong thả ghé lựa, tụi con cam kết hạt chuẩn cơm lành, Boss ăn là thích mê! 🐾
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* Single Page Styles */
+  .product-page-view {
+    min-height: 100vh;
+    background-color: var(--cozy-bg-warm-light);
+    padding-bottom: 4rem;
+  }
+
+  .single-page-shelf {
+    padding-top: 3rem;
+  }
+
+  .nav-link-text.active,
+  .mobile-menu-link.active {
+    color: var(--cozy-green-matcha-forest) !important;
+    font-weight: 700 !important;
+  }
+
+  .back-link-wrapper {
+    margin-bottom: 1.5rem;
+  }
+</style>
+
+<script>
+  // Client-side interactions for tabs, pagination, and menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- 1. MOBILE MENU TOGGLE ---
+    const menuToggleBtn = document.getElementById('menu-toggle-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggleBtn?.addEventListener('click', () => {
+      const isExpanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
+      menuToggleBtn.setAttribute('aria-expanded', (!isExpanded).toString());
+      menuToggleBtn.classList.toggle('active');
+      mobileMenu?.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!menuToggleBtn?.contains(target) && !mobileMenu?.contains(target)) {
+        menuToggleBtn?.setAttribute('aria-expanded', 'false');
+        menuToggleBtn?.classList.remove('active');
+        mobileMenu?.classList.remove('active');
+      }
+    });
+
+    // --- 2. CATALOGUE FILTER & PAGINATION ---
+    const tabBtns = document.querySelectorAll('.category-tabs-container .tab-btn');
+    const productGrid = document.querySelector('.products-grid');
+    const productCards = productGrid ? productGrid.children : [];
+    const paginationContainer = document.getElementById('products-pagination');
+    
+    let currentCategory = 'all';
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    
+    function updateGrid() {
+      if (!productCards.length) return;
+
+      const filteredCards = Array.from(productCards).filter(card => {
+        const cardInner = card.classList.contains('product-card-v2') ? card : card.querySelector('.product-card-v2');
+        if (!cardInner) return false;
+        const categoryRaw = cardInner.getAttribute('data-category-raw') || '';
+        if (currentCategory === 'all') return true;
+        return categoryRaw === currentCategory;
+      });
+      
+      const totalItems = filteredCards.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+      
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      
+      // Hide all first
+      Array.from(productCards).forEach(card => {
+        (card as HTMLElement).style.display = 'none';
+      });
+      
+      // Show filtered page items
+      filteredCards.forEach((card, index) => {
+        if (index >= startIndex && index < endIndex) {
+          (card as HTMLElement).style.display = 'block';
+        }
+      });
+      
+      // Render pagination
+      renderPagination(totalPages);
+    }
+    
+    function renderPagination(totalPages: number) {
+      if (!paginationContainer) return;
+      
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
+        paginationContainer.style.display = 'none';
+        return;
+      }
+      
+      paginationContainer.style.display = 'flex';
+      let html = '';
+      
+      // Prev
+      html += `<button class="page-btn prev-btn" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}"><i class="ph-light ph-caret-left"></i></button>`;
+      
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        html += `<button class="page-btn num-btn ${currentPage === i ? 'active' : ''}" data-page="${i}">${i}</button>`;
+      }
+      
+      // Next
+      html += `<button class="page-btn next-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}"><i class="ph-light ph-caret-right"></i></button>`;
+      
+      paginationContainer.innerHTML = html;
+      
+      // Events
+      paginationContainer.querySelectorAll('.page-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLButtonElement;
+          if (target.disabled) return;
+          const pageNum = parseInt(target.getAttribute('data-page') || '1');
+          currentPage = pageNum;
+          updateGrid();
+          
+          const shelfSection = document.querySelector('.shelf-section');
+          shelfSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+    
+    // Tab event handlers
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        const target = e.currentTarget as HTMLButtonElement;
+        target.classList.add('active');
+        
+        currentCategory = target.getAttribute('data-category') || 'all';
+        currentPage = 1;
+        updateGrid();
+      });
+    });
+    
+    // Initial run
+    updateGrid();
+  });
+</script>

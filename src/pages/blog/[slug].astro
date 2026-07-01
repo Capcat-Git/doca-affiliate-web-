@@ -43,6 +43,30 @@ if (supabaseUrl && supabaseKey && relatedProducts.length > 0) {
 // Fallback tĩnh phòng trường hợp Supabase chưa kết cấu dữ liệu
 const STATIC_PRODUCTS_FALLBACK = [
   {
+    id: 'd3b19c29-379e-4e31-8e99-4d929f123891',
+    slug: 'hat-dinh-duong-huu-co',
+    name: 'Hạt Dinh Dưỡng Hữu Cơ Cho Mèo',
+    category: 'thuc_an',
+    price: 240000,
+    wholesale_price: 168000,
+    min_group_size: 15,
+    affiliate_url: 'https://shope.ee/shopee-hat-organic-aff',
+    image_url: '/images/products/hat-dinh-duong-polaroid.webp',
+    quote: 'Bữa ăn lành để Boss mượt lông, khỏe bụng – chọn organic là chọn an tâm.'
+  },
+  {
+    id: 'c2f39c29-379e-4e31-8e99-4d929f123891',
+    slug: 'luoc-massage-tao-bot',
+    name: 'Lược Chải Lông Massage Tạo Bọt',
+    category: 'vat_pham',
+    price: 95000,
+    wholesale_price: 65000,
+    min_group_size: 20,
+    affiliate_url: 'https://shope.ee/shopee-luoc-massage-aff',
+    image_url: '/images/products/luoc-massage-polaroid.webp',
+    quote: 'Hãy chải chuốt nhẹ nhàng cho Boss mỗi tối như một hoạt động chánh niệm cùng nhau.'
+  },
+  {
     id: 'a3c87fb2-c12e-4b68-98e9-4e78a6358c21',
     slug: 'sach-tam-ly-meo',
     name: 'Sách Hiểu Người Bạn Mèo',
@@ -67,16 +91,112 @@ const STATIC_PRODUCTS_FALLBACK = [
     quote: 'Giữ một vạt sáng vàng dịu trong đêm tĩnh lặng để Boss yên tâm ngon giấc.'
   },
   {
-    id: 'c2f39c29-379e-4e31-8e99-4d929f123891',
-    slug: 'luoc-massage-tao-bot',
-    name: 'Lược Chải Lông Massage Tạo Bọt',
+    id: '89b7c8e1-be51-4830-9fc3-0a556cad6028',
+    slug: 'dau-ca-hoi-giam-rung-long-gympet',
+    name: 'Dầu cá hồi cho chó mèo, giảm rụng lông GYMPET',
     category: 'vat_pham',
-    price: 95000,
-    wholesale_price: 65000,
-    min_group_size: 20,
-    affiliate_url: 'https://shope.ee/shopee-luoc-massage-aff',
-    image_url: '/images/products/luoc-massage-polaroid.webp',
-    quote: 'Hãy chải chuốt nhẹ nhàng cho Boss mỗi tối như một hoạt động chánh niệm cùng nhau.'
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/2g98TexmeC',
+    image_url: null,
+    quote: 'Nuôi dưỡng bộ lông bóng mượt, giảm rụng từ gốc để Boss luôn kiêu kỳ, đáng yêu.'
+  },
+  {
+    id: 'a4d460cf-7751-4dcf-8871-8871f5fca4d4',
+    slug: 'luoc-chai-long-hoi-nuoc-thu-cung',
+    name: 'Lược chải lông hơi nước cho thú cưng',
+    category: 'vat_pham',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/9zvjDdATZG',
+    image_url: null,
+    quote: 'Hơi nước dịu nhẹ giúp loại bỏ lông rụng và massage thư giãn, vuốt ve làn da của bé.'
+  },
+  {
+    id: 'c8e1be5f-ca4d-460c-bc55-6d0878faf4dc',
+    slug: 'may-say-long-cho-meo-3in1-600w',
+    name: 'Máy sấy lông chó mèo 3in1 công suất 600W',
+    category: 'phu_kien',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/7fXoRk4veE',
+    image_url: null,
+    quote: 'Sấy khô dịu nhẹ, tạo kiểu bồng bềnh sau mỗi lần tắm để Boss luôn ấm áp, thơm tho.'
+  },
+  {
+    id: '7751b250-878f-af4d-cf81-5884830c8e1b',
+    slug: 'luoc-chai-long-petgravity-3in1',
+    name: 'Lược chải lông cho chó mèo 3 trong 1 Petgravity',
+    category: 'vat_pham',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/1qa1UrearQ',
+    image_url: null,
+    quote: 'Lược đa năng chải gỡ rối và massage êm ái, cho Boss những phút giây thư giãn yên lành.'
+  },
+  {
+    id: '0878faf4-dcf8-1588-4830-c8e1be57751b',
+    slug: 'long-say-long-khu-khuan-ozone-yimaida',
+    name: 'Lồng sấy lông chó mèo khử khuẩn Ozone YIMAIDA',
+    category: 'phu_kien',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/8V6vRjqWUk',
+    image_url: null,
+    quote: 'Không gian sấy ấm áp, êm ái tích hợp ozone khử khuẩn cho Boss cảm giác thư thái tuyệt đối.'
+  },
+  {
+    id: '4dcf8158-8483-0c8e-1be5-7751b250878f',
+    slug: 'balo-cho-cho-meo-thoang-khi-luna',
+    name: 'Balo cho chó mèo thoáng khí Luna',
+    category: 'phu_kien',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/6Aj0fjxuS8',
+    image_url: null,
+    quote: 'Chiếc phi thuyền thoáng đãng cùng Sen chu du khắp thế gian, ôm trọn tầm nhìn thế giới.'
+  },
+  {
+    id: 'bc556d08-78fa-f4dc-f815-884830c8e1be',
+    slug: 'chai-xit-khu-mui-diet-khuan-biopro',
+    name: 'Chai xịt khử mùi, diệt khuẩn khu vực nuôi thú cưng Biopro',
+    category: 'vat_pham',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/3B5P6t0T4d',
+    image_url: null,
+    quote: 'Không gian sống trong lành, sạch mát để bảo vệ sức khỏe của Boss lẫn Sen thương yêu.'
+  },
+  {
+    id: '5884830c-8e1b-e577-51b2-5884830c8e1b',
+    slug: 'nuoc-lau-san-phong-giun-san-mastercare',
+    name: 'Nước lau sàn phòng ngừa lây giun sán sang người 1 Lít Mastercare',
+    category: 'vat_pham',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/4fuCu1yOpM',
+    image_url: null,
+    quote: 'Sạch khuẩn tối đa, phòng ngừa giun sán hiệu quả cho cả nhà luôn an tâm đùa vui.'
+  },
+  {
+    id: 'b3152588-871f-5fca-4d46-0cf7751b2508',
+    slug: 'gan-bo-say-kho-mastercare-90g',
+    name: 'Gan bò sấy khô chó mèo giảm rụng lông, sáng mắt, tốt tim mạch 90g Masercare',
+    category: 'thuc_an',
+    price: 0,
+    wholesale_price: null,
+    min_group_size: 10,
+    affiliate_url: 'https://s.shopee.vn/5fmk61vZUk',
+    image_url: null,
+    quote: 'Món ngon giòn sấy giàu dưỡng chất, bổ mắt tốt tim để Boss ăn vặt trạng đầy năng lượng.'
   }
 ];
 

@@ -1189,7 +1189,14 @@ const getCategoryLabel = (cat: string) => {
     scroll-margin-top: 4.5rem; /* Match sticky navbar height to prevent title overlap */
   }
 
-  .shelf-section, .blog-section {
+  .shelf-section {
+    background-color: var(--cozy-bg-beige);
+    border-top: 1px solid var(--cozy-border-light);
+    border-bottom: 1px solid var(--cozy-border-light);
+    padding: 1.5rem 0 2.5rem 0; /* Reduced top padding to pull title higher */
+  }
+
+  .blog-section {
     background-color: var(--cozy-bg-beige);
     border-top: 1px solid var(--cozy-border-light);
     border-bottom: 1px solid var(--cozy-border-light);

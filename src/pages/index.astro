@@ -1493,14 +1493,14 @@ const getCategoryLabel = (cat: string) => {
     transform-origin: center center;
   }
 
-  /* Active card centering scaling on mobile with springy bounce & drag skew */
+  /* Active card centering scaling on mobile with springy bounce */
   @media (max-width: 1023px) {
     .fanned-card-wrapper {
-      transform: scale(0.9) skewX(calc(var(--scroll-velocity, 0) * -0.12deg)) rotate(calc(var(--scroll-velocity, 0) * -0.06deg));
+      transform: scale(0.9);
       opacity: 0.65;
     }
     .fanned-card-wrapper.active-card {
-      transform: scale(1.05) skewX(calc(var(--scroll-velocity, 0) * -0.12deg)) rotate(calc(var(--scroll-velocity, 0) * -0.06deg));
+      transform: scale(1.05);
       opacity: 1;
     }
   }
@@ -2048,23 +2048,7 @@ const getCategoryLabel = (cat: string) => {
           const middleIndex = 5;
           fannedDeck.scrollLeft = stepWidth * middleIndex;
 
-          let isJumping = false;
-          let velocity = 0;
-          let lastScroll = fannedDeck.scrollLeft;
-          let rafId: number | null = null;
-
-          // Decay scroll velocity to smooth out dynamic skewing tilt
-          const decayLoop = () => {
-            velocity *= 0.85; // decay factor
-            if (Math.abs(velocity) < 0.05) {
-              velocity = 0;
-              fannedDeck.style.setProperty('--scroll-velocity', '0');
-              rafId = null;
-              return;
-            }
-            fannedDeck.style.setProperty('--scroll-velocity', velocity.toFixed(3));
-            rafId = requestAnimationFrame(decayLoop);
-          };
+          let scrollTimeout: any = null;
 
           const updateActiveCard = () => {
             const deckCenter = fannedDeck.scrollLeft + fannedDeck.clientWidth / 2;
@@ -2092,31 +2076,21 @@ const getCategoryLabel = (cat: string) => {
           };
 
           fannedDeck.addEventListener('scroll', () => {
-            const currentScroll = fannedDeck.scrollLeft;
-            
-            // Calculate scroll speed/velocity for active card bounce inertia
-            const diff = currentScroll - lastScroll;
-            velocity = Math.max(-25, Math.min(25, diff)); // clamp velocity limit
-            lastScroll = currentScroll;
-
-            if (rafId === null) {
-              rafId = requestAnimationFrame(decayLoop);
-            }
-
-            // Loop scroll seamlessly
-            if (!isJumping) {
-              if (currentScroll >= stepWidth * 10) {
-                isJumping = true;
-                fannedDeck.scrollLeft = currentScroll - (stepWidth * 5);
-                requestAnimationFrame(() => { isJumping = false; });
-              } else if (currentScroll <= stepWidth * 0.5) {
-                isJumping = true;
-                fannedDeck.scrollLeft = currentScroll + (stepWidth * 5);
-                requestAnimationFrame(() => { isJumping = false; });
-              }
-            }
-
+            // Update center card scaling in real-time as user scrolls
             updateActiveCard();
+
+            // Seamless wrap jump ONLY after scrolling finishes (idle for 100ms)
+            // This prevents touch-drag conflicts and allows native momentum & bounce physics
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+              const currentScroll = fannedDeck.scrollLeft;
+              
+              if (currentScroll >= stepWidth * 10) {
+                fannedDeck.scrollLeft = currentScroll - (stepWidth * 5);
+              } else if (currentScroll <= stepWidth * 0.5) {
+                fannedDeck.scrollLeft = currentScroll + (stepWidth * 5);
+              }
+            }, 100);
           }, { passive: true });
 
           // Initialize active card state

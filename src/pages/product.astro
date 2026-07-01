@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
+import PolaroidSheet from '../components/PolaroidSheet.astro';
 
 // Fetch danh sách sản phẩm từ Supabase tại thời điểm build (SSG)
 let products: any[] = [];
@@ -299,6 +300,7 @@ const getCategoryLabel = (cat: string) => {
         </p>
       </div>
     </section>
+    <PolaroidSheet />
   </main>
 </Layout>
 

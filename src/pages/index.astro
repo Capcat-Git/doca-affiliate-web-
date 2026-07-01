@@ -385,30 +385,32 @@ const getCategoryLabel = (cat: string) => {
             <span class="shelf-subtitle">Thức quả lành tính, đong đầy yêu thương cho Boss & Sen 🐾</span>
           </div>
         </div>
+      </div>
 
-        <!-- Trưng bày sản phẩm cánh quạt (Fanned Products Deck) -->
-        <div class="fanned-products-container">
-          <div class="fanned-products-deck" id="fanned-products-deck">
-            {featuredProducts.map((product, index) => (
-              <div class={`fanned-card-wrapper card-index-${index}`}>
-                <ProductCard 
-                  id={product.id}
-                  slug={product.slug}
-                  name={product.name}
-                  category={getCategoryLabel(product.category)}
-                  categoryRaw={product.category}
-                  price={product.price}
-                  wholesalePrice={product.wholesale_price}
-                  minGroupSize={product.min_group_size}
-                  affiliateUrl={product.affiliate_url}
-                  imageUrl={product.image_url}
-                  quote={product.quote}
-                />
-              </div>
-            ))}
-          </div>
+      <!-- Trưng bày sản phẩm cánh quạt (Fanned Products Deck) - Placed outside container for edge-to-edge flow -->
+      <div class="fanned-products-container">
+        <div class="fanned-products-deck" id="fanned-products-deck">
+          {featuredProducts.map((product, index) => (
+            <div class={`fanned-card-wrapper card-index-${index}`}>
+              <ProductCard 
+                id={product.id}
+                slug={product.slug}
+                name={product.name}
+                category={getCategoryLabel(product.category)}
+                categoryRaw={product.category}
+                price={product.price}
+                wholesalePrice={product.wholesale_price}
+                minGroupSize={product.min_group_size}
+                affiliateUrl={product.affiliate_url}
+                imageUrl={product.image_url}
+                quote={product.quote}
+              />
+            </div>
+          ))}
         </div>
+      </div>
 
+      <div class="container">
         <!-- Đường dẫn xem tất cả sản phẩm -->
         <div class="shelf-view-all-wrapper">
           <a href="/product" class="shelf-view-all-link">

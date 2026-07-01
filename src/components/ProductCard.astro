@@ -124,6 +124,11 @@ const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / p
     font-weight: 700;
     color: var(--cozy-text-obsidian);
     line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 2.6em; /* Exactly 2 lines height */
   }
 
   .platform-badge {
@@ -158,37 +163,37 @@ const savingsPercent = wholesalePrice ? Math.round(((price - wholesalePrice) / p
 </style>
 
 <script>
-  // Script handles dispatching open bottom sheet event on click
+  // Event delegation on document to handle click events on product cards (handles cloned cards correctly)
   document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.product-card-v2');
-    
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        const id = card.getAttribute('data-id') || '';
-        const name = card.getAttribute('data-name') || '';
-        const category = card.getAttribute('data-category') || '';
-        const priceText = card.getAttribute('data-price') || '';
-        const wholesaleText = card.getAttribute('data-wholesale') || '';
-        const savings = card.getAttribute('data-savings') || '30';
-        const affiliateUrl = card.getAttribute('data-affiliate-url') || '';
-        const imageUrl = card.getAttribute('data-image-url') || '';
-        const quote = card.getAttribute('data-quote') || '';
-        
-        // Dispatch custom global event
-        document.dispatchEvent(new CustomEvent('open-product-sheet', {
-          detail: {
-            id,
-            name,
-            category,
-            quote,
-            imageUrl,
-            priceText,
-            wholesaleText,
-            savings,
-            affiliateUrl
-          }
-        }));
-      });
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const card = target.closest('.product-card-v2');
+      if (!card) return;
+      
+      const id = card.getAttribute('data-id') || '';
+      const name = card.getAttribute('data-name') || '';
+      const category = card.getAttribute('data-category') || '';
+      const priceText = card.getAttribute('data-price') || '';
+      const wholesaleText = card.getAttribute('data-wholesale') || '';
+      const savings = card.getAttribute('data-savings') || '30';
+      const affiliateUrl = card.getAttribute('data-affiliate-url') || '';
+      const imageUrl = card.getAttribute('data-image-url') || '';
+      const quote = card.getAttribute('data-quote') || '';
+      
+      // Dispatch custom global event
+      document.dispatchEvent(new CustomEvent('open-product-sheet', {
+        detail: {
+          id,
+          name,
+          category,
+          quote,
+          imageUrl,
+          priceText,
+          wholesaleText,
+          savings,
+          affiliateUrl
+        }
+      }));
     });
   });
 </script>

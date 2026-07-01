@@ -388,7 +388,7 @@ const getCategoryLabel = (cat: string) => {
 
         <!-- Trưng bày sản phẩm cánh quạt (Fanned Products Deck) -->
         <div class="fanned-products-container">
-          <div class="fanned-products-deck">
+          <div class="fanned-products-deck" id="fanned-products-deck">
             {featuredProducts.map((product, index) => (
               <div class={`fanned-card-wrapper card-index-${index}`}>
                 <ProductCard 
@@ -2008,6 +2008,50 @@ const getCategoryLabel = (cat: string) => {
           miniPlayerPill.classList.remove('visible');
         }
       }, { passive: true });
+    }
+
+    // --- MOBILE INFINITE CAROUSEL ---
+    const fannedDeck = document.getElementById('fanned-products-deck') as HTMLElement;
+    if (fannedDeck && window.innerWidth < 1024) {
+      const originalCards = Array.from(fannedDeck.children);
+      if (originalCards.length > 0) {
+        // Clone original cards to prepend and append for infinite wrapping
+        originalCards.forEach(card => {
+          fannedDeck.appendChild(card.cloneNode(true));
+        });
+        originalCards.slice().reverse().forEach(card => {
+          fannedDeck.insertBefore(card.cloneNode(true), fannedDeck.firstChild);
+        });
+
+        setTimeout(() => {
+          const cardEl = fannedDeck.children[0] as HTMLElement;
+          const cardWidth = cardEl.getBoundingClientRect().width || 200;
+          const gap = parseInt(window.getComputedStyle(fannedDeck).gap) || 16;
+          const stepWidth = cardWidth + gap;
+
+          // Start scrolled exactly to the first real card (index 5)
+          const middleIndex = 5;
+          fannedDeck.scrollLeft = stepWidth * middleIndex;
+
+          let isJumping = false;
+          fannedDeck.addEventListener('scroll', () => {
+            if (isJumping) return;
+
+            const currentScroll = fannedDeck.scrollLeft;
+            
+            // Loop scroll seamlessly
+            if (currentScroll >= stepWidth * 10) {
+              isJumping = true;
+              fannedDeck.scrollLeft = currentScroll - (stepWidth * 5);
+              requestAnimationFrame(() => { isJumping = false; });
+            } else if (currentScroll <= stepWidth * 0.5) {
+              isJumping = true;
+              fannedDeck.scrollLeft = currentScroll + (stepWidth * 5);
+              requestAnimationFrame(() => { isJumping = false; });
+            }
+          }, { passive: true });
+        }, 100);
+      }
     }
   });
 </script>

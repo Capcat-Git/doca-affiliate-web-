@@ -241,6 +241,20 @@ h3, .title-large {
   font-weight: 500;
 }
 
+.footer-privacy-link {
+  color: #8E8E93;
+  text-decoration: none;
+  border-bottom: 1px dotted #8E8E93;
+  margin-left: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.footer-privacy-link:hover {
+  color: var(--cozy-green-matcha-forest);
+  border-bottom-color: var(--cozy-green-matcha-forest);
+  border-bottom-style: solid;
+}
+
 .footer-socials {
   display: flex;
   align-items: center;

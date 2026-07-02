@@ -1,0 +1,211 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Chính Sách Bảo Mật | App DOCA - Cùng Boss Sống Chậm" description="Chính sách bảo mật thông tin cá nhân và dữ liệu ký ức thú cưng của người dùng ứng dụng di động DOCA (thành viên gia đình Capcat).">
+  <main class="privacy-view">
+    <div class="container">
+      <a href="/" class="back-link"><i class="ph-light ph-arrow-left"></i> Trở về trang chủ</a>
+
+      <header class="privacy-header text-center">
+        <span class="privacy-icon" style="color: var(--cozy-green-matcha);"><i class="ph-light ph-shield-check"></i></span>
+        <h1 class="display-large">Chính Sách Bảo Mật</h1>
+        <p class="whisper-mono">"Trân trọng tính riêng tư và bảo vệ vẹn nguyên những ký ức thiêng liêng..."</p>
+      </header>
+
+      <div class="privacy-content cozy-card">
+        <div class="last-updated">Cập nhật lần cuối: Ngày 02 tháng 07 năm 2026</div>
+
+        <section class="privacy-section">
+          <h2>1. Giới thiệu chung</h2>
+          <p>
+            Chào mừng Sen đến với <strong>DOCA</strong> (ứng dụng di động do đội ngũ Capcat phát triển). Chúng tôi hiểu rằng thú cưng không chỉ là vật nuôi, mà là một thành viên trong gia đình, là tri kỷ tinh thần của bạn. Vì thế, việc bảo vệ thông tin cá nhân và những ký ức hoài niệm giữa Sen và Boss là trách nhiệm cao cả nhất của chúng tôi.
+          </p>
+          <p>
+            Chính sách Bảo mật này mô tả cách chúng tôi thu thập, sử dụng, lưu trữ, đồng bộ và bảo vệ thông tin của bạn khi bạn sử dụng ứng dụng di động DOCA.
+          </p>
+        </section>
+
+        <section class="privacy-section">
+          <h2>2. Dữ liệu chúng tôi thu thập</h2>
+          <p>Để xây dựng một linh hồn ảo đồng hành và lưu trữ chiếc rương kỷ niệm của bạn, ứng dụng thu thập các thông tin sau:</p>
+          <ul>
+            <li><strong>Thông tin tài khoản:</strong> Địa chỉ email, tên hiển thị được liên kết thông qua Google SSO hoặc đăng ký OTP để đồng bộ dữ liệu.</li>
+            <li><strong>Hồ sơ sinh học thú cưng (Pet Details):</strong> Tên, giống loài, tuổi, cân nặng và cấu hình tính cách (Ngáo ngơ, Chảnh chọe, Đanh đá, Nịnh nọt) để cá nhân hóa phản hồi của AI Pet.</li>
+            <li><strong>Rương ký ức (DOCA Capsule):</strong> Các hình ảnh dìm hàng, ghi chép nhanh khoảnh khắc hàng ngày (Moments) do chính bạn tải lên để nạp bộ nhớ dài hạn (RAG) cho AI Pet.</li>
+            <li><strong>Nội dung trò chuyện (Cozy Chat logs):</strong> Lịch sử tin nhắn giữa bạn và AI Pet để duy trì mạch hội thoại liền mạch.</li>
+            <li><strong>Hòm thư ẩn danh Namiya:</strong> Nội dung bức thư tay bạn gửi để nhận hồi âm xoa dịu tâm tư.</li>
+          </ul>
+        </section>
+
+        <section class="privacy-section">
+          <h2>3. Phương thức xử lý và bảo mật dữ liệu</h2>
+          <p>
+            Nhằm đảm bảo trải nghiệm chữa lành tốt nhất mà không gây hao pin, nóng máy, chúng tôi áp dụng mô hình lai giữa cơ sở dữ liệu cục bộ và xử lý đám mây bảo mật:
+          </p>
+          <ul>
+            <li><strong>Mã hóa lưu trữ (Encryption at Rest):</strong> Toàn bộ dữ liệu Moments, hình ảnh thú cưng và lịch sử chat đồng bộ lên máy chủ đám mây của chúng tôi đều được mã hóa bằng tiêu chuẩn mã hóa quân đội <strong>AES-256</strong>.</li>
+            <li><strong>Mã hóa truyền tải (Encryption in Transit):</strong> Dữ liệu chuyển đi từ điện thoại đến máy chủ được bảo vệ thông qua giao thức an toàn SSL/TLS.</li>
+            <li><strong>Ẩn danh hóa AI (AI PII Anonymization):</strong> Khi gửi thông điệp chat lên mô hình ngôn ngữ lớn (LLM API) của Google Cloud để nhận phản hồi từ Boss, chúng tôi băm (hash) và lọc bỏ hoàn toàn các thông tin nhận dạng cá nhân (PII Redaction) như email hay tên thật của bạn. Mô hình chỉ đọc dữ liệu ngữ cảnh ký ức dạng văn bản thuần túy để trả lời bạn. Dữ liệu này tuyệt đối không được dùng để huấn luyện mô hình chung của bất kỳ bên thứ ba nào.</li>
+            <li><strong>Cam kết bảo mật hòm thư ẩn danh Namiya:</strong>
+              <ul>
+                <li>Thông tin định danh của Sen được băm mã hóa một chiều bằng thuật toán <strong>SHA-256</strong> kèm mã muối ngẫu nhiên cục bộ.</li>
+                <li>Nội dung thư được mã hóa đầu cuối. Sau khi phản hồi được gửi thành công đến thiết bị của bạn, toàn bộ nội dung bức thư gốc trên máy chủ sẽ được **tự động xóa sạch hoàn toàn trong vòng 24 giờ**, chỉ giữ lại trạng thái logic (đã phản hồi) dạng boolean.</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section class="privacy-section">
+          <h2>4. Chia sẻ thông tin với bên thứ ba</h2>
+          <p>
+            Chúng tôi tuân thủ triết lý tối giản của MUJI và không thương mại hóa dữ liệu:
+          </p>
+          <ul>
+            <li><strong>Không bán dữ liệu:</strong> Chúng tôi tuyệt đối không bao giờ bán, cho thuê hay trao đổi dữ liệu cá nhân hoặc hình ảnh thú cưng của bạn cho bất kỳ nhà quảng cáo hay bên thứ ba nào.</li>
+            <li><strong>Đường link Tiếp thị liên kết (Contextual Affiliate):</strong> Trong luồng chat hoặc Góc thư giãn (DOCA Corner), khi hiển thị gợi ý sách cũ hoặc đĩa nhạc, hệ thống sẽ chèn liên kết trực tiếp sang các đối tác uy tín như Shopee, Fahasa, Spotify. Các liên kết này chỉ đính kèm mã định danh đối tác (Partner ID) để ghi nhận hoa hồng và hoàn toàn không chia sẻ bất kỳ thông tin cá nhân nào của bạn. Chúng tôi không sử dụng cookies hay SDK theo dõi hành vi của bên thứ ba trong ứng dụng.</li>
+          </ul>
+        </section>
+
+        <section class="privacy-section">
+          <h2>5. Quyền của người dùng và Xóa tài khoản</h2>
+          <p>
+            Bạn có toàn quyền kiểm soát dữ liệu cá nhân của mình theo quy định của GDPR và CCPA:
+          </p>
+          <ul>
+            <li><strong>Quyền xem và chỉnh sửa:</strong> Bạn có thể dễ dàng sửa đổi hồ sơ của Boss, chỉnh sửa hay xóa các Moments trong rương ký ức bất cứ lúc nào trong ứng dụng.</li>
+            <li><strong>Quyền xóa tài khoản & dữ liệu vĩnh viễn (Right to be Forgotten):</strong> 
+              Nếu bạn không muốn tiếp tục đồng hành cùng ngôi nhà DOCA, bạn có thể gửi yêu cầu xóa tài khoản trực tiếp ngay trong ứng dụng (tại phần Cài đặt tài khoản) hoặc liên hệ qua email bảo mật <strong>privacy@doca.pet</strong>. 
+              Khi yêu cầu được thực thi, toàn bộ dữ liệu tài khoản, hồ sơ pet, Moments ảnh, và lịch sử chat của bạn trên máy chủ đồng bộ sẽ được **xóa sạch vĩnh viễn và không thể khôi phục**.
+            </li>
+          </ul>
+        </section>
+
+        <section class="privacy-section">
+          <h2>6. Cập nhật Chính sách Bảo mật</h2>
+          <p>
+            Chính sách này có thể được điều chỉnh khi ứng dụng DOCA bổ sung các tính năng tương tác mới. Khi có thay đổi quan trọng, chúng tôi sẽ thông báo trực tiếp qua màn hình chào mừng trong ứng dụng hoặc cập nhật công khai tại trang web <strong>doca.pet/privacy</strong>.
+          </p>
+        </section>
+
+        <section class="privacy-section">
+          <h2>7. Liên hệ chúng tôi</h2>
+          <p>
+            Nếu bạn có bất kỳ câu hỏi nào về chính sách bảo mật hoặc việc xử lý dữ liệu của DOCA, vui lòng liên hệ với ban quản trị qua:
+          </p>
+          <ul>
+            <li>Email hỗ trợ bảo mật: <strong>privacy@doca.pet</strong> hoặc <strong>support@doca.pet</strong></li>
+            <li>Website chính thức: <a href="https://doca.pet" class="cozy-dotted-link" target="_blank">doca.pet</a></li>
+            <li>Cộng đồng gia đình Capcat: <a href="https://www.facebook.com/share/g/1HNNvswjeH/" class="cozy-dotted-link" target="_blank">Facebook Group</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .privacy-view {
+    padding-top: 3.5rem;
+    padding-bottom: 5.5rem;
+    background-color: var(--cozy-bg-beige);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--cozy-text-obsidian);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+    transition: transform 0.2s ease;
+  }
+
+  .back-link:hover {
+    transform: translateX(-4px);
+  }
+
+  .privacy-header {
+    margin-bottom: 3.5rem;
+  }
+
+  .privacy-icon {
+    font-size: 2.75rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+
+  .privacy-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+  }
+
+  .last-updated {
+    font-size: 0.85rem;
+    color: #6E6E73;
+    font-style: italic;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--cozy-border-light);
+    padding-bottom: 0.75rem;
+  }
+
+  .privacy-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .privacy-section:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .privacy-section h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--cozy-green-matcha-dark);
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--cozy-green-matcha);
+    padding-left: 0.75rem;
+  }
+
+  .privacy-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--cozy-text-obsidian);
+    margin-bottom: 1rem;
+  }
+
+  .privacy-section ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .privacy-section li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--cozy-text-obsidian);
+  }
+
+  .privacy-section strong {
+    font-weight: 600;
+    color: var(--cozy-text-obsidian);
+  }
+
+  @media (max-width: 640px) {
+    .privacy-content {
+      padding: 2rem 1.5rem;
+    }
+    
+    .privacy-header h1 {
+      font-size: 1.85rem;
+    }
+  }
+</style>
